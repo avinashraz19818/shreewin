@@ -1,0 +1,52 @@
+
+
+# php -- BEGIN cPanel-generated handler, do not edit
+# Set the “ea-php82” package as the default “PHP” programming language.
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php82 .php .php8 .phtml
+</IfModule>
+# php -- END cPanel-generated handler, do not edit
+
+Options -Indexes -MultiViews
+RewriteEngine On
+SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+
+# Compatibility for older/cached SaaS bundles. The real controllers live in
+# api-live-v4 and draw-live-v4; these requests must never fall through to a
+# physical extensionless filename at the document root.
+RewriteRule ^api/Lottery/([A-Za-z0-9_-]+)/?$ api-live-v4/Lottery/index.php?action=$1 [QSA,L,NC]
+RewriteRule ^(WinGo|TrxWinGo|K3|D5|MotoRace)/([A-Za-z0-9_-]+)/GetHistoryIssuePage\.json$ draw-live-v4/index.php?lottery=$1&gameCode=$2&history=1 [QSA,L,NC]
+RewriteRule ^(WinGo|TrxWinGo|K3|D5|MotoRace)/([A-Za-z0-9_-]+)\.json$ draw-live-v4/index.php?lottery=$1&gameCode=$2 [QSA,L,NC]
+
+# Static/server-level 404 responses do not enter PHP automatically. Route them
+# through a small logger so their original URI is recorded in /error.log.
+ErrorDocument 404 /route-error.php
+
+# Error logs are readable from File Manager/SSH only, never over HTTP.
+<FilesMatch "^error[._]log$">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>
+
+<IfModule mod_headers.c>
+  <FilesMatch "^(index\.html|ar-sw\.js|sw-page\.js|sw-domain\.js|sw-utils\.js)$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </FilesMatch>
+  <FilesMatch "^(same-origin-lottery|app\.config|index-_oBi1P6F|index-gh-oM2Di|shreewin-wheel500-hotfix|useRecharge-Bn4W__Hn|useRecharge-lMlggp3A|main\.vue_vue_type_style_index_0_scoped_d3b4a951_lang-(BZ3BK6Op|ChT92Sbh))\.js$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </FilesMatch>
+  <FilesMatch "^(index-B0K7WcFN|shreewin-wheel500-hotfix)\.css$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </FilesMatch>
+</IfModule>

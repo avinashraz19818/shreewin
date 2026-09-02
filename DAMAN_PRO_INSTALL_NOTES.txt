@@ -1,0 +1,26 @@
+DAMAN PRO ADMIN - INSTALL NOTES
+================================
+
+1. Upload all files preserving the included directory structure.
+2. Point the domain document root to this folder and keep .htaccess enabled.
+3. Confirm the existing MySQL credentials in developer-maruf/conn.php and digitaladmin/conn.php.
+4. Required supplemental tables are created automatically on the first database connection.
+5. PHP 8.2, mysqli and Apache mod_rewrite are recommended.
+
+Local SaaS routes:
+- /api-live-v4/Lottery/GetGameInfo?gameCode=WinGo_30S
+- /api-live-v4/Lottery/GetHistoryIssuePage?gameCode=WinGo_30S
+- /draw-live-v4/WinGo/WinGo_30S.json
+- /draw-live-v4/WinGo/WinGo_30S/GetHistoryIssuePage.json
+- Equivalent K3, D5 and TrxWinGo JSON routes
+
+Important:
+- Browser requests stay on the installed domain (for example https://shreewin.club9.eu.cc).
+- No API or draw subdomain is required; both routes use the main domain.
+- The browser ignores old ar_api/ar_api_json localStorage values.
+- Existing lightweight SaaS tables are upgraded automatically on the first SaaS API request.
+- After upload, open /real-sync-daman-check.php once to verify files, routes and provider connectivity.
+
+Brand: Daman Pro Admin
+Currency: INR (₹)
+Telegram: https://t.me/zayro_o

@@ -1,0 +1,45 @@
+DAMAN FINAL FIX REPORT - 2026-08-14
+===================================
+
+FINANCE / ADMIN
+- Deposit UTR submission now validates the current GetUserInfo signature correctly.
+- UTR success is returned only when a pending deposit row is actually inserted.
+- Pending deposits appear in Digital Admin > Deposit Requests (sthiti=0).
+- Deposit Approve/Reject is transaction-safe and cannot credit the same request twice.
+- Required bonus/deposit/admin helper tables and columns are created/upgraded automatically.
+- Withdrawal creation is atomic: wallet debit + withdrawal insert commit together or roll back together.
+- Manual Bank / UPI / USDT / E-Wallet reject returns the held amount exactly once.
+- Manual accept/reject/processing states are protected from repeat processing.
+- Withdrawal history signature/filter issues and old undefined-variable errors were fixed.
+- Admin session guards and login handling were hardened to avoid common undefined-session warnings/fatals.
+
+SAAS LOTTERY / BETTING
+- WinGo / K3 / 5D / TRX (and the shared SaaS engine) accept quantity 2, 3, 4 and other positive integer quantities, subject to balance/max-stake limits.
+- The old fixed multiplier whitelist was removed from backend validation.
+- 2% service/tax is stored per bet from stake and is returned in My History as fee/serviceCharge/tax/taxAmount.
+- My History realAmount is synchronized as stake minus the 2% service/tax.
+- Net winning payout continues to apply the same 2% rule consistently.
+- Historical SaaS rows with a zero tax field are backfilled from stake at 2%.
+- Transaction History > Bet combines legacy lottery bets and SaaS lottery bets.
+- Game Statistics combines legacy WinGo/K3/5D/TRX plus SaaS bets, including total bet, count, win/loss and date-wise data.
+- Game Statistics, My History, Transaction History and Withdrawal Log signature validation matches the bundled frontend interceptor (sorted payload JSON, upper-case MD5).
+
+ADMIN BRANDING
+- Digital Admin favicon replaced with an Admin "A" icon.
+- Admin PHP pages use a cache-busted favicon URL so the old browser icon is not reused after deployment.
+
+AUTO DATABASE
+- Additive schema upgrade covers the newly required finance/SaaS columns and helper tables.
+- No table is intentionally dropped by the added runtime migrations.
+
+VALIDATION COMPLETED IN THIS PACKAGE
+- 1,177 PHP files: php -l syntax check = PASS (0 syntax failures).
+- Main bundled JavaScript: node --check = PASS.
+- Static checks for deposit pending flow, atomic approve/reject, withdrawal refund, quantity validation,
+  2% tax history, SaaS Transaction Bet sync, Game Statistics sync and admin favicon = PASS.
+
+DEPLOYMENT NOTE
+- This isolated build environment does not have the destination MySQL data/session or external payment-provider credentials/callbacks.
+  Therefore live payment gateway callbacks and real authenticated DB transactions must still be smoke-tested after upload.
+- Back up public_html and the database before replacing files.
+- On first database-backed request, additive runtime schema migrations run automatically.

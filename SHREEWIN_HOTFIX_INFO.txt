@@ -1,0 +1,29 @@
+SHREE WIN HOME SCREEN + ADMIN + WHEEL 500 HOTFIX V4
+Date: 2026-08-26
+
+INSTALL
+1. Upload the ZIP to public_html.
+2. Extract it directly inside public_html and allow overwrite.
+3. Open the home page and press Ctrl+F5 once.
+4. Open /digitaladmin/; it now goes directly to the proper login screen.
+
+ONE-TIME OLD SERVICE-WORKER RECOVERY (only if the old alert is still visible)
+Open /index.html?sw-bypass=20260826-home-v4#/ once, then return to /#/.
+
+FIXED
+- The core Vue bundle loads once at its canonical URL; lazy home chunks no longer mount a second app instance.
+- Expired/logged-out user sessions clear before navigation and return to the guest home screen.
+- Service-worker navigation no longer serves the legacy "domain is unAvailable" fallback page.
+- /digitaladmin/ is excluded from the PWA offline/domain-switch iframe.
+- /digitaladmin/ no longer routes a GET request through api/login.php.
+- api/login.php redirects GET requests before loading the database, preventing the shown HTTP 500.
+- Existing admin login/session authentication remains enabled; no login bypass is added.
+- The center wheel label is forced visible as a white Get ₹500 block even when the theme hides it.
+- Both included frontend bundles use ₹500 as the fallback if the API value is blank or zero.
+- The actual invited-wheel target remains synchronized at ₹500.
+- GetSiteMessageList converts legacy Daman text, links, and artwork to Shree Win.
+- GetSitePopMsgList now contains Shree Win text, official links, and Shree Win artwork.
+- GetSitePopMessageLite is included as a compatible alias.
+- Main admin labels now display SHREE WIN PRO ADMIN.
+
+This is an overwrite hotfix. It does not include or replace the database.

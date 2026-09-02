@@ -1,0 +1,201 @@
+<?php include ("../serive/samparka.php");?>
+<?php require_once __DIR__ . '/../developer-maruf/app_core_live_v4.php'; ?>
+<?php
+	$res = [
+		'code' => 405,
+		'message' => 'Illegal access!',
+	];
+	function deposit_flow_log(string $reason, array $context = []): void {
+		if (function_exists('app_log_event')) {
+			app_log_event('warning', 'Deposit UTR submission failed', [
+				'reason' => $reason,
+				'context' => $context,
+			]);
+		}
+	}
+	if ($_SERVER['REQUEST_METHOD'] != 'GET') {
+		date_default_timezone_set('Asia/Kolkata');
+		$shnunc = date("Y-m-d H:i:s");
+		
+		$rawUserId = $_POST['userId'] ?? null;
+		if (!is_numeric($rawUserId) || (int)$rawUserId < 1) {
+			deposit_flow_log('invalid_user_id');
+			echo 0;
+			exit;
+		}
+		$userId = (int)$rawUserId;
+		$token = htmlspecialchars(mysqli_real_escape_string($conn, (string)($_POST['token'] ?? '')));
+		$userPhoto = '1';
+		
+		$numquery = "SELECT mobile, codechorkamukala
+		  FROM shonu_subjects
+		  WHERE id = ".$userId;
+		$numresult = $conn->query($numquery);
+		$numarr = mysqli_fetch_array($numresult);
+		
+		$mobileDigits = preg_replace('/\D+/', '', (string)$numarr['mobile']);
+		$userName = (substr($mobileDigits, 0, 2) === '91') ? $mobileDigits : '91' . $mobileDigits;
+		$nickName = $numarr['codechorkamukala'];
+		
+		$creaquery = "SELECT createdate
+		  FROM shonu_subjects
+		  WHERE id = ".$userId;
+		$crearesult = $conn->query($creaquery);
+		$creaarr = mysqli_fetch_array($crearesult);
+		
+		$knbdstr = '{"userId":'.$userId.',"userPhoto":"'.$userPhoto.'","userName":'.$userName.',"nickName":"'.$nickName.'","createdate":"'.$creaarr['createdate'].'"}';
+		$legacySign = strtoupper(hash('sha256', $knbdstr));
+		$currentSign = strtoupper(hash('sha256', $userId . '|' . $userName . '|' . $creaarr['createdate']));
+		$token = strtoupper(trim((string)$token));
+		
+		if(($token !== '') && (hash_equals($currentSign, $token) || hash_equals($legacySign, $token))){
+			$amt = isset($_POST['amt']) && is_numeric($_POST['amt']) ? round((float)$_POST['amt'], 2) : 0;
+			if ($amt <= 0 || $amt > 10000000) {
+				deposit_flow_log('invalid_amount', ['user_id' => $userId, 'amount' => $amt]);
+				echo 0;
+				exit;
+			}
+			$rawReference = trim((string)($_POST['refnum'] ?? ''));
+			if ($rawReference === '' || strlen($rawReference) > 80) {
+				deposit_flow_log('invalid_reference', ['user_id' => $userId]);
+				echo 0;
+				exit;
+			}
+			$ref_num = htmlspecialchars(mysqli_real_escape_string($conn, $rawReference));
+			$refchk = mysqli_query($conn , "SELECT shonu FROM `thevani` WHERE `ullekha` = '".$ref_num."'");
+			if(mysqli_num_rows($refchk)>=1){
+				deposit_flow_log('duplicate_reference', ['user_id' => $userId]);
+				echo 2;
+				exit;
+			}
+			if(isset($_POST['srl'])){
+				$srl = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['srl']));
+			}
+			else{
+				$srl = 0;
+			}
+			if(isset($_POST['source'])){
+				$source = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['source']));
+			}
+			else{
+				$source = null;
+			}
+			$normalizedSource = strtoupper(trim((string)$source));
+			$allowedPayIds = [1, 2, 3, 11, 13, 21];
+			$postedPayId = isset($_POST['payid']) && is_numeric($_POST['payid']) ? (int)$_POST['payid'] : 0;
+			$depositPayId = in_array($postedPayId, $allowedPayIds, true)
+				? $postedPayId
+				: ($normalizedSource === 'USDT' ? 11 : 13);
+			if(isset($_POST['upi'])){
+				$upi = htmlspecialchars(mysqli_real_escape_string($conn, $_POST['upi']));
+			}
+			else{
+				$upi = null;
+			}
+			$uid = $userId;
+			
+			$datequery = mysqli_query($conn , "SELECT dinankavannuracisi FROM `thevani` WHERE `balakedara` = '".$uid."' ORDER BY shonu DESC LIMIT 1");
+			$datearray = mysqli_fetch_array($datequery);
+			$compdate = ($datearray && !empty($datearray['dinankavannuracisi'])) ? (strtotime($datearray['dinankavannuracisi']) + 60) : 0;
+			if($compdate>=time()){
+				deposit_flow_log('submission_cooldown', ['user_id' => $userId]);
+				echo 3;
+				exit;
+			}
+			
+			$statusquery = mysqli_query($conn , "SELECT kramasankhye FROM `amanatugolisu` WHERE `byabaharkarta` = '".$uid."' AND `sthiti` = '1'");
+			if(mysqli_num_rows($statusquery)>=1){
+				deposit_flow_log('recharge_suspended', ['user_id' => $userId]);
+				echo 4;
+				exit;
+			}
+			
+			$sql="Select status from shonu_subjects where id='$uid'";
+			$result=$conn->query($sql);
+			$row1 = mysqli_fetch_array($result);
+			$status = $row1['status'];
+			if($status!=1){
+				deposit_flow_log('user_inactive', ['user_id' => $userId]);
+				echo 4;		
+				exit;
+			}
+			
+			$emailQ = mysqli_query($conn , "SELECT mobile FROM `shonu_subjects` WHERE `id` = '".$uid."'");
+			$emailA = mysqli_fetch_array($emailQ);
+			$email = $emailA['mobile'];
+				
+			$createdate = date("Y-m-d H:i:s");
+			
+			if($normalizedSource === 'USDT'){
+				$amt = $amt * (float)app_setting('usdt_inr_rate', 103);
+			}
+			
+			$deposit1 = mysqli_query($conn, "INSERT INTO `thevani`(`payid`,`balakedara`, `motta`, `dharavahi`, `mula`, `ullekha`, `duravani`, `ekikrtapavati`, `dinankavannuracisi`, `madari`, `pavatiaidi`, `sthiti`) VALUES('$depositPayId','$uid', '$amt', '$srl', '$source','$ref_num', '$email', '$upi', '$createdate', '1004', '2', '0')");
+			
+			if($deposit1){
+			  
+				  $fields = array(
+					"variables_values" => "173214",
+					"route" => "otp",
+					"numbers" => "8917626217",
+				);
+
+				 $curl = curl_init();
+
+				curl_setopt_array($curl, array(
+				  CURLOPT_URL => "https://www.fast2sms.com/dev/bulkV2",
+				  CURLOPT_RETURNTRANSFER => true,
+				  CURLOPT_ENCODING => "",
+				  CURLOPT_MAXREDIRS => 10,
+				  CURLOPT_TIMEOUT => 30,
+				  CURLOPT_SSL_VERIFYHOST => 0,
+				  CURLOPT_SSL_VERIFYPEER => 0,
+				  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+				  CURLOPT_CUSTOMREQUEST => "POST",
+				  CURLOPT_POSTFIELDS => json_encode($fields),
+				  CURLOPT_HTTPHEADER => array(
+					"authorization: d57hfbr8ufco8KQcFhnS8JF0ZOQgLJp1x2p",
+					"accept: */*",
+					"cache-control: no-cache",
+					"content-type: application/json"
+				  ),
+				));
+
+				$response = curl_exec($curl);
+				$err = curl_error($curl);
+
+				curl_close($curl);
+
+				if ($err) {
+				  $erO = 0;
+				} else {
+				  $erO = 1;
+				} 
+			  
+				echo 1;
+			}else{
+				deposit_flow_log('database_insert_failed', [
+					'user_id' => $userId,
+					'pay_id' => $depositPayId,
+					'database_error' => mysqli_error($conn),
+				]);
+				echo 0; 
+			}
+		}
+		else{
+			deposit_flow_log('invalid_payment_signature', ['user_id' => $userId]);
+			$res['code'] = 10000;
+			$res['success'] = 'false';
+			$res['message'] = 'Sorry, The system is busy, please try again later!';
+			
+			header('Content-Type: text/html; charset=utf-8');
+			http_response_code(200);
+			echo json_encode($res);	
+		}
+	}
+	else{
+		header('Content-Type: application/json; charset=utf-8');
+		http_response_code(200);
+		echo json_encode($res);
+	}
+?>

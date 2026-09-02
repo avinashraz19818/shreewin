@@ -1,0 +1,62 @@
+[20-Mar-2026 16:53:52 UTC] PHP Warning:  Undefined array key "unohs" in /home/1971winbd/public_html/SHISHIR-ADMIN/live_chat.php on line 9
+[20-Mar-2026 22:23:52 Asia/Kolkata] PHP Warning:  Undefined array key "unohs" in /home/1971winbd/public_html/SHISHIR-ADMIN/layout-menu.php on line 7
+[20-Mar-2026 22:23:52 Asia/Kolkata] PHP Fatal error:  Uncaught mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1 in /home/1971winbd/public_html/SHISHIR-ADMIN/layout-menu.php:9
+Stack trace:
+#0 /home/1971winbd/public_html/SHISHIR-ADMIN/layout-menu.php(9): mysqli_query()
+#1 /home/1971winbd/public_html/SHISHIR-ADMIN/live_chat.php(362): require_once('/home/1971winbd/...')
+#2 {main}
+  thrown in /home/1971winbd/public_html/SHISHIR-ADMIN/layout-menu.php on line 9
+[05-May-2026 01:27:22 PRC] PHP Notice:  Undefined index: unohs in /www/wwwroot/itzrakibadmin.xyz/kzzmxorp_kartik001king/adminab/withdrawsent_ewallet.php on line 9
+[04-May-2026 22:57:22 Asia/Kolkata] PHP Notice:  Undefined index: unohs in /www/wwwroot/itzrakibadmin.xyz/kzzmxorp_kartik001king/adminab/layout-menu.php on line 7
+[04-May-2026 22:57:22 Asia/Kolkata] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, bool given in /www/wwwroot/itzrakibadmin.xyz/kzzmxorp_kartik001king/adminab/layout-menu.php on line 10
+[04-May-2026 22:57:22 Asia/Kolkata] PHP Notice:  Trying to access array offset on value of type null in /www/wwwroot/itzrakibadmin.xyz/kzzmxorp_kartik001king/adminab/layout-menu.php on line 109
+[14-Aug-2026 10:28:52 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:47:41 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 206
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 221
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 206
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 221
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 206
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 221
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 206
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 221
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 206
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 221
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 206
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 221
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 206
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 221
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 206
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 221
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 206
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 221
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 206
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 221
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 206
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 221
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 206
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 221
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 206
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 221
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 206
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 221
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 206
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 221
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 206
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 221
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 206
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 221
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 206
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 221
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 206
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 221
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 206
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 221
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 206
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 221
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 206
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 221
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 206
+[15-Aug-2026 23:12:17 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent_ewallet.php on line 221
+[16-Aug-2026 18:57:06 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent.php on line 169
+[16-Aug-2026 18:57:06 Asia/Kolkata] PHP Deprecated:  htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/withdrawsent.php on line 181

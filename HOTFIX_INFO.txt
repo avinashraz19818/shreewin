@@ -1,0 +1,18 @@
+SHREE WIN - DEPOSIT APPROVAL + WALLET CREDIT HOTFIX
+Date: 26 August 2026
+
+INSTALL:
+1. Upload this ZIP inside cPanel public_html.
+2. Extract it directly inside public_html.
+3. Allow overwrite/replace when asked.
+4. Open digitaladmin/depositupdate.php and approve the pending request.
+
+FIXED:
+- Deposit Approve works on shared/cPanel hosting without mysqli mysqlnd.
+- Approved deposit amount is added to the correct user's wallet.
+- Deposit status changes to approved only after wallet credit succeeds.
+- Missing wallet row is created automatically.
+- Repeated clicks cannot credit the same pending deposit twice.
+
+FILE INCLUDED:
+- digitaladmin/api/deposit-action.php

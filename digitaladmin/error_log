@@ -1,0 +1,379 @@
+[14-Aug-2026 00:57:00 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:15:29 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:15:39 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:44:20 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:44:22 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:09:58 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:10:17 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:10:23 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:10:53 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:11:03 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:14:36 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:15:38 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:16:22 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:16:29 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:17:00 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:17:30 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:17:45 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:17:46 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:17:50 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:35 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:49 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:09 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:23 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:29 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:20:30 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:21:18 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:21:50 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:22:01 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:22:01 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:22:48 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:23:17 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:23:38 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:24:08 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:24:39 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:24:39 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:24:40 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:25:00 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:25:03 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:25:10 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:25:21 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:25:21 Asia/Kolkata] Manual bot starting with 1 games enabled
+[14-Aug-2026 10:25:21 Asia/Kolkata] Game: Wingo 30Sec - Last Period: 20260518100051266 - Next Period: 20260518100051267
+[14-Aug-2026 10:25:21 Asia/Kolkata] Sending prediction for Wingo 30Sec - Period: 20260518100051267, Digit: 6, Color: red
+[14-Aug-2026 10:25:21 Asia/Kolkata] ✅ Telegram message sent successfully for Wingo 30Sec - Period: 20260518100051267
+[14-Aug-2026 10:25:22 Asia/Kolkata] Manual bot execution completed. Successfully sent: 1 messages
+[14-Aug-2026 10:25:22 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:25:54 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:26:24 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:26:38 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:26:38 Asia/Kolkata] Bot outside active hours: 10:26 not between 08:21:00 and 09:21:00
+[14-Aug-2026 10:26:38 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:26:45 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:26:45 Asia/Kolkata] Manual bot starting with 1 games enabled
+[14-Aug-2026 10:26:45 Asia/Kolkata] Game: Wingo 30Sec - Last Period: 20260518100051266 - Next Period: 20260518100051267
+[14-Aug-2026 10:26:45 Asia/Kolkata] ⏭️ Already predicted Wingo 30Sec for 20260518100051267
+[14-Aug-2026 10:26:45 Asia/Kolkata] Manual bot execution completed. Successfully sent: 0 messages
+[14-Aug-2026 10:26:46 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:27:02 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:27:02 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:27:33 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:27:33 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:27:35 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:09 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:29:00 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:06 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:13 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:17 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:22 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:25 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:27 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:51 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:51 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:58 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:31:09 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:31:20 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:32:03 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:33:54 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:33:55 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:34:05 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:34:16 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:34:59 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:35:39 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:36:24 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:36:37 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:36:48 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:36:57 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:37:26 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:37:40 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:37:40 Asia/Kolkata] PHP Warning:  Undefined variable $wingo30status in /home/nons257754/public_html/digitaladmin/chnagebann.php on line 236
+[14-Aug-2026 10:38:09 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:38:22 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:38:46 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:40:24 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:40:48 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:41:00 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:41:02 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:41:02 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:41:11 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:41:11 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:41:46 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:42:12 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:43:00 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:43:07 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:43:44 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 05:13:58 UTC] PHP Warning:  Undefined array key "unohs" in /home/nons257754/public_html/digitaladmin/k31.php on line 3
+[14-Aug-2026 10:43:58 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:43:58 Asia/Kolkata] PHP Warning:  Undefined array key "unohs" in /home/nons257754/public_html/digitaladmin/layout-menu.php on line 7
+[14-Aug-2026 10:43:58 Asia/Kolkata] PHP Fatal error:  Uncaught mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1 in /home/nons257754/public_html/digitaladmin/layout-menu.php:9
+Stack trace:
+#0 /home/nons257754/public_html/digitaladmin/layout-menu.php(9): mysqli_query(Object(mysqli), 'SELECT * FROM `...')
+#1 /home/nons257754/public_html/digitaladmin/k31.php(103): require_once('/home/nons25775...')
+#2 {main}
+  thrown in /home/nons257754/public_html/digitaladmin/layout-menu.php on line 9
+[14-Aug-2026 10:45:36 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:45:37 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:45:55 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:46:18 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:46:18 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:47:26 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:47:47 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:48:24 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:48:25 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:48:38 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:48:52 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:49:24 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:49:38 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:49:38 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:49:44 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:49:44 Asia/Kolkata] Manual bot starting with 1 games enabled
+[14-Aug-2026 10:49:44 Asia/Kolkata] Game: Wingo 1Min - Last Period: 20260518100010633 - Next Period: 20260518100010634
+[14-Aug-2026 10:49:44 Asia/Kolkata] Sending prediction for Wingo 1Min - Period: 20260518100010634, Digit: 6, Color: red
+[14-Aug-2026 10:49:45 Asia/Kolkata] ✅ Telegram message sent successfully for Wingo 1Min - Period: 20260518100010634
+[14-Aug-2026 10:49:46 Asia/Kolkata] Manual bot execution completed. Successfully sent: 1 messages
+[14-Aug-2026 10:49:46 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:50:17 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:50:31 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:50:37 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:50:37 Asia/Kolkata] Manual bot starting with 1 games enabled
+[14-Aug-2026 10:50:37 Asia/Kolkata] Game: Wingo 1Min - Last Period: 20260518100010633 - Next Period: 20260518100010634
+[14-Aug-2026 10:50:37 Asia/Kolkata] ⏭️ Already predicted Wingo 1Min for 20260518100010634
+[14-Aug-2026 10:50:37 Asia/Kolkata] Manual bot execution completed. Successfully sent: 0 messages
+[14-Aug-2026 10:50:37 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:50:50 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:50:55 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:50:55 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:51:01 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:51:17 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:51:18 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:51:18 Asia/Kolkata] Auto-prediction sent for gelluonduhogu - Period: 20260518100010634
+[14-Aug-2026 10:51:25 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:51:25 Asia/Kolkata] Manual bot starting with 1 games enabled
+[14-Aug-2026 10:51:25 Asia/Kolkata] Game: Wingo 1Min - Last Period: 20260518100010633 - Next Period: 20260518100010634
+[14-Aug-2026 10:51:25 Asia/Kolkata] ⏭️ Already predicted Wingo 1Min for 20260518100010634
+[14-Aug-2026 10:51:25 Asia/Kolkata] Manual bot execution completed. Successfully sent: 0 messages
+[14-Aug-2026 10:51:25 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:51:50 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:52:21 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:52:38 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:52:38 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:52:42 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:52:42 Asia/Kolkata] Manual bot starting with 1 games enabled
+[14-Aug-2026 10:52:42 Asia/Kolkata] Game: Wingo 1Min - Last Period: 20260518100010633 - Next Period: 20260518100010634
+[14-Aug-2026 10:52:42 Asia/Kolkata] ⏭️ Already predicted Wingo 1Min for 20260518100010634
+[14-Aug-2026 10:52:42 Asia/Kolkata] Manual bot execution completed. Successfully sent: 0 messages
+[14-Aug-2026 10:52:42 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:53:12 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:53:43 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:53:49 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:53:49 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:53:54 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:53:54 Asia/Kolkata] Manual bot starting with 1 games enabled
+[14-Aug-2026 10:53:54 Asia/Kolkata] Game: Wingo 1Min - Last Period: 20260518100010633 - Next Period: 20260518100010634
+[14-Aug-2026 10:53:54 Asia/Kolkata] ⏭️ Already predicted Wingo 1Min for 20260518100010634
+[14-Aug-2026 10:53:54 Asia/Kolkata] Manual bot execution completed. Successfully sent: 0 messages
+[14-Aug-2026 10:53:54 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:54:09 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:54:10 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:54:24 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:54:24 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:54:27 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:54:27 Asia/Kolkata] Manual bot starting with 1 games enabled
+[14-Aug-2026 10:54:27 Asia/Kolkata] Game: Wingo 1Min - Last Period: 20260518100010633 - Next Period: 20260518100010634
+[14-Aug-2026 10:54:27 Asia/Kolkata] ⏭️ Already predicted Wingo 1Min for 20260518100010634
+[14-Aug-2026 10:54:27 Asia/Kolkata] Manual bot execution completed. Successfully sent: 0 messages
+[14-Aug-2026 10:54:28 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:54:32 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:54:32 Asia/Kolkata] Bot is not active
+[14-Aug-2026 10:54:32 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:55:27 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:55:57 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:56:16 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:56:49 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:57:02 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:57:36 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:57:39 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:57:42 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:57:47 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:58:16 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:58:33 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:58:44 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:59:46 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 11:01:30 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 11:01:49 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 11:02:02 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 11:02:05 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 11:02:23 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 11:02:23 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 11:02:53 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 11:06:07 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 11:06:16 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 11:06:22 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 07:52:24 UTC] PHP Warning:  Undefined array key "unohs" in /home/nons257754/public_html/digitaladmin/k31.php on line 3
+[14-Aug-2026 13:22:24 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 13:22:24 Asia/Kolkata] PHP Warning:  Undefined array key "unohs" in /home/nons257754/public_html/digitaladmin/layout-menu.php on line 7
+[14-Aug-2026 13:22:24 Asia/Kolkata] PHP Fatal error:  Uncaught mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1 in /home/nons257754/public_html/digitaladmin/layout-menu.php:9
+Stack trace:
+#0 /home/nons257754/public_html/digitaladmin/layout-menu.php(9): mysqli_query(Object(mysqli), 'SELECT * FROM `...')
+#1 /home/nons257754/public_html/digitaladmin/k31.php(103): require_once('/home/nons25775...')
+#2 {main}
+  thrown in /home/nons257754/public_html/digitaladmin/layout-menu.php on line 9
+[14-Aug-2026 13:22:42 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 13:23:03 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 13:23:15 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 08:49:06 UTC] PHP Warning:  Undefined array key "unohs" in /home/nons257754/public_html/digitaladmin/k31.php on line 3
+[14-Aug-2026 14:19:06 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:19:06 Asia/Kolkata] PHP Warning:  Undefined array key "unohs" in /home/nons257754/public_html/digitaladmin/layout-menu.php on line 7
+[14-Aug-2026 14:19:06 Asia/Kolkata] PHP Fatal error:  Uncaught mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1 in /home/nons257754/public_html/digitaladmin/layout-menu.php:9
+Stack trace:
+#0 /home/nons257754/public_html/digitaladmin/layout-menu.php(9): mysqli_query(Object(mysqli), 'SELECT * FROM `...')
+#1 /home/nons257754/public_html/digitaladmin/k31.php(103): require_once('/home/nons25775...')
+#2 {main}
+  thrown in /home/nons257754/public_html/digitaladmin/layout-menu.php on line 9
+[14-Aug-2026 08:59:21 UTC] PHP Warning:  Undefined array key "unohs" in /home/nons257754/public_html/digitaladmin/k31.php on line 3
+[14-Aug-2026 14:29:21 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:29:21 Asia/Kolkata] PHP Warning:  Undefined array key "unohs" in /home/nons257754/public_html/digitaladmin/layout-menu.php on line 7
+[14-Aug-2026 14:29:21 Asia/Kolkata] PHP Fatal error:  Uncaught mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1 in /home/nons257754/public_html/digitaladmin/layout-menu.php:9
+Stack trace:
+#0 /home/nons257754/public_html/digitaladmin/layout-menu.php(9): mysqli_query(Object(mysqli), 'SELECT * FROM `...')
+#1 /home/nons257754/public_html/digitaladmin/k31.php(103): require_once('/home/nons25775...')
+#2 {main}
+  thrown in /home/nons257754/public_html/digitaladmin/layout-menu.php on line 9
+[14-Aug-2026 09:07:43 UTC] PHP Warning:  Undefined array key "unohs" in /home/nons257754/public_html/digitaladmin/k31.php on line 3
+[14-Aug-2026 14:37:43 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:37:43 Asia/Kolkata] PHP Warning:  Undefined array key "unohs" in /home/nons257754/public_html/digitaladmin/layout-menu.php on line 7
+[14-Aug-2026 14:37:43 Asia/Kolkata] PHP Fatal error:  Uncaught mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1 in /home/nons257754/public_html/digitaladmin/layout-menu.php:9
+Stack trace:
+#0 /home/nons257754/public_html/digitaladmin/layout-menu.php(9): mysqli_query(Object(mysqli), 'SELECT * FROM `...')
+#1 /home/nons257754/public_html/digitaladmin/k31.php(103): require_once('/home/nons25775...')
+#2 {main}
+  thrown in /home/nons257754/public_html/digitaladmin/layout-menu.php on line 9
+[14-Aug-2026 09:09:17 UTC] PHP Warning:  Undefined array key "unohs" in /home/nons257754/public_html/digitaladmin/k31.php on line 3
+[14-Aug-2026 14:39:17 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:39:17 Asia/Kolkata] PHP Warning:  Undefined array key "unohs" in /home/nons257754/public_html/digitaladmin/layout-menu.php on line 7
+[14-Aug-2026 14:39:17 Asia/Kolkata] PHP Fatal error:  Uncaught mysqli_sql_exception: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near '' at line 1 in /home/nons257754/public_html/digitaladmin/layout-menu.php:9
+Stack trace:
+#0 /home/nons257754/public_html/digitaladmin/layout-menu.php(9): mysqli_query(Object(mysqli), 'SELECT * FROM `...')
+#1 /home/nons257754/public_html/digitaladmin/k31.php(103): require_once('/home/nons25775...')
+#2 {main}
+  thrown in /home/nons257754/public_html/digitaladmin/layout-menu.php on line 9
+[14-Aug-2026 14:40:17 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:41:25 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:41:43 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:42:20 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 09:12:26 UTC] PHP Warning:  Undefined array key "unohs" in /home/nons257754/public_html/digitaladmin/api_panel.php on line 7
+[14-Aug-2026 14:43:09 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 09:13:16 UTC] PHP Warning:  Undefined array key "unohs" in /home/nons257754/public_html/digitaladmin/prediction_bot.php on line 7
+[14-Aug-2026 14:43:42 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:45:38 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:46:04 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:46:45 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:47:45 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:49:03 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:50:24 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:50:24 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:52:15 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:52:15 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:54:24 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:59:39 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:02:28 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:02:31 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:03:38 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:04:15 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:04:53 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:05:16 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:05:56 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:06:11 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:07:03 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 17:50:11 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 22:02:51 Asia/Kolkata] PHP Warning:  Undefined array key "motta" in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[14-Aug-2026 22:02:51 Asia/Kolkata] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[14-Aug-2026 22:02:51 Asia/Kolkata] PHP Warning:  Undefined array key "motta" in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[14-Aug-2026 22:02:51 Asia/Kolkata] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[14-Aug-2026 22:02:51 Asia/Kolkata] PHP Warning:  Undefined array key "motta" in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[14-Aug-2026 22:02:51 Asia/Kolkata] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[14-Aug-2026 22:02:51 Asia/Kolkata] PHP Warning:  Undefined array key "motta" in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[14-Aug-2026 22:02:51 Asia/Kolkata] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[14-Aug-2026 22:02:51 Asia/Kolkata] PHP Warning:  Undefined array key "motta" in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[14-Aug-2026 22:02:51 Asia/Kolkata] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[14-Aug-2026 22:02:51 Asia/Kolkata] PHP Warning:  Undefined array key "motta" in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[14-Aug-2026 22:02:51 Asia/Kolkata] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[14-Aug-2026 22:03:04 Asia/Kolkata] PHP Warning:  Undefined array key "motta" in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[14-Aug-2026 22:03:04 Asia/Kolkata] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[14-Aug-2026 22:03:04 Asia/Kolkata] PHP Warning:  Undefined array key "motta" in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[14-Aug-2026 22:03:04 Asia/Kolkata] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[14-Aug-2026 22:03:04 Asia/Kolkata] PHP Warning:  Undefined array key "motta" in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[14-Aug-2026 22:03:04 Asia/Kolkata] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[14-Aug-2026 22:03:04 Asia/Kolkata] PHP Warning:  Undefined array key "motta" in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[14-Aug-2026 22:03:04 Asia/Kolkata] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[14-Aug-2026 22:03:04 Asia/Kolkata] PHP Warning:  Undefined array key "motta" in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[14-Aug-2026 22:03:04 Asia/Kolkata] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[14-Aug-2026 22:03:04 Asia/Kolkata] PHP Warning:  Undefined array key "motta" in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[14-Aug-2026 22:03:04 Asia/Kolkata] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[14-Aug-2026 22:03:11 Asia/Kolkata] PHP Warning:  Undefined array key "motta" in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[14-Aug-2026 22:03:11 Asia/Kolkata] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[14-Aug-2026 22:03:11 Asia/Kolkata] PHP Warning:  Undefined array key "motta" in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[14-Aug-2026 22:03:11 Asia/Kolkata] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[14-Aug-2026 22:03:11 Asia/Kolkata] PHP Warning:  Undefined array key "motta" in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[14-Aug-2026 22:03:11 Asia/Kolkata] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[14-Aug-2026 22:03:11 Asia/Kolkata] PHP Warning:  Undefined array key "motta" in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[14-Aug-2026 22:03:11 Asia/Kolkata] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[14-Aug-2026 22:03:11 Asia/Kolkata] PHP Warning:  Undefined array key "motta" in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[14-Aug-2026 22:03:11 Asia/Kolkata] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[14-Aug-2026 22:03:11 Asia/Kolkata] PHP Warning:  Undefined array key "motta" in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[14-Aug-2026 22:03:11 Asia/Kolkata] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[16-Aug-2026 21:36:22 Asia/Kolkata] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'nons257754_dmn.users' doesn't exist in /home/nons257754/public_html/digitaladmin/users_feedback.php:125
+Stack trace:
+#0 /home/nons257754/public_html/digitaladmin/users_feedback.php(125): mysqli_query(Object(mysqli), 'SELECT name, mo...')
+#1 {main}
+  thrown in /home/nons257754/public_html/digitaladmin/users_feedback.php on line 125
+[16-Aug-2026 21:36:40 Asia/Kolkata] PHP Warning:  Undefined array key "motta" in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[16-Aug-2026 21:36:40 Asia/Kolkata] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[16-Aug-2026 21:36:40 Asia/Kolkata] PHP Warning:  Undefined array key "motta" in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[16-Aug-2026 21:36:40 Asia/Kolkata] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[16-Aug-2026 21:36:40 Asia/Kolkata] PHP Warning:  Undefined array key "motta" in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[16-Aug-2026 21:36:40 Asia/Kolkata] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[16-Aug-2026 21:36:40 Asia/Kolkata] PHP Warning:  Undefined array key "motta" in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[16-Aug-2026 21:36:40 Asia/Kolkata] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[16-Aug-2026 21:36:40 Asia/Kolkata] PHP Warning:  Undefined array key "motta" in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[16-Aug-2026 21:36:40 Asia/Kolkata] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[16-Aug-2026 21:36:40 Asia/Kolkata] PHP Warning:  Undefined array key "motta" in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[16-Aug-2026 21:36:40 Asia/Kolkata] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[17-Aug-2026 09:23:52 Asia/Kolkata] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'price' in 'SELECT' in /home/nons257754/public_html/digitaladmin/api/get-transactions.php:219
+Stack trace:
+#0 /home/nons257754/public_html/digitaladmin/api/get-transactions.php(219): mysqli->query('SELECT parichay...')
+#1 /home/nons257754/public_html/digitaladmin/manageteam.php(455): getTransactions(Object(mysqli), 113877, '-1', '', 1)
+#2 {main}
+  thrown in /home/nons257754/public_html/digitaladmin/api/get-transactions.php on line 219
+[17-Aug-2026 10:48:49 Asia/Kolkata] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'nons257754_dmn.users' doesn't exist in /home/nons257754/public_html/digitaladmin/red_env_rqst.php:149
+Stack trace:
+#0 /home/nons257754/public_html/digitaladmin/red_env_rqst.php(149): mysqli_query(Object(mysqli), 'SELECT username...')
+#1 {main}
+  thrown in /home/nons257754/public_html/digitaladmin/red_env_rqst.php on line 149
+[17-Aug-2026 13:50:28 Asia/Kolkata] PHP Warning:  Undefined array key "motta" in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[17-Aug-2026 13:50:28 Asia/Kolkata] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[17-Aug-2026 13:50:28 Asia/Kolkata] PHP Warning:  Undefined array key "motta" in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[17-Aug-2026 13:50:28 Asia/Kolkata] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[17-Aug-2026 13:50:28 Asia/Kolkata] PHP Warning:  Undefined array key "motta" in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[17-Aug-2026 13:50:28 Asia/Kolkata] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[17-Aug-2026 13:50:28 Asia/Kolkata] PHP Warning:  Undefined array key "motta" in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[17-Aug-2026 13:50:28 Asia/Kolkata] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[17-Aug-2026 13:50:28 Asia/Kolkata] PHP Warning:  Undefined array key "motta" in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[17-Aug-2026 13:50:28 Asia/Kolkata] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[17-Aug-2026 13:50:28 Asia/Kolkata] PHP Warning:  Undefined array key "motta" in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[17-Aug-2026 13:50:28 Asia/Kolkata] PHP Deprecated:  number_format(): Passing null to parameter #1 ($num) of type float is deprecated in /home/nons257754/public_html/digitaladmin/addteacher.php on line 475
+[17-Aug-2026 14:06:05 Asia/Kolkata] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'nons257754_dmn.users' doesn't exist in /home/nons257754/public_html/digitaladmin/red_env_rqst.php:149
+Stack trace:
+#0 /home/nons257754/public_html/digitaladmin/red_env_rqst.php(149): mysqli_query(Object(mysqli), 'SELECT username...')
+#1 {main}
+  thrown in /home/nons257754/public_html/digitaladmin/red_env_rqst.php on line 149
+[17-Aug-2026 18:34:30 Asia/Kolkata] Manual bot starting with 1 games enabled
+[17-Aug-2026 18:34:30 Asia/Kolkata] Game: Wingo 1Min - Last Period: 20260518100010633 - Next Period: 20260518100010634
+[17-Aug-2026 18:34:30 Asia/Kolkata] PHP Fatal error:  Uncaught mysqli_sql_exception: Duplicate entry '20260518100010634-gelluonduhogu' for key 'unique_period_game' in /home/nons257754/public_html/digitaladmin/prediction_bot.php:419
+Stack trace:
+#0 /home/nons257754/public_html/digitaladmin/prediction_bot.php(419): mysqli_query(Object(mysqli), 'INSERT INTO aut...')
+#1 /home/nons257754/public_html/digitaladmin/prediction_bot.php(184): runPredictionBotNow()
+#2 {main}
+  thrown in /home/nons257754/public_html/digitaladmin/prediction_bot.php on line 419
+[17-Aug-2026 18:34:37 Asia/Kolkata] Bot is not active
+[17-Aug-2026 18:46:50 Asia/Kolkata] PHP Warning:  Undefined variable $wingo30status in /home/nons257754/public_html/digitaladmin/manage_userwallet.php on line 178

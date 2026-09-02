@@ -1,0 +1,15 @@
+DAMAN PRO ADMIN - LIVE BIG/SMALL + SQL DASHBOARD HOTFIX
+
+Install:
+1. Upload this ZIP inside public_html.
+2. Extract it with overwrite enabled.
+3. Open digitaladmin/index.php once. Required additive SQL tables are created automatically.
+4. Hard-refresh the admin page (Ctrl+F5).
+
+Included:
+- Live Big/Small totals, bet details and filtered live bets for Wingo 1/3/5 minute.
+- Same live Big/Small feature for every K3, 5D and TRX interval.
+- Dashboard cards and charts use live SQL totals.
+- Additive/self-healing SQL schema; no table is dropped.
+
+Backup your current files/database before installing any production update.

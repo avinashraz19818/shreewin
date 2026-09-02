@@ -1,0 +1,1 @@
+import{bd as a}from"./index-_oBi1P6F.js";const r="/assets/jpg/vsImg-DazAgeJ-.jpg",i="/assets/png/updateImg-D9AE7PeH.png";function u(e,n){let s={headers:{"Content-Type":e.file.type}};return new Promise((o,p)=>{a.put(n,e.file,s).then(t=>{t&&o(t)}).catch(t=>{p(t)})})}function c(e){return a.post("/ar-wallet/v4/apiCenter/generateFileUrl",e)}export{c as P,i as a,u,r as v};

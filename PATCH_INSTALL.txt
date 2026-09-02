@@ -1,0 +1,87 @@
+LOTTERY HISTORY AUTO-SCHEMA + 404 + DEPOSIT PATCH v5.0.4
+Date: 2026-08-26
+
+INSTALL
+1. Take a backup of the current website files.
+2. Upload this ZIP into the website document root (the folder containing
+   index.html and developer-maruf/).
+3. Extract with overwrite enabled. Directory structure must be preserved.
+4. Hard-refresh the site once (Ctrl+F5), then open WinGo/K3 and Recharge.
+
+AUTOMATIC DATABASE REPAIR
+- On the first lottery history request, the patch checks every required SaaS
+  lottery table/column and creates any missing lottery table automatically.
+- Application/control tables are checked too; an old schema version marker can
+  no longer hide a table that was deleted or omitted during upload/restore.
+- Repairs use only CREATE TABLE IF NOT EXISTS and additive ALTER statements.
+  No table or existing row is deleted.
+- The configured database user should have CREATE and ALTER privileges. If it
+  does not, the public game-history endpoint returns provider history instead
+  of HTTP 500 and writes the repair error to /error.log.
+
+EXPECTED HISTORY REQUESTS
+- GET /WinGo/WinGo_30S/GetHistoryIssuePage.json?ts=...
+- GET /TrxWinGo/TrxWinGo_1M/GetHistoryIssuePage.json?ts=...
+- Both legacy URLs are rewritten to draw-live-v4, should return HTTP 200, and
+  should populate the history list after the first self-repair request.
+
+EXPECTED LOTTERY REQUESTS
+- GET  /api-live-v4/Lottery/index.php?action=GetBalance
+- GET  /api-live-v4/Lottery/index.php?action=GetUserInfo
+- GET  /api-live-v4/Lottery/index.php?action=GetGameInfo
+- GET  /api-live-v4/Lottery/index.php?action=GetGameList
+- POST /api-live-v4/Lottery/index.php?action=WinGoBet (family changes for K3,
+  5D, TrxWinGo and MotoRace)
+- GET  /draw-live-v4/index.php?lottery=WinGo&gameCode=WinGo_30S
+- GET  /draw-live-v4/index.php?lottery=K3&gameCode=K3_1M
+- Draw-history calls use the same draw controller with &history=1.
+
+The browser must no longer stop at these legacy 404 paths:
+- /api/Lottery/GetBalance
+- /WinGo/WinGo_30S.json
+- /K3/K3_1M.json
+
+EXPECTED REQUESTS
+- POST /developer-maruf/api/webapi/GetPayTypeName.php
+- POST /developer-maruf/api/webapi/GetRechargeTypes.php
+- POST /developer-maruf/api/webapi/GetRechargeRecord.php
+- POST /developer-maruf/api/webapi/CreateThirdRechargeOrderV3.php when the
+  Deposit button is pressed.
+- POST /developer-maruf/api/webapi/GetARPayUrl.php when ARPay is selected.
+- The normal deposit page must not call the non-existent
+  /developer-maruf/api/webapi/GetLocalRechargeTypes route.
+
+EXPECTED RESULT
+- Selecting the first/current deposit tab calls GetRechargeTypes.php.
+- Both active and fallback recharge bundles use the existing
+  GetRechargeTypes.php API export; the PHP recharge-channel logic is unchanged.
+- The old LocalRechargeTypes frontend alias also resolves to
+  GetRechargeTypes.php, so it cannot generate a request to a missing file.
+- CreateThirdRechargeOrderV3.php validates the signed logged-in request,
+  payment ID and amount, then returns the existing local payment page:
+    UPI/QR/ARPay -> /pay/wepay.php
+    USDT          -> /pay/usdt.php
+- The payment page submits the UTR/reference through the existing
+  /pay/adddeposit.php logic, which writes the pending `thevani` record.
+- UPI/USDT payment pages forward the selected pay ID to adddeposit.php. The
+  stored pending record is no longer forced to one hard-coded payment ID.
+- USDT submission now sends valid POST field names and consistently applies the
+  configured USDT-to-INR rate.
+- No payment-page URL depends on extensionless Apache rewrite behavior.
+- The deposit-page record preview no longer returns "Param is Invalid" when it
+  sends only payId.
+- The full recharge history payload remains supported.
+- Quick recharge amounts are populated from GetRechargeTypes.php.
+
+ERROR LOG
+- New PHP/API errors are appended automatically to error.log in the website
+  document root.
+- Missing static/API routes (HTTP 404) are also appended through route-error.php.
+- Deposit API and payment-page database connection failures use the same log.
+- Each entry includes request_id, request URI, source file and line when known.
+- Sensitive query values including signature/token are redacted.
+- The log is protected from public HTTP access by .htaccess.
+- This patch does not include or overwrite an existing error.log file.
+
+No SQL table, stored user data, balance, order or admin record is deleted or
+replaced by this patch.

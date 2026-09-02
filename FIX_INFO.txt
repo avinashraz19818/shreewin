@@ -1,0 +1,111 @@
+DAMAN CUMULATIVE ROUTE + DEPOSIT PATCH - 2026-08-26
+
+v5.0.4 LOTTERY HISTORY 500 + AUTOMATIC TABLE REPAIR
+- The v5.0.3 route fix is confirmed: legacy WinGo/TrxWinGo history URLs now
+  reach draw-live-v4. The new HTTP 500 happened inside that handler because
+  public history queried saas_lottery_results before running sl_install_schema.
+- Public and authenticated history now run the same idempotent lottery schema
+  installer before reading or settling results.
+- The installer no longer trusts a saved version marker by itself. It checks
+  all six required lottery tables and their required columns in one metadata
+  query. A missing table is recreated automatically with CREATE TABLE IF NOT
+  EXISTS; known older columns/indexes are upgraded additively.
+- The application/control schema performs the same required-table check, so a
+  table removed after an earlier successful install is recreated on the next
+  request even when the old schema-version record still exists.
+- No existing table is dropped, truncated or replaced. Existing rows, users,
+  balances, bets, orders and results are preserved.
+- If the database user does not have CREATE/ALTER permission or a storage read
+  still fails, history returns the normalized real-provider result list instead
+  of HTTP 500. The exact failure phase and safe database error are appended to
+  /error.log for diagnosis.
+- Failures from the early database_auto.php support-table creator and seed pass
+  are no longer swallowed; the affected table name is written to /error.log.
+- Schema versions are now control-center 20260826-v12.1 and lottery engine
+  20260826-daman-v10.2.
+
+v5.0.3 LOTTERY API / DRAW 404 FIX
+- The SaaS game bundle ignored app.config.js and hard-coded its API base as
+  location.origin + /api, while its draw JSON base was only location.origin.
+  That produced the failing URLs seen in DevTools:
+    /api/Lottery/GetBalance
+    /WinGo/WinGo_30S.json
+    /K3/K3_1M.json
+- GetBalance.php existing on disk did not make /GetBalance valid: the browser
+  requested an extensionless path and api/Lottery had no matching rewrite.
+- Both active and fallback SaaS chunks now use the existing live-v4 handlers.
+  Calls are server-portable and go directly to:
+    /api-live-v4/Lottery/index.php?action=<Action>
+    /draw-live-v4/index.php?lottery=<Family>&gameCode=<Game>
+- WinGo, TrxWinGo, K3, 5D and MotoRace current draw/history URLs are covered.
+  Bet, balance, user, game, record, trend and follow actions all pass through
+  the same live-v4 Lottery controller; backend game/settlement logic is unchanged.
+- The early same-origin interceptor also normalizes old/cached bundle URLs.
+  Apache root rewrites provide a second compatibility fallback.
+- Static/server 404 responses now pass through route-error.php and are added
+  to /error.log. Sensitive query fields such as token/signature are redacted.
+- Cache headers and the interceptor version were updated so one Ctrl+F5 loads
+  the corrected paths instead of a previously cached SaaS chunk.
+
+v5.0.2 DEPOSIT BUTTON / REDIRECT FIX
+- The bundled Deposit button intentionally calls CreateThirdRechargeOrderV3,
+  but that mapped backend file was absent, so the click ended in HTTP 404.
+- Added the missing signed/authenticated bridge endpoint. It validates the
+  selected channel and amount, creates the existing payment-page URL, and
+  returns it through the exact redirect contract expected by the frontend.
+- UPI/QR and ARPay continue to use pay/wepay.php; USDT continues to use
+  pay/usdt.php. UTR submission and pending-order storage remain in the existing
+  pay/adddeposit.php and `thevani` logic.
+- Added the reachable ARPay preflight endpoint so selecting ARPay no longer
+  produces a second missing-route error.
+- Fixed explicit .php endpoint/payment-page paths and the malformed frontend
+  return URL. Both active and fallback bundles are covered.
+- Fixed spaces in the USDT AJAX field names, normalized the USDT source label
+  used by currency conversion, validated both payment-page signature formats,
+  and preserved the selected pay ID in the pending recharge record.
+- Deposit submission failures now add a safe reason to the central error.log;
+  the UTR/reference value and payment signature are not logged.
+
+v5.0.1 CORRECTION
+- The recharge composable was importing the GetLocalRechargeTypes API export.
+  Expanding its call condition exposed that non-existent route on every current
+  deposit tab. Both frontend bundle variants now import the existing
+  GetRechargeTypes.php API export instead. The legacy frontend alias is also
+  routed to that existing PHP file. Backend channel logic is unchanged.
+
+FIXED ROOT CAUSES
+1. The Recharge page only called GetRechargeTypes for a narrow set of old
+   payment IDs. Current payment tabs (13, 2, 1, 3, 11 and others) skipped the
+   request, leaving currentPayType/channel data empty.
+2. The inline RechargeRecord component sends only payId. The full history page
+   additionally sends pageNo, pageSize, startDate, endDate, state and
+   payTypeId. GetRechargeRecord incorrectly required the full-history fields
+   for both callers and returned code 7 / msgCode 6 / "Param is Invalid".
+3. The API host was hard-coded to an old domain, so a copied installation could
+   call another server instead of its own PHP files.
+4. Extensionless deposit endpoint URLs depended on optional web-server rewrite
+   behavior.
+
+PATCHED BEHAVIOR
+- API base is same-origin: /developer-maruf
+- Deposit endpoints call the real files explicitly:
+    /developer-maruf/api/webapi/GetPayTypeName.php
+    /developer-maruf/api/webapi/GetRechargeTypes.php
+    /developer-maruf/api/webapi/GetRechargeRecord.php
+- GetRechargeTypes now runs when a valid payment tab is selected.
+- GetRechargeRecord accepts both bundled frontend payload contracts.
+  Missing preview pagination defaults to pageNo=1, pageSize=5 and state=-1.
+- Existing JWT/session/signature checks remain enabled.
+
+ERROR LOGGING
+- PHP/API runtime warnings, uncaught exceptions, fatal errors, validation
+  failures and recharge query failures are written to:
+    /error.log
+- Payment-page database connection failures are written to the same log.
+- Log entries contain request ID, route, source file and line where available.
+- Authorization, cookies, tokens, signatures, passwords, UPI/UTR and payment
+  account values are not logged.
+- HTTP access to error.log and error_log is denied by .htaccess.
+
+After upload, replace the files from this ZIP and hard-refresh once. Patched JS
+files are served with no-cache headers on Apache/cPanel.

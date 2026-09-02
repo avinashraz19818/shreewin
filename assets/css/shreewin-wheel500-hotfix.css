@@ -1,0 +1,23 @@
+/* Shree Win wheel reward label — intentionally loaded after the theme CSS. */
+#app .tabbar__container-item .turntable-text {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: 50%;
+    bottom: 0 !important;
+    transform: translateX(-50%);
+    width: 2.04rem !important;
+    height: 0.72rem !important;
+    padding: 0.16rem 0.04rem 0.04rem;
+    box-sizing: border-box;
+    overflow: visible !important;
+    z-index: 4 !important;
+    background: #ffffff !important;
+    color: var(--main-color, #6c4cff) !important;
+    font-size: 0.4rem !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+    text-align: center;
+    white-space: nowrap;
+}

@@ -1,0 +1,9 @@
+SHREEWIN SAME-ORIGIN LOTTERY HOTFIX
+
+Extract this ZIP directly inside public_html and overwrite existing files.
+Lottery API and draw requests are forced to the currently opened site origin.
+Expected browser requests:
+- https://shreewin.club9.eu.cc/api/Lottery/GetGameInfo?...
+- https://shreewin.club9.eu.cc/WinGo/WinGo_30S.json?...
+
+The patch also blocks stale ar_api/ar_api_json values from recreating api.55ak.xyz or draw.55ak.xyz.

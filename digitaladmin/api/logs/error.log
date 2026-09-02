@@ -1,0 +1,105 @@
+[2025-10-12 17:00:09] Environment: merchantId=F7032, payoutApiUrl=https://api.silkpay.in/transaction/payout, notifyUrl=https://yaarwin21.site/adminab/api/callback.php
+[2025-10-12 17:00:09] Incoming Request: id=3, type=accept, remark=gggggggg
+[2025-10-12 17:00:09] Signature Parameters: mId=F7032, mOrderId=, amount=, timestamp=1760268609047, secret=8Kl9U148h2
+[2025-10-12 17:00:09] Signature Input: F703217602686090478Kl9U148h2 | Generated Sign: 576bb7c58994225d217eedcb0cd341f3
+[2025-10-12 17:00:09] API Request to https://api.silkpay.in/transaction/balance: {"mId":"F7032","timestamp":"1760268609047","sign":"576bb7c58994225d217eedcb0cd341f3"}
+[2025-10-12 17:00:09] API Response: HTTP 200 | Body: {"status":"200","message":"success","data":{"totalAmount":0.00,"availableAmount":0.00,"pendingAmount":0.00}}
+[2025-10-12 17:00:09] Insufficient balance: Available=0, Requested=500
+[2025-10-12 17:03:14] Callback Received: No input
+[2025-10-12 17:03:14] Invalid callback data: Empty input
+[2025-10-13 18:49:27] Environment: merchantId=F7032, payoutApiUrl=https://api.silkpay.in/transaction/payout, notifyUrl=https://yaarwin21.site/adminab/api/callback.php
+[2025-10-13 18:49:27] Incoming Request: id=5, type=reject, remark=vvvvvvvv
+[2025-10-13 18:49:27] Environment: merchantId=F7032, payoutApiUrl=https://api.silkpay.in/transaction/payout, notifyUrl=https://yaarwin21.site/adminab/api/callback.php
+[2025-10-13 18:49:27] Incoming Request: id=5, type=reject, remark=vvvvvvvv
+[2025-10-13 18:49:55] Environment: merchantId=F7032, payoutApiUrl=https://api.silkpay.in/transaction/payout, notifyUrl=https://yaarwin21.site/adminab/api/callback.php
+[2025-10-13 18:49:55] Incoming Request: id=5, type=reject, remark=
+[2025-10-13 18:50:03] Environment: merchantId=F7032, payoutApiUrl=https://api.silkpay.in/transaction/payout, notifyUrl=https://yaarwin21.site/adminab/api/callback.php
+[2025-10-13 18:50:03] Incoming Request: id=5, type=reject, remark=dddd
+[2025-10-13 18:50:18] Environment: merchantId=F7032, payoutApiUrl=https://api.silkpay.in/transaction/payout, notifyUrl=https://yaarwin21.site/adminab/api/callback.php
+[2025-10-13 18:50:18] Incoming Request: id=6, type=accept, remark=hh
+[2025-10-13 18:50:18] Signature Parameters: mId=F7032, mOrderId=, amount=, timestamp=1760361618736, secret=8Kl9U148h2
+[2025-10-13 18:50:18] Signature Input: F703217603616187368Kl9U148h2 | Generated Sign: 73717a84170a836848d8e1c9e276e380
+[2025-10-13 18:50:18] API Request to https://api.silkpay.in/transaction/balance: {"mId":"F7032","timestamp":"1760361618736","sign":"73717a84170a836848d8e1c9e276e380"}
+[2025-10-13 18:50:18] API Response: HTTP 200 | Body: {"status":"200","message":"success","data":{"totalAmount":0.00,"availableAmount":0.00,"pendingAmount":0.00}}
+[2025-10-13 18:50:18] Insufficient balance: Available=0, Requested=200
+[2025-10-13 21:59:24] Environment: merchantId=F7032, payoutApiUrl=https://api.silkpay.in/transaction/payout, notifyUrl=https://yaarwin21.site/adminab/api/callback.php
+[2025-10-13 21:59:24] Incoming Request: id=6, type=accept, remark=kkkkk
+[2025-10-13 21:59:24] Signature Parameters: mId=F7032, mOrderId=, amount=, timestamp=1760372964608, secret=8Kl9U148h2
+[2025-10-13 21:59:24] Signature Input: F703217603729646088Kl9U148h2 | Generated Sign: d774257397af2955dd60ec135816c04d
+[2025-10-13 21:59:24] API Request to https://api.silkpay.in/transaction/balance: {"mId":"F7032","timestamp":"1760372964608","sign":"d774257397af2955dd60ec135816c04d"}
+[2025-10-13 21:59:24] API Response: HTTP 200 | Body: {"status":"200","message":"success","data":{"totalAmount":0.00,"availableAmount":0.00,"pendingAmount":0.00}}
+[2025-10-13 21:59:24] Insufficient balance: Available=0, Requested=200
+[2025-10-13 21:59:53] Environment: merchantId=F7032, payoutApiUrl=https://api.silkpay.in/transaction/payout, notifyUrl=https://yaarwin21.site/adminab/api/callback.php
+[2025-10-13 21:59:53] Incoming Request: id=6, type=accept, remark=jj
+[2025-10-13 21:59:53] Signature Parameters: mId=F7032, mOrderId=, amount=, timestamp=1760372993432, secret=8Kl9U148h2
+[2025-10-13 21:59:53] Signature Input: F703217603729934328Kl9U148h2 | Generated Sign: 78a6e1bda28a12f71c6edfa5151af703
+[2025-10-13 21:59:53] API Request to https://api.silkpay.in/transaction/balance: {"mId":"F7032","timestamp":"1760372993432","sign":"78a6e1bda28a12f71c6edfa5151af703"}
+[2025-10-13 21:59:53] API Response: HTTP 200 | Body: {"status":"200","message":"success","data":{"totalAmount":0.00,"availableAmount":0.00,"pendingAmount":0.00}}
+[2025-10-13 21:59:53] Insufficient balance: Available=0, Requested=200
+[2025-10-15 18:44:25] Environment: merchantId=F7032, payoutApiUrl=https://api.silkpay.in/transaction/payout, notifyUrl=https://yaarwin21.site/adminab/api/callback.php
+[2025-10-15 18:44:25] Incoming Request: id=7, type=accept, remark=ggg
+[2025-10-15 18:44:25] Signature Parameters: mId=F7032, mOrderId=, amount=, timestamp=1760534065340, secret=8Kl9U148h2
+[2025-10-15 18:44:25] Signature Input: F703217605340653408Kl9U148h2 | Generated Sign: ed038acaa27a58d384dc992ca611a900
+[2025-10-15 18:44:25] API Request to https://api.silkpay.in/transaction/balance: {"mId":"F7032","timestamp":"1760534065340","sign":"ed038acaa27a58d384dc992ca611a900"}
+[2025-10-15 18:44:25] API Response: HTTP 200 | Body: {"status":"200","message":"success","data":{"totalAmount":0.00,"availableAmount":0.00,"pendingAmount":0.00}}
+[2025-10-15 18:44:25] Insufficient balance: Available=0, Requested=200
+[2025-10-15 18:54:07] Environment: merchantId=F7032, payoutApiUrl=https://api.silkpay.in/transaction/payout, notifyUrl=https://yaarwin21.site/adminab/api/callback.php
+[2025-10-15 18:54:07] Incoming Request: id=7, type=accept, remark=hfhf
+[2025-10-15 18:54:07] Signature Parameters: mId=F7032, mOrderId=, amount=, timestamp=1760534647299, secret=8Kl9U148h2
+[2025-10-15 18:54:07] Signature Input: F703217605346472998Kl9U148h2 | Generated Sign: 8ee8bbdb92155e02ce0a8728b5d1821c
+[2025-10-15 18:54:07] API Request to https://api.silkpay.in/transaction/balance: {"mId":"F7032","timestamp":"1760534647299","sign":"8ee8bbdb92155e02ce0a8728b5d1821c"}
+[2025-10-15 18:54:07] API Response: HTTP 200 | Body: {"status":"200","message":"success","data":{"totalAmount":0.00,"availableAmount":0.00,"pendingAmount":0.00}}
+[2025-10-15 18:54:07] Insufficient balance: Available=0, Requested=200
+[2025-10-15 18:54:07] Environment: merchantId=F7032, payoutApiUrl=https://api.silkpay.in/transaction/payout, notifyUrl=https://yaarwin21.site/adminab/api/callback.php
+[2025-10-15 18:54:07] Incoming Request: id=7, type=accept, remark=hfhf
+[2025-10-15 18:54:07] Signature Parameters: mId=F7032, mOrderId=, amount=, timestamp=1760534647339, secret=8Kl9U148h2
+[2025-10-15 18:54:07] Signature Input: F703217605346473398Kl9U148h2 | Generated Sign: ef57350c34a0c975ddb300c7487beaa7
+[2025-10-15 18:54:07] API Request to https://api.silkpay.in/transaction/balance: {"mId":"F7032","timestamp":"1760534647339","sign":"ef57350c34a0c975ddb300c7487beaa7"}
+[2025-10-15 18:54:07] API Response: HTTP 200 | Body: {"status":"200","message":"success","data":{"totalAmount":0.00,"availableAmount":0.00,"pendingAmount":0.00}}
+[2025-10-15 18:54:07] Insufficient balance: Available=0, Requested=200
+[2025-10-15 18:54:18] Environment: merchantId=F7032, payoutApiUrl=https://api.silkpay.in/transaction/payout, notifyUrl=https://yaarwin21.site/adminab/api/callback.php
+[2025-10-15 18:54:18] Incoming Request: id=7, type=accept, remark=fh
+[2025-10-15 18:54:18] Signature Parameters: mId=F7032, mOrderId=, amount=, timestamp=1760534658469, secret=8Kl9U148h2
+[2025-10-15 18:54:18] Signature Input: F703217605346584698Kl9U148h2 | Generated Sign: 96cc30bfa98dcf7952fb51bfc405edb4
+[2025-10-15 18:54:18] API Request to https://api.silkpay.in/transaction/balance: {"mId":"F7032","timestamp":"1760534658469","sign":"96cc30bfa98dcf7952fb51bfc405edb4"}
+[2025-10-15 18:54:18] API Response: HTTP 200 | Body: {"status":"200","message":"success","data":{"totalAmount":0.00,"availableAmount":0.00,"pendingAmount":0.00}}
+[2025-10-15 18:54:18] Insufficient balance: Available=0, Requested=200
+[2025-10-15 18:59:05] Environment: merchantId=F7032, payoutApiUrl=https://api.silkpay.in/transaction/payout, notifyUrl=https://yaarwin21.site/adminab/api/callback.php
+[2025-10-15 18:59:05] Incoming Request: id=7, type=accept, remark=ghggd
+[2025-10-15 18:59:05] Signature Parameters: mId=F7032, mOrderId=, amount=, timestamp=1760534945060, secret=8Kl9U148h2
+[2025-10-15 18:59:05] Signature Input: F703217605349450608Kl9U148h2 | Generated Sign: dc095eb65f1044d6caddd16983644ff4
+[2025-10-15 18:59:05] API Request to https://api.silkpay.in/transaction/balance: {"mId":"F7032","timestamp":"1760534945060","sign":"dc095eb65f1044d6caddd16983644ff4"}
+[2025-10-15 18:59:05] API Response: HTTP 200 | Body: {"status":"200","message":"success","data":{"totalAmount":0.00,"availableAmount":0.00,"pendingAmount":0.00}}
+[2025-10-15 18:59:05] Insufficient balance: Available=0, Requested=200
+[2025-10-15 19:03:02] Environment: merchantId=F7032, payoutApiUrl=https://api.silkpay.in/transaction/payout, notifyUrl=https://yaarwin21.site/adminab/api/callback.php
+[2025-10-15 19:03:02] Incoming Request: id=7, type=reject, remark=dd
+[2025-10-15 19:03:13] Environment: merchantId=F7032, payoutApiUrl=https://api.silkpay.in/transaction/payout, notifyUrl=https://yaarwin21.site/adminab/api/callback.php
+[2025-10-15 19:03:13] Incoming Request: id=7, type=accept, remark=gjgj
+[2025-10-15 19:03:13] Signature Parameters: mId=F7032, mOrderId=, amount=, timestamp=1760535193540, secret=8Kl9U148h2
+[2025-10-15 19:03:13] Signature Input: F703217605351935408Kl9U148h2 | Generated Sign: 959e61680592d2941719076408cbfe5c
+[2025-10-15 19:03:13] API Request to https://api.silkpay.in/transaction/balance: {"mId":"F7032","timestamp":"1760535193540","sign":"959e61680592d2941719076408cbfe5c"}
+[2025-10-15 19:03:13] API Response: HTTP 200 | Body: {"status":"200","message":"success","data":{"totalAmount":0.00,"availableAmount":0.00,"pendingAmount":0.00}}
+[2025-10-15 19:03:13] Insufficient balance: Available=0, Requested=200
+[2025-10-15 19:07:30] Environment: merchantId=F7032, payoutApiUrl=https://api.silkpay.in/transaction/payout, notifyUrl=https://yaarwin21.site/adminab/api/callback.php
+[2025-10-15 19:07:30] Incoming Request: id=7, type=accept, remark=fsf
+[2025-10-15 19:07:30] Signature Parameters: mId=F7032, mOrderId=, amount=, timestamp=1760535450422, secret=8Kl9U148h2
+[2025-10-15 19:07:30] Signature Input: F703217605354504228Kl9U148h2 | Generated Sign: 1dea68a39a9152c80ba2e3773546d222
+[2025-10-15 19:07:30] API Request to https://api.silkpay.in/transaction/balance: {"mId":"F7032","timestamp":"1760535450422","sign":"1dea68a39a9152c80ba2e3773546d222"}
+[2025-10-15 19:07:30] API Response: HTTP 200 | Body: {"status":"200","message":"success","data":{"totalAmount":0.00,"availableAmount":0.00,"pendingAmount":0.00}}
+[2025-10-15 19:07:30] Insufficient balance: Available=0, Requested=200
+[2025-10-15 19:07:36] Environment: merchantId=F7032, payoutApiUrl=https://api.silkpay.in/transaction/payout, notifyUrl=https://yaarwin21.site/adminab/api/callback.php
+[2025-10-15 19:07:36] Incoming Request: id=7, type=accept, remark=fsfd
+[2025-10-15 19:07:36] Signature Parameters: mId=F7032, mOrderId=, amount=, timestamp=1760535456702, secret=8Kl9U148h2
+[2025-10-15 19:07:36] Signature Input: F703217605354567028Kl9U148h2 | Generated Sign: 8f37103882e0b524939d5a28624be6b7
+[2025-10-15 19:07:36] API Request to https://api.silkpay.in/transaction/balance: {"mId":"F7032","timestamp":"1760535456702","sign":"8f37103882e0b524939d5a28624be6b7"}
+[2025-10-15 19:07:36] API Response: HTTP 200 | Body: {"status":"200","message":"success","data":{"totalAmount":0.00,"availableAmount":0.00,"pendingAmount":0.00}}
+[2025-10-15 19:07:36] Insufficient balance: Available=0, Requested=200
+[2025-10-15 19:15:24] Environment: merchantId=F7032, payoutApiUrl=https://api.silkpay.in/transaction/payout, notifyUrl=https://yaarwin21.site/adminab/api/callback.php
+[2025-10-15 19:15:24] Incoming Request: id=9, type=accept, remark=ff
+[2025-10-15 19:15:24] Signature Parameters: mId=F7032, mOrderId=, amount=, timestamp=1760535924144, secret=8Kl9U148h2
+[2025-10-15 19:15:24] Signature Input: F703217605359241448Kl9U148h2 | Generated Sign: 7915db94696eae8ff3bb9678f0c076cc
+[2025-10-15 19:15:24] API Request to https://api.silkpay.in/transaction/balance: {"mId":"F7032","timestamp":"1760535924144","sign":"7915db94696eae8ff3bb9678f0c076cc"}
+[2025-10-15 19:15:24] API Response: HTTP 200 | Body: {"status":"200","message":"success","data":{"totalAmount":0.00,"availableAmount":0.00,"pendingAmount":0.00}}
+[2025-10-15 19:15:24] Insufficient balance: Available=0, Requested=110
+[2025-12-06 12:25:40] Callback Received: No input
+[2025-12-06 12:25:41] Invalid callback data: Empty input

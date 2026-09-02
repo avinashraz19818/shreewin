@@ -1,0 +1,15 @@
+Options -Indexes -MultiViews
+RewriteEngine On
+
+RewriteRule ^(WinGo|TrxWinGo|K3|D5|MotoRace)/([A-Za-z0-9_-]+)/GetHistoryIssuePage\.json$ index.php?lottery=$1&gameCode=$2&history=1 [QSA,L]
+RewriteRule ^(WinGo|TrxWinGo|K3|D5|MotoRace)/([A-Za-z0-9_-]+)\.json$ index.php?lottery=$1&gameCode=$2 [QSA,L]
+
+<IfModule mod_headers.c>
+  Header set Cache-Control "no-cache, no-store, must-revalidate, max-age=0"
+  Header set Pragma "no-cache"
+  Header set Expires "0"
+</IfModule>
+
+<FilesMatch "\.(sql|ini|log|bak|env)$">
+  Require all denied
+</FilesMatch>

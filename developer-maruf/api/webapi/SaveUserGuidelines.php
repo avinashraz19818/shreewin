@@ -1,0 +1,2 @@
+<?php
+require_once __DIR__.'/_common.php';api_require_post();$body=api_input();api_require_signature($body);$user=api_user();$uid=(int)$user['id'];$stmt=$conn->prepare('INSERT INTO app_user_preferences(user_id,guidelines_finished,updated_at) VALUES (?,1,NOW()) ON DUPLICATE KEY UPDATE guidelines_finished=1,updated_at=NOW()');$stmt->bind_param('i',$uid);$stmt->execute();$stmt->close();api_send(null);

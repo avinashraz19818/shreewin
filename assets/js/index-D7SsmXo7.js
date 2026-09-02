@@ -1,0 +1,1 @@
+import{_ as e,F as n,H as i}from"./index-_oBi1P6F.js";const s={};function a(c,r){return n(),i("div")}const o=e(s,[["render",a],["__file","/home/jenkins/agent/workspace/AR101-Pages-india-shreewin/src/views/main/PointDetail/index.vue"]]);export{o as default};

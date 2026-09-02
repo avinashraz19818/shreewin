@@ -1,0 +1,9 @@
+[13-Aug-2026 21:34:27 Asia/Kolkata] [follow_schema] Duplicate column name 'plan_id'
+[14-Aug-2026 10:58:01 Asia/Kolkata] [saas-lottery] admin override injected for exact period: game=TrxWinGo_1M issue=20260814103010328 premium=8
+[15-Aug-2026 10:56:32 Asia/Kolkata] [saas-lottery] admin override injected for exact period: game=WinGo_30S issue=20260815100050653 premium=5
+[15-Aug-2026 10:57:31 Asia/Kolkata] [saas-lottery] admin override injected for exact period: game=WinGo_30S issue=20260815100050655 premium=1
+[15-Aug-2026 10:58:04 Asia/Kolkata] [saas-lottery] admin override injected for exact period: game=WinGo_30S issue=20260815100050656 premium=0
+[16-Aug-2026 16:15:31 Asia/Kolkata] [saas-lottery] admin override injected for exact period: game=WinGo_30S issue=20260816100051291 premium=5
+[17-Aug-2026 06:55:30 Asia/Kolkata] [saas-lottery] admin override injected for exact period: game=WinGo_30S issue=20260817100050171 premium=0
+[18-Aug-2026 13:30:44 Asia/Kolkata] [saas-lottery] admin override injected for exact period: game=WinGo_30S issue=20260818100050961 premium=9
+[18-Aug-2026 17:48:59 Asia/Kolkata] [saas-lottery] admin override injected for exact period: game=WinGo_30S issue=20260818100051477 premium=6

@@ -1,0 +1,67 @@
+[30-Apr-2026 22:07:57 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/yaarwin21.site/adminab/api/get-transactions.php on line 1074
+[30-Apr-2026 22:08:10 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/yaarwin21.site/adminab/api/get-transactions.php on line 1074
+[01-May-2026 00:38:37 PRC] PHP Notice:  Undefined index: unohs in /www/wwwroot/yaarwin21.site/adminab/user-details.php on line 8
+[01-May-2026 00:39:50 PRC] PHP Notice:  Undefined index: unohs in /www/wwwroot/yaarwin21.site/adminab/user-details.php on line 8
+[01-May-2026 00:39:51 PRC] PHP Notice:  Undefined index: unohs in /www/wwwroot/yaarwin21.site/adminab/user-details.php on line 8
+[30-Apr-2026 22:10:42 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/yaarwin21.site/adminab/api/get-transactions.php on line 1074
+[30-Apr-2026 22:11:53 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/yaarwin21.site/adminab/api/get-transactions.php on line 1074
+[01-May-2026 12:38:51 PRC] PHP Notice:  Undefined index: unohs in /www/wwwroot/yaarwin21.site/adminab/user-details.php on line 8
+[01-May-2026 18:30:37 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/yaarwin21.site/adminab/api/get-transactions.php on line 1074
+[01-May-2026 18:31:15 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/yaarwin21.site/adminab/api/get-transactions.php on line 1074
+[01-May-2026 18:31:54 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/yaarwin21.site/adminab/api/get-transactions.php on line 1074
+[01-May-2026 20:49:24 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/itzrakibadmin.xyz/club532583_shreewinking/adminab/api/get-transactions.php on line 1074
+[01-May-2026 21:22:55 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/itzrakibadmin.xyz/club532583_shreewinking/adminab/api/get-transactions.php on line 1074
+[01-May-2026 21:25:08 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/itzrakibadmin.xyz/club532583_shreewinking/adminab/api/get-transactions.php on line 1074
+[01-May-2026 21:31:52 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/itzrakibadmin.xyz/club532583_shreewinking/adminab/api/get-transactions.php on line 1074
+[01-May-2026 21:32:42 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/itzrakibadmin.xyz/club532583_shreewinking/adminab/api/get-transactions.php on line 1074
+[02-May-2026 01:28:12 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/itzrakibadmin.xyz/club532583_shreewinking/adminab/api/get-transactions.php on line 1074
+[03-May-2026 19:01:11 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/itzrakibadmin.xyz/club532583_shreewinking/adminab/api/get-transactions.php on line 1074
+[03-May-2026 21:21:02 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/itzrakibadmin.xyz/club532583_shreewinking/adminab/api/get-transactions.php on line 1074
+[03-May-2026 21:21:37 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/itzrakibadmin.xyz/club532583_shreewinking/adminab/api/get-transactions.php on line 1074
+[03-May-2026 21:31:32 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/itzrakibadmin.xyz/club532583_shreewinking/adminab/api/get-transactions.php on line 1074
+[03-May-2026 21:35:48 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/itzrakibadmin.xyz/club532583_shreewinking/adminab/api/get-transactions.php on line 1074
+[03-May-2026 22:16:30 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/itzrakibadmin.xyz/club532583_shreewinking/adminab/api/get-transactions.php on line 1074
+[03-May-2026 22:17:00 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/itzrakibadmin.xyz/club532583_shreewinking/adminab/api/get-transactions.php on line 1074
+[03-May-2026 22:18:30 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/itzrakibadmin.xyz/club532583_shreewinking/adminab/api/get-transactions.php on line 1074
+[03-May-2026 22:22:36 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/itzrakibadmin.xyz/club532583_shreewinking/adminab/api/get-transactions.php on line 1074
+[03-May-2026 22:22:38 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/itzrakibadmin.xyz/club532583_shreewinking/adminab/api/get-transactions.php on line 1074
+[03-May-2026 22:24:00 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/itzrakibadmin.xyz/club532583_shreewinking/adminab/api/get-transactions.php on line 1074
+[03-May-2026 22:24:29 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/itzrakibadmin.xyz/club532583_shreewinking/adminab/api/get-transactions.php on line 1074
+[03-May-2026 22:24:50 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/itzrakibadmin.xyz/club532583_shreewinking/adminab/api/get-transactions.php on line 1074
+[03-May-2026 22:25:14 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/itzrakibadmin.xyz/club532583_shreewinking/adminab/api/get-transactions.php on line 1074
+[03-May-2026 22:25:45 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/itzrakibadmin.xyz/club532583_shreewinking/adminab/api/get-transactions.php on line 1074
+[03-May-2026 22:26:13 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/itzrakibadmin.xyz/club532583_shreewinking/adminab/api/get-transactions.php on line 1074
+[03-May-2026 22:26:36 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/itzrakibadmin.xyz/club532583_shreewinking/adminab/api/get-transactions.php on line 1074
+[03-May-2026 22:26:48 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/itzrakibadmin.xyz/club532583_shreewinking/adminab/api/get-transactions.php on line 1074
+[03-May-2026 22:27:01 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/itzrakibadmin.xyz/club532583_shreewinking/adminab/api/get-transactions.php on line 1074
+[03-May-2026 22:27:14 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/itzrakibadmin.xyz/club532583_shreewinking/adminab/api/get-transactions.php on line 1074
+[03-May-2026 23:03:06 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/itzrakibadmin.xyz/club532583_shreewinking/adminab/api/get-transactions.php on line 1074
+[03-May-2026 23:05:54 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/itzrakibadmin.xyz/club532583_shreewinking/adminab/api/get-transactions.php on line 1074
+[03-May-2026 23:43:02 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/itzrakibadmin.xyz/club532583_shreewinking/adminab/api/get-transactions.php on line 1074
+[03-May-2026 23:43:09 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/itzrakibadmin.xyz/club532583_shreewinking/adminab/api/get-transactions.php on line 1074
+[03-May-2026 23:43:19 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/itzrakibadmin.xyz/club532583_shreewinking/adminab/api/get-transactions.php on line 1074
+[05-May-2026 01:39:39 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/itzrakibadmin.xyz/club532583_shreewinking/adminab/api/get-transactions.php on line 1074
+[13-May-2026 14:30:15 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/tigroclub0.com/adminab/api/get-transactions.php on line 1074
+[13-May-2026 14:30:49 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/tigroclub0.com/adminab/api/get-transactions.php on line 1074
+[13-May-2026 17:01:01 PRC] PHP Notice:  Undefined index: unohs in /www/wwwroot/tigroclub0.com/adminab/user-details.php on line 8
+[13-May-2026 17:01:02 PRC] PHP Notice:  Undefined index: unohs in /www/wwwroot/tigroclub0.com/adminab/user-details.php on line 8
+[13-May-2026 17:01:13 PRC] PHP Notice:  Undefined index: unohs in /www/wwwroot/tigroclub0.com/adminab/user-details.php on line 8
+[13-May-2026 17:01:16 PRC] PHP Notice:  Undefined index: unohs in /www/wwwroot/tigroclub0.com/adminab/user-details.php on line 8
+[13-May-2026 14:31:19 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/tigroclub0.com/adminab/api/get-transactions.php on line 1074
+[13-May-2026 14:31:24 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/tigroclub0.com/adminab/api/get-transactions.php on line 1074
+[13-May-2026 14:31:27 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/tigroclub0.com/adminab/api/get-transactions.php on line 1074
+[13-May-2026 14:31:28 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/tigroclub0.com/adminab/api/get-transactions.php on line 1074
+[13-May-2026 14:32:12 Asia/Kolkata] PHP Notice:  Trying to get property 'num_rows' of non-object in /www/wwwroot/tigroclub0.com/adminab/api/get-transactions.php on line 1074
+[13-May-2026 18:31:08 PRC] PHP Notice:  Undefined index: unohs in /www/wwwroot/tigroclub0.com/adminab/user-details.php on line 8
+[17-Aug-2026 12:30:14 Asia/Kolkata] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'price' in 'SELECT' in /home/nons257754/public_html/digitaladmin/api/get-transactions.php:219
+Stack trace:
+#0 /home/nons257754/public_html/digitaladmin/api/get-transactions.php(219): mysqli->query('SELECT parichay...')
+#1 /home/nons257754/public_html/digitaladmin/user-details.php(688): getTransactions(Object(mysqli), 113872, '-1', '', 1)
+#2 {main}
+  thrown in /home/nons257754/public_html/digitaladmin/api/get-transactions.php on line 219
+[17-Aug-2026 12:33:08 Asia/Kolkata] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'price' in 'SELECT' in /home/nons257754/public_html/digitaladmin/api/get-transactions.php:219
+Stack trace:
+#0 /home/nons257754/public_html/digitaladmin/api/get-transactions.php(219): mysqli->query('SELECT parichay...')
+#1 /home/nons257754/public_html/digitaladmin/user-details.php(688): getTransactions(Object(mysqli), 113872, '-1', '', 1)
+#2 {main}
+  thrown in /home/nons257754/public_html/digitaladmin/api/get-transactions.php on line 219

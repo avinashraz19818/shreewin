@@ -1,0 +1,788 @@
+[13-Aug-2026 21:25:15 Asia/Kolkata] PHP Warning:  Undefined array key "username" in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[13-Aug-2026 21:25:15 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[13-Aug-2026 21:25:15 Asia/Kolkata] PHP Warning:  Undefined array key "password" in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[13-Aug-2026 21:25:15 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[13-Aug-2026 21:28:42 Asia/Kolkata] PHP Warning:  Undefined array key "username" in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[13-Aug-2026 21:28:42 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[13-Aug-2026 21:28:42 Asia/Kolkata] PHP Warning:  Undefined array key "password" in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[13-Aug-2026 21:28:42 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[13-Aug-2026 21:43:43 Asia/Kolkata] PHP Warning:  Undefined array key "username" in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[13-Aug-2026 21:43:43 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[13-Aug-2026 21:43:43 Asia/Kolkata] PHP Warning:  Undefined array key "password" in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[13-Aug-2026 21:43:43 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[13-Aug-2026 21:44:27 Asia/Kolkata] PHP Warning:  Undefined array key "username" in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[13-Aug-2026 21:44:27 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[13-Aug-2026 21:44:27 Asia/Kolkata] PHP Warning:  Undefined array key "password" in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[13-Aug-2026 21:44:27 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[13-Aug-2026 22:12:53 Asia/Kolkata] PHP Warning:  Undefined array key "username" in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[13-Aug-2026 22:12:53 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[13-Aug-2026 22:12:53 Asia/Kolkata] PHP Warning:  Undefined array key "password" in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[13-Aug-2026 22:12:53 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[13-Aug-2026 22:13:08 Asia/Kolkata] PHP Warning:  Undefined array key "username" in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[13-Aug-2026 22:13:08 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[13-Aug-2026 22:13:08 Asia/Kolkata] PHP Warning:  Undefined array key "password" in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[13-Aug-2026 22:13:08 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[13-Aug-2026 22:13:30 Asia/Kolkata] PHP Warning:  Undefined array key "username" in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[13-Aug-2026 22:13:30 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[13-Aug-2026 22:13:30 Asia/Kolkata] PHP Warning:  Undefined array key "password" in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[13-Aug-2026 22:13:30 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[13-Aug-2026 22:37:43 Asia/Kolkata] PHP Warning:  Undefined array key "username" in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[13-Aug-2026 22:37:43 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[13-Aug-2026 22:37:43 Asia/Kolkata] PHP Warning:  Undefined array key "password" in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[13-Aug-2026 22:37:43 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[14-Aug-2026 00:56:53 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 00:56:53 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 00:56:57 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 00:56:57 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 00:56:59 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 00:57:00 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 00:57:01 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 00:57:01 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 00:57:03 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:28:05 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:28:05 Asia/Kolkata] PHP Warning:  Undefined array key "username" in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[14-Aug-2026 01:28:05 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[14-Aug-2026 01:28:05 Asia/Kolkata] PHP Warning:  Undefined array key "password" in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[14-Aug-2026 01:28:05 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[14-Aug-2026 01:44:21 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:44:21 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:44:22 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:44:23 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:44:23 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:44:25 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:44:25 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:44:27 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:44:27 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:44:28 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:44:29 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:44:29 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:44:30 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:44:31 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:44:31 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:44:33 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:44:33 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:44:33 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:44:35 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:44:35 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:44:37 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:44:37 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:44:38 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:44:39 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:44:39 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:44:41 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:44:41 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:44:43 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:44:43 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:44:43 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:44:45 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:44:45 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:44:47 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:44:47 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:44:48 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:44:49 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:44:49 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:44:51 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:44:51 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:44:53 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:44:53 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:44:53 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:44:55 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 01:44:55 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:07:31 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:07:31 Asia/Kolkata] PHP Warning:  Undefined array key "username" in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[14-Aug-2026 10:07:31 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[14-Aug-2026 10:07:31 Asia/Kolkata] PHP Warning:  Undefined array key "password" in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[14-Aug-2026 10:07:31 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[14-Aug-2026 10:08:29 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:08:29 Asia/Kolkata] PHP Warning:  Undefined array key "username" in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[14-Aug-2026 10:08:29 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[14-Aug-2026 10:08:29 Asia/Kolkata] PHP Warning:  Undefined array key "password" in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[14-Aug-2026 10:08:29 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[14-Aug-2026 10:09:15 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:09:15 Asia/Kolkata] PHP Warning:  Undefined array key "username" in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[14-Aug-2026 10:09:15 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[14-Aug-2026 10:09:15 Asia/Kolkata] PHP Warning:  Undefined array key "password" in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[14-Aug-2026 10:09:15 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[14-Aug-2026 10:09:41 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:10:17 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:10:18 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:10:19 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:10:21 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:10:22 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:10:23 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:17:51 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:17:52 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:17:53 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:17:55 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:17:56 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:17:57 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:17:59 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:01 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:01 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:01 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:03 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:05 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:06 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:07 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:09 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:11 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:11 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:13 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:16 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:16 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:17 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:20 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:21 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:21 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:24 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:25 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:26 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:27 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:29 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:31 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:31 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:33 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:35 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:36 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:37 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:38 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:40 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:41 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:42 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:44 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:46 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:46 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:48 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:49 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:50 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:51 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:53 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:54 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:55 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:57 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:59 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:18:59 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:00 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:01 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:03 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:04 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:05 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:07 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:09 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:09 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:10 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:10 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:12 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:14 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:15 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:16 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:18 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:20 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:20 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:22 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:24 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:25 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:26 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:28 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:29 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:30 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:30 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:32 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:34 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:35 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:36 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:38 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:40 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:40 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:42 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:44 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:45 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:46 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:48 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:50 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:50 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:52 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:54 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:55 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:56 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:19:58 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:20:00 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:20:00 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:20:00 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:20:02 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:20:04 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:20:05 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:20:06 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:20:08 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:20:31 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:20:32 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:20:33 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:20:35 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:20:36 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:20:37 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:20:39 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:20:41 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:20:41 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:20:43 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:20:45 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:20:46 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:20:47 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:20:49 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:20:51 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:20:51 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:20:53 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:20:55 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:20:57 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:20:57 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:20:59 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:21:00 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:21:01 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:21:01 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:21:04 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:21:06 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:21:07 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:21:07 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:21:09 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:21:12 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:21:12 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:21:13 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:21:15 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:21:16 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:21:17 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:21:19 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:25:01 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:25:02 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:25:02 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:25:03 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:25:04 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:25:05 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:25:05 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:25:07 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:25:07 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:25:08 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:25:09 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:25:09 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:27:33 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:27:34 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:27:35 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:27:35 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:27:35 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:27:36 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:27:36 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:27:38 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:27:38 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:27:41 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:27:41 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:27:41 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:27:42 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:27:42 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:27:44 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:27:44 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:27:46 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:27:46 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:27:46 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:27:48 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:27:48 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:27:50 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:27:50 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:27:51 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:27:52 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:27:52 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:27:54 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:27:54 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:27:56 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:27:56 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:27:56 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:27:58 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:27:58 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:01 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:01 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:01 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:02 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:02 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:02 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:04 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:04 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:07 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:07 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:07 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:08 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:08 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:08 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:09 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:10 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:12 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:12 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:14 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:14 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:15 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:16 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:16 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:18 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:18 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:20 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:20 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:20 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:22 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:22 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:24 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:24 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:25 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:26 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:26 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:28 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:28 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:30 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:30 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:30 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:31 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:32 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:32 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:34 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:34 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:35 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:36 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:36 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:37 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:37 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:39 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:39 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:39 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:41 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:41 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:43 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:43 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:44 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:45 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:45 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:47 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:47 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:49 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:49 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:49 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:51 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:28:51 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:29:56 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:29:56 Asia/Kolkata] PHP Warning:  Undefined array key "username" in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[14-Aug-2026 10:29:56 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[14-Aug-2026 10:29:56 Asia/Kolkata] PHP Warning:  Undefined array key "password" in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[14-Aug-2026 10:29:56 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[14-Aug-2026 10:29:59 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:07 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:08 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:09 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:09 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:11 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:11 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:12 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:12 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:13 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:13 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:14 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:15 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:16 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:16 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:17 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:18 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:18 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:18 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:19 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:21 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:21 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:22 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:22 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:22 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:23 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:24 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:24 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:25 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:25 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:26 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:26 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:28 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:28 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:30 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:30 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:31 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:31 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:32 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:32 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:34 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:34 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:36 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:36 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:36 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:38 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:38 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:40 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:40 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:41 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:42 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:42 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:44 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:44 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:46 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:46 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:46 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:48 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:48 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:50 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:50 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:51 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:52 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:52 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:54 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:56 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:57 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:58 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:58 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:30:59 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:31:00 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:31:01 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:31:02 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:31:04 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:31:05 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:31:06 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:31:08 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:31:10 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:31:10 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:31:10 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:31:11 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:31:12 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:31:12 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:31:14 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:31:14 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:31:15 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:31:15 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:31:16 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:31:16 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:31:18 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:31:18 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:31:20 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:31:20 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:31:20 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:31:20 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:31:22 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:31:24 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:43:47 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:43:48 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:43:49 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:43:52 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:43:58 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:43:58 Asia/Kolkata] PHP Warning:  Undefined array key "username" in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[14-Aug-2026 10:43:58 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[14-Aug-2026 10:43:58 Asia/Kolkata] PHP Warning:  Undefined array key "password" in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[14-Aug-2026 10:43:58 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[14-Aug-2026 10:57:36 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:57:37 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:57:38 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:57:39 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:57:40 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:57:41 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:57:42 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:57:43 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:57:44 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:57:46 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:57:47 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:57:47 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:57:48 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:57:50 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:57:51 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:57:53 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:57:54 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:57:55 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:57:57 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:57:59 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:57:59 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:58:01 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:58:01 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:58:03 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:58:04 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:58:05 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:58:07 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:58:09 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:58:09 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:58:10 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:58:12 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:58:13 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 10:58:14 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 11:01:01 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 11:01:01 Asia/Kolkata] PHP Warning:  Undefined array key "username" in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[14-Aug-2026 11:01:01 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[14-Aug-2026 11:01:01 Asia/Kolkata] PHP Warning:  Undefined array key "password" in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[14-Aug-2026 11:01:01 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[14-Aug-2026 11:01:07 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 11:01:07 Asia/Kolkata] PHP Warning:  Undefined array key "username" in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[14-Aug-2026 11:01:07 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[14-Aug-2026 11:01:07 Asia/Kolkata] PHP Warning:  Undefined array key "password" in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[14-Aug-2026 11:01:07 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[14-Aug-2026 11:01:16 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 13:22:24 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 13:22:24 Asia/Kolkata] PHP Warning:  Undefined array key "username" in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[14-Aug-2026 13:22:24 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[14-Aug-2026 13:22:24 Asia/Kolkata] PHP Warning:  Undefined array key "password" in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[14-Aug-2026 13:22:24 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[14-Aug-2026 13:22:27 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 13:23:17 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 13:23:17 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 13:23:19 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 13:23:21 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 13:23:22 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 13:23:23 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 13:23:25 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 13:23:27 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 13:23:27 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 13:23:29 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 13:23:31 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 13:23:32 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 13:23:33 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 13:23:35 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 13:23:37 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 13:23:37 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 13:23:39 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 13:23:41 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 13:23:42 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 13:23:43 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 13:23:45 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 13:23:47 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 13:23:47 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 13:23:50 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 13:23:51 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 13:23:52 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 13:23:53 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 13:23:55 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 13:23:57 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 13:23:57 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 13:23:59 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 13:24:01 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 13:24:01 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:19:06 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:19:06 Asia/Kolkata] PHP Warning:  Undefined array key "username" in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[14-Aug-2026 14:19:06 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[14-Aug-2026 14:19:06 Asia/Kolkata] PHP Warning:  Undefined array key "password" in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[14-Aug-2026 14:19:06 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[14-Aug-2026 14:19:41 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:19:43 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:19:51 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:19:54 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:19:56 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:29:22 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:29:22 Asia/Kolkata] PHP Warning:  Undefined array key "username" in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[14-Aug-2026 14:29:22 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[14-Aug-2026 14:29:22 Asia/Kolkata] PHP Warning:  Undefined array key "password" in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[14-Aug-2026 14:29:22 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[14-Aug-2026 14:29:57 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:30:12 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:37:43 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:37:43 Asia/Kolkata] PHP Warning:  Undefined array key "username" in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[14-Aug-2026 14:37:43 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[14-Aug-2026 14:37:43 Asia/Kolkata] PHP Warning:  Undefined array key "password" in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[14-Aug-2026 14:37:43 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[14-Aug-2026 14:38:08 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:38:09 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:38:38 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:38:39 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:39:18 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:39:18 Asia/Kolkata] PHP Warning:  Undefined array key "username" in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[14-Aug-2026 14:39:18 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[14-Aug-2026 14:39:18 Asia/Kolkata] PHP Warning:  Undefined array key "password" in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[14-Aug-2026 14:39:18 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[14-Aug-2026 14:39:45 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:39:53 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:39:53 Asia/Kolkata] PHP Warning:  Undefined array key "username" in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[14-Aug-2026 14:39:53 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[14-Aug-2026 14:39:53 Asia/Kolkata] PHP Warning:  Undefined array key "password" in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[14-Aug-2026 14:39:53 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[14-Aug-2026 14:41:27 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:41:28 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:41:29 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:41:29 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:41:31 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:41:31 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:41:31 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:41:32 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:41:33 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:41:33 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:41:35 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:41:35 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:41:37 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:41:37 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:41:37 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:41:39 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:41:39 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:41:41 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:41:41 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:41:42 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:41:43 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:41:43 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:41:43 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:41:44 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:41:45 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:41:46 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:41:46 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:41:48 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:41:48 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:41:49 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:41:50 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:41:50 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:41:52 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:41:52 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:41:54 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:41:56 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:41:56 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:41:56 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:41:56 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:41:58 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:41:58 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:42:00 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:42:00 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:42:00 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:42:00 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:42:26 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:42:26 Asia/Kolkata] PHP Warning:  Undefined array key "username" in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[14-Aug-2026 14:42:26 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[14-Aug-2026 14:42:26 Asia/Kolkata] PHP Warning:  Undefined array key "password" in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[14-Aug-2026 14:42:26 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[14-Aug-2026 14:43:17 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:43:17 Asia/Kolkata] PHP Warning:  Undefined array key "username" in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[14-Aug-2026 14:43:17 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[14-Aug-2026 14:43:17 Asia/Kolkata] PHP Warning:  Undefined array key "password" in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[14-Aug-2026 14:43:17 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[14-Aug-2026 14:47:58 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:47:58 Asia/Kolkata] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'nons257754_dmn.bonus_settings' doesn't exist in /home/nons257754/public_html/digitaladmin/api/deposit-action.php:101
+Stack trace:
+#0 /home/nons257754/public_html/digitaladmin/api/deposit-action.php(101): mysqli_query(Object(mysqli), 'SELECT is_enabl...')
+#1 {main}
+  thrown in /home/nons257754/public_html/digitaladmin/api/deposit-action.php on line 101
+[14-Aug-2026 14:48:01 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:48:01 Asia/Kolkata] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'nons257754_dmn.bonus_settings' doesn't exist in /home/nons257754/public_html/digitaladmin/api/deposit-action.php:101
+Stack trace:
+#0 /home/nons257754/public_html/digitaladmin/api/deposit-action.php(101): mysqli_query(Object(mysqli), 'SELECT is_enabl...')
+#1 {main}
+  thrown in /home/nons257754/public_html/digitaladmin/api/deposit-action.php on line 101
+[14-Aug-2026 14:48:03 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:48:03 Asia/Kolkata] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'nons257754_dmn.bonus_settings' doesn't exist in /home/nons257754/public_html/digitaladmin/api/deposit-action.php:101
+Stack trace:
+#0 /home/nons257754/public_html/digitaladmin/api/deposit-action.php(101): mysqli_query(Object(mysqli), 'SELECT is_enabl...')
+#1 {main}
+  thrown in /home/nons257754/public_html/digitaladmin/api/deposit-action.php on line 101
+[14-Aug-2026 14:48:03 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:48:03 Asia/Kolkata] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'nons257754_dmn.bonus_settings' doesn't exist in /home/nons257754/public_html/digitaladmin/api/deposit-action.php:101
+Stack trace:
+#0 /home/nons257754/public_html/digitaladmin/api/deposit-action.php(101): mysqli_query(Object(mysqli), 'SELECT is_enabl...')
+#1 {main}
+  thrown in /home/nons257754/public_html/digitaladmin/api/deposit-action.php on line 101
+[14-Aug-2026 14:48:03 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:48:03 Asia/Kolkata] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'nons257754_dmn.bonus_settings' doesn't exist in /home/nons257754/public_html/digitaladmin/api/deposit-action.php:101
+Stack trace:
+#0 /home/nons257754/public_html/digitaladmin/api/deposit-action.php(101): mysqli_query(Object(mysqli), 'SELECT is_enabl...')
+#1 {main}
+  thrown in /home/nons257754/public_html/digitaladmin/api/deposit-action.php on line 101
+[14-Aug-2026 14:48:04 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:48:04 Asia/Kolkata] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'nons257754_dmn.bonus_settings' doesn't exist in /home/nons257754/public_html/digitaladmin/api/deposit-action.php:101
+Stack trace:
+#0 /home/nons257754/public_html/digitaladmin/api/deposit-action.php(101): mysqli_query(Object(mysqli), 'SELECT is_enabl...')
+#1 {main}
+  thrown in /home/nons257754/public_html/digitaladmin/api/deposit-action.php on line 101
+[14-Aug-2026 14:48:05 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:48:05 Asia/Kolkata] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'nons257754_dmn.bonus_settings' doesn't exist in /home/nons257754/public_html/digitaladmin/api/deposit-action.php:101
+Stack trace:
+#0 /home/nons257754/public_html/digitaladmin/api/deposit-action.php(101): mysqli_query(Object(mysqli), 'SELECT is_enabl...')
+#1 {main}
+  thrown in /home/nons257754/public_html/digitaladmin/api/deposit-action.php on line 101
+[14-Aug-2026 14:48:14 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 14:48:14 Asia/Kolkata] PHP Fatal error:  Uncaught mysqli_sql_exception: Table 'nons257754_dmn.bonus_settings' doesn't exist in /home/nons257754/public_html/digitaladmin/api/deposit-action.php:101
+Stack trace:
+#0 /home/nons257754/public_html/digitaladmin/api/deposit-action.php(101): mysqli_query(Object(mysqli), 'SELECT is_enabl...')
+#1 {main}
+  thrown in /home/nons257754/public_html/digitaladmin/api/deposit-action.php on line 101
+[14-Aug-2026 15:03:40 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:03:40 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:03:42 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:03:42 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:03:44 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:03:44 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:03:45 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:03:46 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:03:46 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:03:48 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:03:48 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:03:50 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:03:50 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:03:50 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:03:52 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:03:52 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:03:54 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:03:54 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:03:55 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:03:56 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:03:56 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:03:58 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:03:58 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:04:00 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:04:00 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:04:00 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:04:00 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:04:02 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:04:02 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:04:04 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:04:05 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:04:06 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:04:06 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:04:06 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:04:08 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:04:09 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:04:10 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:04:10 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:04:10 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:04:12 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:04:12 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:04:14 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:04:14 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 15:04:15 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 17:49:48 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 17:49:48 Asia/Kolkata] PHP Warning:  Undefined array key "username" in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[14-Aug-2026 17:49:48 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 5
+[14-Aug-2026 17:49:48 Asia/Kolkata] PHP Warning:  Undefined array key "password" in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[14-Aug-2026 17:49:48 Asia/Kolkata] PHP Deprecated:  mysqli_real_escape_string(): Passing null to parameter #2 ($string) of type string is deprecated in /home/nons257754/public_html/digitaladmin/api/login.php on line 6
+[14-Aug-2026 17:49:59 Asia/Kolkata] [admin schema seed] Unknown column 'updated_at' in 'INSERT INTO'
+[14-Aug-2026 20:28:50 Asia/Kolkata] [deposit-action] Wallet row not found
+[14-Aug-2026 20:30:01 Asia/Kolkata] [deposit-action] Wallet row not found
+[14-Aug-2026 20:30:13 Asia/Kolkata] [deposit-action] Wallet row not found
+[14-Aug-2026 20:30:21 Asia/Kolkata] [deposit-action] Wallet row not found
+[15-Aug-2026 12:32:52 Asia/Kolkata] [deposit-action] Wallet row not found
+[15-Aug-2026 12:33:08 Asia/Kolkata] [deposit-action] Wallet row not found
+[17-Aug-2026 18:48:12 Asia/Kolkata] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'samaya' in 'SELECT' in /home/nons257754/public_html/digitaladmin/api/get_bet_details.php:161
+Stack trace:
+#0 /home/nons257754/public_html/digitaladmin/api/get_bet_details.php(161): mysqli->query('\n        SELECT...')
+#1 /home/nons257754/public_html/digitaladmin/api/get_bet_details.php(168): getUserBetDetails(Object(mysqli), '22440', '2025-02-18 17:4...')
+#2 {main}
+  thrown in /home/nons257754/public_html/digitaladmin/api/get_bet_details.php on line 161
+[17-Aug-2026 18:48:16 Asia/Kolkata] PHP Fatal error:  Uncaught mysqli_sql_exception: Unknown column 'samaya' in 'SELECT' in /home/nons257754/public_html/digitaladmin/api/get_bet_details.php:161
+Stack trace:
+#0 /home/nons257754/public_html/digitaladmin/api/get_bet_details.php(161): mysqli->query('\n        SELECT...')
+#1 /home/nons257754/public_html/digitaladmin/api/get_bet_details.php(168): getUserBetDetails(Object(mysqli), '83795', '2025-02-18 19:3...')
+#2 {main}
+  thrown in /home/nons257754/public_html/digitaladmin/api/get_bet_details.php on line 161
+[26-Aug-2026 21:05:59 Asia/Kolkata] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli_stmt::get_result() in /home/utqgpyjt/shreewin.club9.eu.cc/digitaladmin/api/login.php:25
+Stack trace:
+#0 {main}
+  thrown in /home/utqgpyjt/shreewin.club9.eu.cc/digitaladmin/api/login.php on line 25
+[26-Aug-2026 21:39:30 Asia/Kolkata] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli_stmt::get_result() in /home/utqgpyjt/shreewin.club9.eu.cc/digitaladmin/api/login.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/utqgpyjt/shreewin.club9.eu.cc/digitaladmin/api/login.php on line 31
+[26-Aug-2026 22:15:04 Asia/Kolkata] PHP Fatal error:  Uncaught Error: Call to undefined method mysqli_stmt::get_result() in /home/utqgpyjt/shreewin.club9.eu.cc/digitaladmin/api/login.php:31
+Stack trace:
+#0 {main}
+  thrown in /home/utqgpyjt/shreewin.club9.eu.cc/digitaladmin/api/login.php on line 31
+[26-Aug-2026 22:23:02 Asia/Kolkata] [deposit-action] Call to undefined method mysqli_stmt::get_result()
+[26-Aug-2026 22:23:08 Asia/Kolkata] [deposit-action] Call to undefined method mysqli_stmt::get_result()
+[26-Aug-2026 22:23:10 Asia/Kolkata] [deposit-action] Call to undefined method mysqli_stmt::get_result()
+[26-Aug-2026 22:23:11 Asia/Kolkata] [deposit-action] Call to undefined method mysqli_stmt::get_result()
+[26-Aug-2026 22:23:12 Asia/Kolkata] [deposit-action] Call to undefined method mysqli_stmt::get_result()
+[26-Aug-2026 22:23:12 Asia/Kolkata] [deposit-action] Call to undefined method mysqli_stmt::get_result()
+[26-Aug-2026 22:23:12 Asia/Kolkata] [deposit-action] Call to undefined method mysqli_stmt::get_result()
+[26-Aug-2026 22:23:13 Asia/Kolkata] [deposit-action] Call to undefined method mysqli_stmt::get_result()
+[26-Aug-2026 22:24:26 Asia/Kolkata] [deposit-action] Call to undefined method mysqli_stmt::get_result()
+[26-Aug-2026 22:24:29 Asia/Kolkata] [deposit-action] Call to undefined method mysqli_stmt::get_result()

@@ -1,0 +1,45 @@
+DAMAN CLUB FINAL FIX REPORT - 2026-08-15
+
+Target domain: https://shreewin.club9.eu.cc/
+
+Implemented:
+1. Deposit approval -> wallet balance
+   - Admin approval is transaction-safe and credits shonu_kaichila.motta only once.
+   - Missing wallet row is self-healed when possible.
+   - Optional recharge bonus tables auto-create, preventing missing-table approval errors.
+   - GetUserAmount now reads the real SQL wallet instead of returning 0.
+
+2. Admin Dashboard / Users / Team Dashboard
+   - Main dashboard SQL aggregation is guarded against missing optional tables.
+   - Profit/Loss and Today's Performance include SaaS lottery plus legacy lottery ledgers.
+   - Users page Total Recharge reads approved thevani deposits (sthiti=1), not rebate balance.
+   - User DataTable approved deposit queries use sthiti=1 and first recharge is chronological.
+   - User list uses LEFT JOIN so users without an existing wallet row are not silently hidden.
+   - Sidebar Team Dashboards now opens a real global SQL-backed team-dashboard.php.
+   - Per-user team detail supports Tier 1 through Tier 10 when code..code9 columns exist.
+
+3. UPI bind/display
+   - Saved UPI endpoint already persists name + UPI ID.
+   - getWithdrawals withdrawid=2 now returns the exact UPI UI fields: bankCode, upiName, upiAccount, plus generic withdrawal fields.
+   - UPI record is therefore available after Add UPI returns to the withdrawal payment-method screen.
+
+4. Betting Rebate
+   - Fixed signature/auth flow by using the common API layer.
+   - Rebate is based on unclaimed valid lottery wager volume at 0.85%.
+   - Claim is serialized with a wallet row lock to prevent duplicate double-claim.
+   - Claim credits the SQL game wallet and writes rebetrec so Transaction History can display type 102 rebate entries.
+   - GetCodeWashAmount and GetCodeWashRecordList now return live SQL data.
+   - Added missing GetCodeWashRule endpoint.
+   - rebetrec auto-creates on installations where it is missing.
+
+5. About / Agreement domain
+   - Removed old damangames.in references from GetProtocols.
+   - Protocol and agreement content now use https://shreewin.club9.eu.cc/.
+   - GetAgreement now contains visible confidentiality content instead of an empty body.
+
+Verification performed:
+- PHP syntax lint: all PHP files in the package passed.
+- Static endpoint/schema checks passed for wallet, UPI, rebate, dashboard/team link, approved-deposit status and domain replacement.
+- JSON validation passed for GetProtocols.php and GetAgreement.php.
+
+Note: The package cannot connect to the live cPanel MySQL database from the offline build environment. Final runtime smoke checks requiring the live database/session/payment records should be performed after extraction on the target hosting.

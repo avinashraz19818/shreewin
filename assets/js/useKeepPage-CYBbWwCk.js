@@ -1,0 +1,1 @@
+import{l as u,L as n,M as p}from"./index-gh-oM2Di.js";function c(s){u();const t=(e,o)=>{p.options.routes.forEach(r=>{r.name===e&&(r.meta.keepAlive=o)})},a=(e,o)=>{t(o,s.includes(e))};return n((e,o)=>{a(e.name,o.name)}),{setKeepPage:a,updateRouterKeepAlive:t}}export{c as u};
