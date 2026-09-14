@@ -1,0 +1,62 @@
+WINGO UI UPDATE — 2026-09-14
+===========================
+
+Do chhote changes (sirf WinGo page):
+
+1. "Follow Strategy" tab hata diya
+   ---------------------------------------------------------------
+   WinGo page par "Game history | Chart | Follow Strategy" wale nav me se
+   Follow Strategy tab ab kahin nahi aayega.
+
+   Kaise: client ye tab sirf tab dikhata hai jab uska `isOpenFollow` flag
+   true ho. Wo flag do jagah se aata hai, aur dono jagah band kar diya gaya:
+     - server: `api-live-v4/Lottery/index.php` (GetUserInfo) me
+       'isOpenFollow' => false
+     - browser: `same-origin-lottery.js` me localStorage ki value false par
+       pin kar di, taaki purane login/session me pada hua `true` bhi tab ko
+       wapas on na kar sake.
+
+   Wapas chalu karna ho to: `api-live-v4/Lottery/index.php` me
+   'isOpenFollow'=>false  ->  'isOpenFollow'=>app_setting_bool('follow_strategy_enabled',true)
+   kar do aur `same-origin-lottery.js` me isOpenFollow wali 3 lines hata do.
+
+2. Multiplier row: sirf X1 X5 X10 X20 X50 X100
+   ---------------------------------------------------------------
+   Pehle:  Random  X1 X2 X3 X4 X5 X10 X20 X50 X100
+   Ab:     Random  X1 X5 X10 X20 X50 X100
+
+   (Random wahi hai jo pehle tha — wo multiplier value nahi, random multiple
+    chunne wala button hai. Uske liye kuch nahi chheda. Hatana ho to bata dena.)
+
+   Kaise: multiplier list client ko server se milti hai —
+   `saas_lottery/bootstrap_live_v4.php` ke `sl_game_info()` se. Wahan WinGo
+   family ke liye array(1,5,10,20,50,100) kar diya. Baaki lottery games
+   (TrxWinGo, K3, D5, MotoRace) ki list waise hi rakhi hai jaisi thi:
+   array(1,2,3,4,5,10,20,50,100). Un me bhi yehi list chahiye to bata dena —
+   1 line ka change hai.
+
+
+ZIP ME KYA HAI (sirf ye 5 files)
+--------------------------------
+    same-origin-lottery.js              (Follow Strategy flag pin)
+    index.html                          (shim ka version bump: v=20260914-3)
+    api-live-v4/Lottery/index.php       (isOpenFollow => false)
+    saas_lottery/bootstrap_live_v4.php  (WinGo multipliers)
+    WINGO-UI-UPDATE.txt                 (ye file)
+
+Baaki kuch bhi nahi badla — na koi doosra page, na koi setting, na database.
+
+
+LAGANE KA TARIKA (1 minute)
+---------------------------
+1. cPanel > File Manager > public_html me jaao
+2. ye ZIP upload karo -> right click -> Extract -> overwrite = HAAN
+3. Browser me Ctrl+Shift+R (hard refresh)
+4. WinGo 30 sec kholo:
+      - "Follow Strategy" tab gayab hona chahiye
+      - multiplier row me sirf X1 X5 X10 X20 X50 X100
+      - countdown + result + betting pehle jaise hi chalte rahenge
+
+Agar multiplier row purani hi dikhe (browser ne purana game-info cache kar
+liya ho), to ek baar logout -> login kar lo. Follow Strategy tab ke liye
+logout ki zaroorat nahi, wo turant hat jayega.
