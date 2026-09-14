@@ -1,0 +1,2 @@
+<?php
+require_once __DIR__.'/_common.php';api_require_post();$body=api_input();api_require_signature($body);$user=api_user();$language=substr(preg_replace('/[^A-Za-z-]/','',(string)($body['useLanguage']??$body['languageCode']??'en')),0,20)?:'en';$uid=(int)$user['id'];$stmt=$conn->prepare('INSERT INTO app_user_preferences(user_id,language,updated_at) VALUES (?,?,NOW()) ON DUPLICATE KEY UPDATE language=VALUES(language),updated_at=NOW()');$stmt->bind_param('is',$uid,$language);$stmt->execute();$stmt->close();api_send(null);

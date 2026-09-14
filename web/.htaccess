@@ -1,0 +1,8 @@
+# Serve the extension-less config file as JavaScript for /web/config?_key=...
+Options -Indexes -MultiViews
+<FilesMatch "^config$">
+  ForceType application/javascript
+</FilesMatch>
+<IfModule mod_headers.c>
+  Header set Cache-Control "no-cache, no-store, must-revalidate, max-age=0"
+</IfModule>

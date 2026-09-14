@@ -1,0 +1,523 @@
+{
+    "gameCustomTypeLists": [],
+    "gameLists": [
+        {
+            "gameNameEn": "Dragon Soar",
+            "gameID": "0b506916e1b001c6eb121fb834e09ada",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Dragon-Soar.png"
+        },
+        {
+            "gameNameEn": "Pop Pop Candy",
+            "gameID": "2d1c2e84556060e33e1f4f8b419c5b3a",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Pop-Pop-Candy.png"
+        },
+        {
+            "gameNameEn": "Open Sesame Mega",
+            "gameID": "c7b9fdd6e1e633485c67c1db2dc57406",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Open-Sesame-Mega.png"
+        },
+        {
+            "gameNameEn": "Fruity Bonanza",
+            "gameID": "3e3b0ba086c839b394220152951c6d25",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Fruity-Bonanza.png"
+        },
+        {
+            "gameNameEn": "Caishen Coming",
+            "gameID": "9272bfd25844c3a1373614a457392084",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Caishen-Coming.png"
+        },
+        {
+            "gameNameEn": "Coocoo Farm",
+            "gameID": "c7ea70b0a6c39e2235610b057e0c6621",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Coocoo-Farm.png"
+        },
+        {
+            "gameNameEn": "Elemental Link Water",
+            "gameID": "6468b1e08cc2132f3c8e7e7d4c619c53",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Elemental-Link-Water.png"
+        },
+        {
+            "gameNameEn": "Elemental Link Fire",
+            "gameID": "9198e4319ced66e3f3dac17c8d36fad8",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Elemental-Link-Fire.png"
+        },
+        {
+            "gameNameEn": "Birdsparty Deluxe",
+            "gameID": "6940313357dd1ec127bb2203f9ae8e6c",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Birdsparty-Deluxe.png"
+        },
+        {
+            "gameNameEn": "Moneybags Man 2",
+            "gameID": "7b81c1c65363a4c9bf89d8064a41f56a",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Moneybags-Man-2.png"
+        },
+        {
+            "gameNameEn": "Trump Card",
+            "gameID": "69f7770ee6c9b2eb5756652833b84092",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Trump-Card.png"
+        },
+        {
+            "gameNameEn": "Fortune Neko",
+            "gameID": "9900afb8cdc3016a34ef00ad563b3293",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Fortune-Neko.png"
+        },
+        {
+            "gameNameEn": "Book Of Mystery",
+            "gameID": "2ea85e851818778e2ed4317c9982e54a",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Book-Of-Mystery.png"
+        },
+        {
+            "gameNameEn": "Prosperitytiger",
+            "gameID": "da0d973cee506257c900d18375883f2c",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Prosperitytiger.png"
+        },
+        {
+            "gameNameEn": "Glamorous Girl",
+            "gameID": "2ed381e03765549d45617e7ed48fc37d",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Glamorous-Girl.png"
+        },
+        {
+            "gameNameEn": "Blossom Of Wealth",
+            "gameID": "0a462387fe3c636324c5d9041a39c94c",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Blossom-Of-Wealth.png"
+        },
+        {
+            "gameNameEn": "Big Three Dragons",
+            "gameID": "60df04ad04885d74510d4c06e05919aa",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Big-Three-Dragons.png"
+        },
+        {
+            "gameNameEn": "Mayagoldcrazy",
+            "gameID": "0b25331b95eabc71b962d8b85681e37d",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Mayagoldcrazy.png"
+        },
+        {
+            "gameNameEn": "Lantern Wealth",
+            "gameID": "d031266666b559fef858205fe12bb1ef",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Lantern-Wealth.png"
+        },
+        {
+            "gameNameEn": "Marvelous Iv",
+            "gameID": "b628cd862301d9bd73e70b944a2b3c11",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Marvelous-Iv.png"
+        },
+        {
+            "gameNameEn": "Wonder Elephant",
+            "gameID": "9735225d268562198fc5079a36e6b6fe",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Wonder-Elephant.png"
+        },
+        {
+            "gameNameEn": "Kong",
+            "gameID": "c56cfddb7bdbc6bbb517a643803f3121",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Kong.png"
+        },
+        {
+            "gameNameEn": "Lucky Diamond",
+            "gameID": "e896288c157bc846234d254d03b083f1",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Lucky-Diamond.png"
+        },
+        {
+            "gameNameEn": "Spindrift 2",
+            "gameID": "756fbfeac906e1e78e49ee74fa20b367",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Spindrift-2.png"
+        },
+        {
+            "gameNameEn": "Dragons Gate",
+            "gameID": "17184971ad9e01777cb2c06465f479fb",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Dragons-Gate.png"
+        },
+        {
+            "gameNameEn": "Spindrift",
+            "gameID": "e5a2c89d257b68a1c2855e00e76bc934",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Spindrift.png"
+        },
+        {
+            "gameNameEn": "Double Wilds",
+            "gameID": "1d45e05527b049177d2f55aeb8a26e44",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Double-Wilds.png"
+        },
+        {
+            "gameNameEn": "Moneybags Man",
+            "gameID": "be44b0154904b119fa44cde7debcb82e",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Moneybags-Man.png"
+        },
+        {
+            "gameNameEn": "Miner Babe",
+            "gameID": "9951f259f97eb5202a590284848e4592",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Miner-Babe.png"
+        },
+        {
+            "gameNameEn": "Super Niubi Deluxe",
+            "gameID": "d1d5678c7f936d93221b0abf470d9c6d",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Super-Niubi-Deluxe.png"
+        },
+        {
+            "gameNameEn": "Funky King Kong",
+            "gameID": "5476c4b6b6cc56a28ebcc836dc550df4",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Funky-King-Kong.png"
+        },
+        {
+            "gameNameEn": "Golden Disco",
+            "gameID": "efe01092d040cafc980e6ff266a661f6",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Golden-Disco.png"
+        },
+        {
+            "gameNameEn": "Treasure Bowl",
+            "gameID": "93fe7c6e8ec4fba41eec4cc52aa03308",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Treasure-Bowl.png"
+        },
+        {
+            "gameNameEn": "Mjolnir",
+            "gameID": "d8135aaf7a26d46c5f05811b470fd882",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Mjolnir.png"
+        },
+        {
+            "gameNameEn": "Fortune Treasure",
+            "gameID": "56c52aafb2a426512e1d9319e39525d0",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Fortune-Treasure.png"
+        },
+        {
+            "gameNameEn": "Super Niubi",
+            "gameID": "a1c4af9556716238cc206142191601a3",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Super-Niubi.png"
+        },
+        {
+            "gameNameEn": "Dragons World",
+            "gameID": "6a15165043642df7c8f15b81955ec6bd",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Dragons-World.png"
+        },
+        {
+            "gameNameEn": "Go Lai Fu",
+            "gameID": "1c5a69caf9e2f1736eab4e7989f0ed0f",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Go-Lai-Fu.png"
+        },
+        {
+            "gameNameEn": "Birds Party",
+            "gameID": "74d2c49fa6db0aaa0f21f572e853977f",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Birds-Party.png"
+        },
+        {
+            "gameNameEn": "Triple King Kong",
+            "gameID": "82ee456817c94ee4277c5656b02fe3bf",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Triple-King-Kong.png"
+        },
+        {
+            "gameNameEn": "Orient Animals",
+            "gameID": "c71b42d70137fc20da8106e2543a3775",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Orient-Animals.png"
+        },
+        {
+            "gameNameEn": "Lucky Seven",
+            "gameID": "5567159cfbb33c82c406384533ffb9d6",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Lucky-Seven.png"
+        },
+        {
+            "gameNameEn": "Kingsman",
+            "gameID": "303e0dd2081ecb6fb4f834f3223bfd1f",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Kingsman.png"
+        },
+        {
+            "gameNameEn": "Dragon",
+            "gameID": "ab53133d196c47e91376d9e82e7d5280",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Dragon.png"
+        },
+        {
+            "gameNameEn": "Dragon Warrior",
+            "gameID": "9da31e3ea32029b6221b423390f78d14",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Dragon-Warrior.png"
+        },
+        {
+            "gameNameEn": "Billionaire",
+            "gameID": "4de0c305e78b77ab9b3714138299a36d",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Billionaire.png"
+        },
+        {
+            "gameNameEn": "Legendary 5",
+            "gameID": "04666c8536a1ae5e7a86a4c019fed992",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Legendary-5.png"
+        },
+        {
+            "gameNameEn": "Rooster In Love",
+            "gameID": "b677323f4bfb14e28a2df679d946993b",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Rooster-In-Love.png"
+        },
+        {
+            "gameNameEn": "Xi Yang Yang",
+            "gameID": "f7ea01c4cc69ad2990c2a1f69394f08b",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Xi-Yang-Yang.png"
+        },
+        {
+            "gameNameEn": "Fortune Horse",
+            "gameID": "acbb123948d98dd0745c0876b236812b",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Fortune-Horse.png"
+        },
+        {
+            "gameNameEn": "Open Sesameii",
+            "gameID": "c9a9e3b6325ff66ea33134e5b59d85d6",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Open-Sesameii.png"
+        },
+        {
+            "gameNameEn": "Winning Mask Ii",
+            "gameID": "0816f874c3158d7015a94be92179df71",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Winning-Mask-Ii.png"
+        },
+        {
+            "gameNameEn": "Beauty And The Kingdom",
+            "gameID": "1180fe0cde1d83f307d3db95883123d8",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Beauty-And-The-Kingdom.png"
+        },
+        {
+            "gameNameEn": "Olympian Temple",
+            "gameID": "b2e0b41e9e4892e3133e8109830a8bfa",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Olympian-Temple.png"
+        },
+        {
+            "gameNameEn": "Mahjong",
+            "gameID": "a7969767da0317b91b1d79c9645beefd",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Mahjong.png"
+        },
+        {
+            "gameNameEn": "Banana Saga",
+            "gameID": "8fb374c36918b49d6d3cf4c5acca8f11",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Banana-Saga.png"
+        },
+        {
+            "gameNameEn": "Open Sesame",
+            "gameID": "cce3ee2271788268012af054ded9d193",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Open-Sesame.png"
+        },
+        {
+            "gameNameEn": "Four Treasures",
+            "gameID": "9f01a3aaa2f517416c0e25fae5e4aab6",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Four-Treasures.png"
+        },
+        {
+            "gameNameEn": "Napoleon",
+            "gameID": "a9356b06b10d45430c8c5e39c1495161",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Napoleon.png"
+        },
+        {
+            "gameNameEn": "New Year",
+            "gameID": "890af0346fa60480f0ff6c6b3235569e",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/New-Year.png"
+        },
+        {
+            "gameNameEn": "Moonlight Treasure",
+            "gameID": "a1e8f49f643c3a1aa264970f14e646e0",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Moonlight-Treasure.png"
+        },
+        {
+            "gameNameEn": "Formosa Bear",
+            "gameID": "db0c45f4fc7a2a106b886e89e6ba8945",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Formosa-Bear.png"
+        },
+        {
+            "gameNameEn": "The Llama Adventure",
+            "gameID": "5226f45579695a40088b2c221f4d8e1f",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/The-Llama-Adventure.png"
+        },
+        {
+            "gameNameEn": "Wukong",
+            "gameID": "b86dfd1a8ca545ac50c6147ca48a2223",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Wukong.png"
+        },
+        {
+            "gameNameEn": "Winning Mask",
+            "gameID": "f543a0a6fa08d8468239adea2ed9f134",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Winning-Mask.png"
+        },
+        {
+            "gameNameEn": "Flirting Scholar Tang",
+            "gameID": "484d55207970c29e9ce5b95c8d9b4ef3",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Flirting-Scholar-Tang.png"
+        },
+        {
+            "gameNameEn": "Lucky Dragons",
+            "gameID": "4bba948e0c58cc6886792cb3c1d09b48",
+            "customGameType": 0,
+            "vendorCode": 16,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Lucky-Dragons.png"
+        },
+        {
+            "gameNameEn": "Spirit Tide Legend",
+            "gameID": "8b5576f2b7fd1ab51389afbc09f186e2",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://drive.google.com/drive/folders/1Kspw4eE2ujFhE743nzkl_ZHSKodcYGtE"
+        },
+        {
+            "gameNameEn": "Fishing Disco",
+            "gameID": "e4308416203d857b8db9902c02463750",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Fishing-Disco.png"
+        },
+        {
+            "gameNameEn": "Dragon Master",
+            "gameID": "d94a187c6d080b37b1967dec26db118c",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Dragon-Master.png"
+        },
+        {
+            "gameNameEn": "Fishing Yilufa",
+            "gameID": "3b09f395ff360f7d6525d65ab38feaae",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Fishing-Yilufa.png"
+        },
+        {
+            "gameNameEn": "Shade Dragons Fishing",
+            "gameID": "6e70ba1ec75778a40b468839515274cf",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Shade-Dragons-Fishing.png"
+        },
+        {
+            "gameNameEn": "Cai Shen Fishing",
+            "gameID": "01136bf65f5e312c5cdffef18eec7d40",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Cai-Shen-Fishing.png"
+        },
+        {
+            "gameNameEn": "Dragon Fishing Ii",
+            "gameID": "5169c1bb2edf0ae82914e66f4f5a1356",
+            "customGameType": 0,
+            "vendorCode": 18,
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Dragon-Fishing-Ii.png"
+        }
+    ]
+}

@@ -1,0 +1,191 @@
+=== PROCESS STARTED AT 2026-03-19 01:31:20 ===
+Found 90 pending commissions
+Processing: shonu=186488, user=113942, amount=8
+✅ Processed: user 113942, amount 8, process_date 2026-03-19 01:31:20
+Processing: shonu=186489, user=113930, amount=5
+✅ Processed: user 113930, amount 5, process_date 2026-03-19 01:31:20
+Processing: shonu=186490, user=113616, amount=1.6
+✅ Processed: user 113616, amount 1.6, process_date 2026-03-19 01:31:20
+Processing: shonu=186491, user=113615, amount=0.2
+✅ Processed: user 113615, amount 0.2, process_date 2026-03-19 01:31:20
+Processing: shonu=186492, user=113614, amount=0.1
+✅ Processed: user 113614, amount 0.1, process_date 2026-03-19 01:31:20
+Processing: shonu=186493, user=113607, amount=0.04
+✅ Processed: user 113607, amount 0.04, process_date 2026-03-19 01:31:20
+Processing: shonu=186494, user=113942, amount=0.04
+✅ Processed: user 113942, amount 0.04, process_date 2026-03-19 01:31:20
+Processing: shonu=186495, user=113930, amount=0.025
+✅ Processed: user 113930, amount 0.025, process_date 2026-03-19 01:31:20
+Processing: shonu=186496, user=113616, amount=0.008
+✅ Processed: user 113616, amount 0.008, process_date 2026-03-19 01:31:20
+Processing: shonu=186497, user=113615, amount=0.001
+✅ Processed: user 113615, amount 0.001, process_date 2026-03-19 01:31:20
+Processing: shonu=186498, user=113614, amount=0.0005
+✅ Processed: user 113614, amount 0.0005, process_date 2026-03-19 01:31:20
+Processing: shonu=186499, user=113607, amount=0.0002
+✅ Processed: user 113607, amount 0.0002, process_date 2026-03-19 01:31:20
+Processing: shonu=186500, user=113942, amount=0.08
+✅ Processed: user 113942, amount 0.08, process_date 2026-03-19 01:31:20
+Processing: shonu=186501, user=113930, amount=0.05
+✅ Processed: user 113930, amount 0.05, process_date 2026-03-19 01:31:20
+Processing: shonu=186502, user=113616, amount=0.016
+✅ Processed: user 113616, amount 0.016, process_date 2026-03-19 01:31:20
+Processing: shonu=186503, user=113615, amount=0.002
+✅ Processed: user 113615, amount 0.002, process_date 2026-03-19 01:31:20
+Processing: shonu=186504, user=113614, amount=0.001
+✅ Processed: user 113614, amount 0.001, process_date 2026-03-19 01:31:20
+Processing: shonu=186505, user=113607, amount=0.0004
+✅ Processed: user 113607, amount 0.0004, process_date 2026-03-19 01:31:20
+Processing: shonu=186506, user=113942, amount=0.24
+✅ Processed: user 113942, amount 0.24, process_date 2026-03-19 01:31:20
+Processing: shonu=186507, user=113930, amount=0.15
+✅ Processed: user 113930, amount 0.15, process_date 2026-03-19 01:31:20
+Processing: shonu=186508, user=113616, amount=0.048
+✅ Processed: user 113616, amount 0.048, process_date 2026-03-19 01:31:20
+Processing: shonu=186509, user=113615, amount=0.006
+✅ Processed: user 113615, amount 0.006, process_date 2026-03-19 01:31:20
+Processing: shonu=186510, user=113614, amount=0.003
+✅ Processed: user 113614, amount 0.003, process_date 2026-03-19 01:31:20
+Processing: shonu=186511, user=113607, amount=0.0012
+✅ Processed: user 113607, amount 0.0012, process_date 2026-03-19 01:31:20
+Processing: shonu=186512, user=113942, amount=0.72
+✅ Processed: user 113942, amount 0.72, process_date 2026-03-19 01:31:20
+Processing: shonu=186513, user=113930, amount=0.45
+✅ Processed: user 113930, amount 0.45, process_date 2026-03-19 01:31:20
+Processing: shonu=186514, user=113616, amount=0.144
+✅ Processed: user 113616, amount 0.144, process_date 2026-03-19 01:31:20
+Processing: shonu=186515, user=113615, amount=0.018
+✅ Processed: user 113615, amount 0.018, process_date 2026-03-19 01:31:20
+Processing: shonu=186516, user=113614, amount=0.009
+✅ Processed: user 113614, amount 0.009, process_date 2026-03-19 01:31:20
+Processing: shonu=186517, user=113607, amount=0.0036
+✅ Processed: user 113607, amount 0.0036, process_date 2026-03-19 01:31:20
+Processing: shonu=186518, user=113942, amount=2.16
+✅ Processed: user 113942, amount 2.16, process_date 2026-03-19 01:31:20
+Processing: shonu=186519, user=113930, amount=1.35
+✅ Processed: user 113930, amount 1.35, process_date 2026-03-19 01:31:20
+Processing: shonu=186520, user=113616, amount=0.432
+✅ Processed: user 113616, amount 0.432, process_date 2026-03-19 01:31:20
+Processing: shonu=186521, user=113615, amount=0.054
+✅ Processed: user 113615, amount 0.054, process_date 2026-03-19 01:31:20
+Processing: shonu=186522, user=113614, amount=0.027
+✅ Processed: user 113614, amount 0.027, process_date 2026-03-19 01:31:20
+Processing: shonu=186523, user=113607, amount=0.0108
+✅ Processed: user 113607, amount 0.0108, process_date 2026-03-19 01:31:20
+Processing: shonu=186524, user=113942, amount=4.32
+✅ Processed: user 113942, amount 4.32, process_date 2026-03-19 01:31:20
+Processing: shonu=186525, user=113930, amount=2.7
+✅ Processed: user 113930, amount 2.7, process_date 2026-03-19 01:31:20
+Processing: shonu=186526, user=113616, amount=0.864
+✅ Processed: user 113616, amount 0.864, process_date 2026-03-19 01:31:20
+Processing: shonu=186527, user=113615, amount=0.108
+✅ Processed: user 113615, amount 0.108, process_date 2026-03-19 01:31:20
+Processing: shonu=186528, user=113614, amount=0.054
+✅ Processed: user 113614, amount 0.054, process_date 2026-03-19 01:31:20
+Processing: shonu=186529, user=113607, amount=0.0216
+✅ Processed: user 113607, amount 0.0216, process_date 2026-03-19 01:31:20
+Processing: shonu=186530, user=113942, amount=0.4
+✅ Processed: user 113942, amount 0.4, process_date 2026-03-19 01:31:20
+Processing: shonu=186531, user=113930, amount=0.25
+✅ Processed: user 113930, amount 0.25, process_date 2026-03-19 01:31:20
+Processing: shonu=186532, user=113616, amount=0.08
+✅ Processed: user 113616, amount 0.08, process_date 2026-03-19 01:31:20
+Processing: shonu=186533, user=113615, amount=0.01
+✅ Processed: user 113615, amount 0.01, process_date 2026-03-19 01:31:20
+Processing: shonu=186534, user=113614, amount=0.005
+✅ Processed: user 113614, amount 0.005, process_date 2026-03-19 01:31:20
+Processing: shonu=186535, user=113607, amount=0.002
+✅ Processed: user 113607, amount 0.002, process_date 2026-03-19 01:31:20
+Processing: shonu=186536, user=113942, amount=0.8
+✅ Processed: user 113942, amount 0.8, process_date 2026-03-19 01:31:20
+Processing: shonu=186537, user=113930, amount=0.5
+✅ Processed: user 113930, amount 0.5, process_date 2026-03-19 01:31:20
+Processing: shonu=186538, user=113616, amount=0.16
+✅ Processed: user 113616, amount 0.16, process_date 2026-03-19 01:31:20
+Processing: shonu=186539, user=113615, amount=0.02
+✅ Processed: user 113615, amount 0.02, process_date 2026-03-19 01:31:20
+Processing: shonu=186540, user=113614, amount=0.01
+✅ Processed: user 113614, amount 0.01, process_date 2026-03-19 01:31:20
+Processing: shonu=186541, user=113607, amount=0.004
+✅ Processed: user 113607, amount 0.004, process_date 2026-03-19 01:31:20
+Processing: shonu=186542, user=113942, amount=2
+✅ Processed: user 113942, amount 2, process_date 2026-03-19 01:31:20
+Processing: shonu=186543, user=113930, amount=1.25
+✅ Processed: user 113930, amount 1.25, process_date 2026-03-19 01:31:20
+Processing: shonu=186544, user=113616, amount=0.4
+✅ Processed: user 113616, amount 0.4, process_date 2026-03-19 01:31:20
+Processing: shonu=186545, user=113615, amount=0.05
+✅ Processed: user 113615, amount 0.05, process_date 2026-03-19 01:31:20
+Processing: shonu=186546, user=113614, amount=0.025
+✅ Processed: user 113614, amount 0.025, process_date 2026-03-19 01:31:20
+Processing: shonu=186547, user=113607, amount=0.01
+✅ Processed: user 113607, amount 0.01, process_date 2026-03-19 01:31:20
+Processing: shonu=186548, user=113942, amount=0.4
+✅ Processed: user 113942, amount 0.4, process_date 2026-03-19 01:31:20
+Processing: shonu=186549, user=113930, amount=0.25
+✅ Processed: user 113930, amount 0.25, process_date 2026-03-19 01:31:20
+Processing: shonu=186550, user=113616, amount=0.08
+✅ Processed: user 113616, amount 0.08, process_date 2026-03-19 01:31:20
+Processing: shonu=186551, user=113615, amount=0.01
+✅ Processed: user 113615, amount 0.01, process_date 2026-03-19 01:31:20
+Processing: shonu=186552, user=113614, amount=0.005
+✅ Processed: user 113614, amount 0.005, process_date 2026-03-19 01:31:20
+Processing: shonu=186553, user=113607, amount=0.002
+✅ Processed: user 113607, amount 0.002, process_date 2026-03-19 01:31:20
+Processing: shonu=186554, user=113942, amount=0.8
+✅ Processed: user 113942, amount 0.8, process_date 2026-03-19 01:31:20
+Processing: shonu=186555, user=113930, amount=0.5
+✅ Processed: user 113930, amount 0.5, process_date 2026-03-19 01:31:20
+Processing: shonu=186556, user=113616, amount=0.16
+✅ Processed: user 113616, amount 0.16, process_date 2026-03-19 01:31:20
+Processing: shonu=186557, user=113615, amount=0.02
+✅ Processed: user 113615, amount 0.02, process_date 2026-03-19 01:31:20
+Processing: shonu=186558, user=113614, amount=0.01
+✅ Processed: user 113614, amount 0.01, process_date 2026-03-19 01:31:20
+Processing: shonu=186559, user=113607, amount=0.004
+✅ Processed: user 113607, amount 0.004, process_date 2026-03-19 01:31:20
+Processing: shonu=186560, user=113942, amount=2
+✅ Processed: user 113942, amount 2, process_date 2026-03-19 01:31:20
+Processing: shonu=186561, user=113930, amount=1.25
+✅ Processed: user 113930, amount 1.25, process_date 2026-03-19 01:31:20
+Processing: shonu=186562, user=113616, amount=0.4
+✅ Processed: user 113616, amount 0.4, process_date 2026-03-19 01:31:20
+Processing: shonu=186563, user=113615, amount=0.05
+✅ Processed: user 113615, amount 0.05, process_date 2026-03-19 01:31:20
+Processing: shonu=186564, user=113614, amount=0.025
+✅ Processed: user 113614, amount 0.025, process_date 2026-03-19 01:31:20
+Processing: shonu=186565, user=113607, amount=0.01
+✅ Processed: user 113607, amount 0.01, process_date 2026-03-19 01:31:20
+Processing: shonu=186566, user=113942, amount=0.4
+✅ Processed: user 113942, amount 0.4, process_date 2026-03-19 01:31:20
+Processing: shonu=186567, user=113930, amount=0.25
+✅ Processed: user 113930, amount 0.25, process_date 2026-03-19 01:31:20
+Processing: shonu=186568, user=113616, amount=0.08
+✅ Processed: user 113616, amount 0.08, process_date 2026-03-19 01:31:20
+Processing: shonu=186569, user=113615, amount=0.01
+✅ Processed: user 113615, amount 0.01, process_date 2026-03-19 01:31:20
+Processing: shonu=186570, user=113614, amount=0.005
+✅ Processed: user 113614, amount 0.005, process_date 2026-03-19 01:31:20
+Processing: shonu=186571, user=113607, amount=0.002
+✅ Processed: user 113607, amount 0.002, process_date 2026-03-19 01:31:20
+Processing: shonu=186572, user=113942, amount=0.8
+✅ Processed: user 113942, amount 0.8, process_date 2026-03-19 01:31:20
+Processing: shonu=186573, user=113930, amount=0.5
+✅ Processed: user 113930, amount 0.5, process_date 2026-03-19 01:31:20
+Processing: shonu=186574, user=113616, amount=0.16
+✅ Processed: user 113616, amount 0.16, process_date 2026-03-19 01:31:20
+Processing: shonu=186575, user=113615, amount=0.02
+✅ Processed: user 113615, amount 0.02, process_date 2026-03-19 01:31:20
+Processing: shonu=186576, user=113614, amount=0.01
+✅ Processed: user 113614, amount 0.01, process_date 2026-03-19 01:31:20
+Processing: shonu=186577, user=113607, amount=0.004
+✅ Processed: user 113607, amount 0.004, process_date 2026-03-19 01:31:20
+Creating salary log entries for 6 agents
+✅ Salary log created for agent 113942: ₹23.16
+✅ Salary log created for agent 113930: ₹14.475
+✅ Salary log created for agent 113616: ₹4.632
+✅ Salary log created for agent 113615: ₹0.579
+✅ Salary log created for agent 113614: ₹0.2895
+✅ Salary log created for agent 113607: ₹0.1158
+=== PROCESS COMPLETED: 90 commissions, Total: ₹43.2513 ===
+

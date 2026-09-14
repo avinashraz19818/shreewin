@@ -1,0 +1,64 @@
+# ===== .htaccess (safe, full version) =====
+# Backup your original before replacing
+
+RewriteEngine On
+RewriteBase /
+
+# Preserve Authorization header (useful for APIs / frameworks)
+SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+
+# Disable directory listing
+IndexIgnore *
+
+# Custom 404 (front controller)
+ErrorDocument 404 /index.php
+
+################################################################################
+# 1) Force HTTPS safely (handles proxies / Cloudflare)
+# - Excludes panel/login paths so cPanel/WHM/webmail access is not broken
+# - Checks X-Forwarded-Proto (commonly set by proxies/CDNs)
+################################################################################
+RewriteCond %{REQUEST_URI} !^/(cpanel|whm|webmail|webdisk)(/.*)?$ [NC]
+RewriteCond %{HTTPS} !=on
+RewriteCond %{HTTP:X-Forwarded-Proto} !https [NC]
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+################################################################################
+# 2) Remove explicit "index.php" from URL
+# - Uses THE_REQUEST to only redirect real browser requests (prevents loop)
+################################################################################
+RewriteCond %{THE_REQUEST} \s/+(.*/)?index\.php[?\s] [NC]
+RewriteRule ^((.*/)?)(index\.php)?$ https://%{HTTP_HOST}/%1 [R=301,NE,L]
+
+################################################################################
+# 3) Hide .php extension (safe)
+#  a) Externally redirect requests containing ".php" to extensionless URL
+#     - Do NOT redirect POST requests (forms)
+#     - Uses THE_REQUEST to avoid internal rewrite loops
+#  b) Internally rewrite extensionless requests to .php if file exists
+################################################################################
+# a) External redirect /file.php -> /file
+RewriteCond %{REQUEST_METHOD} !POST [NC]
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s([^.]+)\.php[^\s]* [NC]
+RewriteRule ^ %1 [R=301,L,NC]
+
+# b) Internal rewrite /file -> /file.php if that .php file exists
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^ %{REQUEST_URI}.php [L]
+
+################################################################################
+# 4) Optional: Force www (uncomment to enable)
+# If you want to force www, uncomment the two lines below and test carefully.
+################################################################################
+#RewriteCond %{HTTP_HOST} !^www\. [NC]
+#RewriteRule ^ https://www.%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+
+################################################################################
+# 5) Keep cPanel / server PHP handler (do not edit unless you know what you're doing)
+################################################################################
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php74 .php .php7 .phtml
+</IfModule>
+
+# End of file

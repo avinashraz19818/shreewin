@@ -1,0 +1,1 @@
+import{r as e}from"./main.vue_vue_type_style_index_0_scoped_d3b4a951_lang-Deq63BmN.js";function r(t){return e.post("/Lottery/WinGoBet",t)}function n(t){return e.post("/Lottery/VideoWinGoBet",t)}export{n as a,r as g};

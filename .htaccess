@@ -1,0 +1,41 @@
+# VeerGame cPanel deployment routes
+Options -Indexes -MultiViews
+DirectoryIndex index.php index.html
+
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php82 .php .php8 .phtml
+</IfModule>
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+  # Authenticated lottery API. Keep the public URL used by the compiled client.
+  RewriteRule ^api/Lottery/([A-Za-z0-9_-]+)(?:\.php)?/?$ api-live-v4/Lottery/index.php?action=$1 [END,QSA]
+
+  # Public authoritative draw feed used by the client countdown/history screens.
+  RewriteRule ^(WinGo|TrxWinGo|K3|D5|MotoRace)/((?:WinGo_(?:30S|1M|3M|5M)|TrxWinGo_(?:1M|3M|5M|10M)|K3_(?:1M|3M|5M|10M)|D5_(?:1M|3M|5M|10M)|MotoRace_1M))/GetHistoryIssuePage\.json$ draw-live-v4/index.php?lottery=$1&gameCode=$2&history=1 [END,QSA]
+  RewriteRule ^(WinGo|TrxWinGo|K3|D5|MotoRace)/((?:WinGo_(?:30S|1M|3M|5M)|TrxWinGo_(?:1M|3M|5M|10M)|K3_(?:1M|3M|5M|10M)|D5_(?:1M|3M|5M|10M)|MotoRace_1M))\.json$ draw-live-v4/index.php?lottery=$1&gameCode=$2 [END,QSA]
+</IfModule>
+
+<FilesMatch "\.(?:sql|log|txt|bak|env|ini|zip)$">
+  Require all denied
+</FilesMatch>
+
+# VeerGame fix: the application shell must never be served from a stale cache.
+# Without this, a browser keeps rendering the previous (broken) index.html even
+# after the corrected files are uploaded.
+<IfModule mod_headers.c>
+  # index.html must always be revalidated; the hashed bundles are safe to
+  # cache for a while, but they are also cheap to revalidate.
+  <FilesMatch "\.(?:html?)$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate, max-age=0"
+    Header set Pragma "no-cache"
+  </FilesMatch>
+  <FilesMatch "\.js$">
+    Header set Cache-Control "no-cache, must-revalidate, max-age=0"
+  </FilesMatch>
+  <FilesMatch "\.(?:png|jpg|jpeg|gif|svg|ico|woff2?|ttf|mp3|json)$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+</IfModule>

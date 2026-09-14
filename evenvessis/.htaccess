@@ -1,0 +1,88 @@
+# ==============================
+# ENABLE REWRITE ENGINE
+# ==============================
+RewriteEngine On
+
+# ==============================
+# FORCE HTTPS
+# ==============================
+RewriteCond %{HTTPS} !=on
+RewriteRule ^/?(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+# ==============================
+# PASS AUTHORIZATION HEADER (API)
+# ==============================
+SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+
+# ==============================
+# 🔥 MULTI-DOMAIN CORS (MAIN FIX)
+# ==============================
+<IfModule mod_headers.c>
+
+   SetEnvIf Origin "^https://(luckywin28\.buzz|even.luckywin28\.buzz|crown9912\.online|crown99win\.online|crown99win\.shop|99crowngame\.online|crown999\.buzz)$" ORIGIN_OK=$0
+
+    # Dynamic CORS allow
+    Header always set Access-Control-Allow-Origin "%{ORIGIN_OK}e" env=ORIGIN_OK
+    Header always set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+    Header always set Access-Control-Allow-Headers "*"
+    Header always set Access-Control-Allow-Credentials "true"
+
+    # ==========================
+    # SECURITY HEADERS
+    # ==========================
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+
+</IfModule>
+
+# ==============================
+# HANDLE PREFLIGHT OPTIONS
+# ==============================
+RewriteCond %{REQUEST_METHOD} OPTIONS
+RewriteRule ^(.*)$ $1 [R=200,L]
+
+# ==============================
+# HIDE DIRECTORY LISTING
+# ==============================
+IndexIgnore *
+
+# ==============================
+# CUSTOM 404 HANDLER
+# ==============================
+ErrorDocument 404 /index.php
+
+# ==============================
+# REMOVE index.php FROM URL
+# ==============================
+RewriteCond %{THE_REQUEST} /index\.php[\ ?/] [NC]
+RewriteRule ^index\.php$ / [R=301,L]
+
+# ==============================
+# REDIRECT WWW → NON-WWW
+# ==============================
+RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+RewriteRule ^ https://%1%{REQUEST_URI} [R=301,L]
+
+# ==============================
+# HIDE .php EXTENSION
+# ==============================
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s([^.]+)\.php [NC]
+RewriteRule ^ %1 [R=301,L,NC]
+
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^ %{REQUEST_URI}.php [L]
+
+# ==============================
+# PHP VERSION (cPanel)
+# ==============================
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php81 .php .php8 .phtml
+</IfModule>
+
+# ==============================
+# MAINTENANCE MODE (OPTIONAL)
+# ==============================
+# RewriteCond %{REQUEST_URI} !/Under-Maintainance.jpg$ [NC]
+# RewriteRule ^(.*)$ /Under-Maintainance.jpg [R=302,L]

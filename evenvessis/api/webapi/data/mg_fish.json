@@ -1,0 +1,68 @@
+{
+        "gameCustomTypeLists": [],
+        "gameLists": [
+            {
+            "gameNameEn": "Royal Fishing",
+            "gameID": "e794bf5717aca371152df192341fe68b",
+            "customGameType": 0,
+            "vendorCode": "JILI",
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jili/Royal-Fishing.png"
+        },
+        {
+            "gameNameEn": "Bombing Fishing",
+            "gameID": "e333695bcff28acdbecc641ae6ee2b23",
+            "customGameType": 0,
+            "vendorCode": "JILI",
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jili/Bombing-Fishing.png"
+        },
+        {
+            "gameNameEn": "Dinosaur Tycoon",
+            "gameID": "eef3e28f0e3e7b72cbca61e7924d00f1",
+            "customGameType": 0,
+            "vendorCode": "JILI",
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jili/Dinosaur-Tycoon.png"
+        },
+        {
+            "gameNameEn": "Jackpot Fishing",
+            "gameID": "3cf4a85cb6dcf4d8836c982c359cd72d",
+            "customGameType": 0,
+            "vendorCode": "JILI",
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jili/Jackpot-Fishing.png"
+        },
+        {
+            "gameNameEn": "Dragon Fortune",
+            "gameID": "1200b82493e4788d038849bca884d773",
+            "customGameType": 0,
+            "vendorCode": "JILI",
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jili/Dragon-Fortune.png"
+        },
+        {
+            "gameNameEn": "Mega Fishing",
+            "gameID": "caacafe3f64a6279e10a378ede09ff38",
+            "customGameType": 0,
+            "vendorCode": "JILI",
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jili/Mega-Fishing.png"
+        },
+        {
+            "gameNameEn": "Boom Legend",
+            "gameID": "f02ede19c5953fce22c6098d860dadf4",
+            "customGameType": 0,
+            "vendorCode": "JILI",
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jili/Boom-Legend.png"
+        },
+        {
+            "gameNameEn": "Happy Fishing",
+            "gameID": "71c68a4ddb63bdc8488114a08e603f1c",
+            "customGameType": 0,
+            "vendorCode": "JILI",
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jili/Happy-Fishing.png"
+        },
+        {
+            "gameNameEn": "All-star Fishing",
+            "gameID": "9ec2a18752f83e45ccedde8dfeb0f6a7",
+            "customGameType": 0,
+            "vendorCode": "JILI",
+            "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jili/All-star-Fishing.png"
+        }
+        ]
+    }

@@ -1,0 +1,1598 @@
+{
+    "gameCustomTypeLists": [],
+    "gameLists": [
+            {
+                    "gameCode": "vs10spiritadv",
+                    "gameNameEn": "Adventure",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/a.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs100firehot",
+                    "gameNameEn": "Fire Hot 100",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs100firehot.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs100sh",
+                    "gameNameEn": "Super Hot 100",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs100sh.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs1024dtiger",
+                    "gameNameEn": "Dragon Tiger 1024",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs1024dtiger.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs1024lionsd",
+                    "gameNameEn": "Lions Dance 1024",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs1024lionsd.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs1024mahjpanda",
+                    "gameNameEn": "Mahjong Panda 1024",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs1024mahjpanda.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs1024mahjwins",
+                    "gameNameEn": "Mahjong Wins 1024",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs1024mahjwins.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs1024moonsh",
+                    "gameNameEn": "Moonshot 1024",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs1024moonsh.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs1024temuj",
+                    "gameNameEn": "Temujin Treasures 1024",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs1024temuj.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs10amm",
+                    "gameNameEn": "Ancient Mysteries 10",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs10amm.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs10bbbonanza",
+                    "gameNameEn": "Big Bass Bonanza 10",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs10bbbonanza.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs10bbhas",
+                    "gameNameEn": "Big Bass Hold & Spin 10",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs10bbhas.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs10bbkir",
+                    "gameNameEn": "Big Bass King 10",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs10bbkir.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs10bblpop",
+                    "gameNameEn": "Big Bass Lollipop 10",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs10bblpop.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs10bhallbnza",
+                    "gameNameEn": "Big Hall Bonanza 10",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs10bhallbnza.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs10bookazteck",
+                    "gameNameEn": "Book of Aztec King 10",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs10bookazteck.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs10bookfallen",
+                    "gameNameEn": "Book of Fallen 10",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs10bookfallen.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs10bookoftut",
+                    "gameNameEn": "Book of Tut 10",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs10bookoftut.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs10bxmasbnza",
+                    "gameNameEn": "Big Xmas Bonanza 10",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs10bxmasbnza.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs10chkchase",
+                    "gameNameEn": "Chicken Chase 10",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs10chkchase.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs10coffee",
+                    "gameNameEn": "Coffee Wild 10",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs10coffee.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs10cowgold",
+                    "gameNameEn": "Cowboy Gold 10",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs10cowgold.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs10crownfire",
+                    "gameNameEn": "Crown of Fire 10",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs10crownfire.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs10egrich",
+                    "gameNameEn": "Egyptian Riches 10",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs10egrich.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs10egypt",
+                    "gameNameEn": "Egyptian Adventure 10",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs10egypt.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs10egyptcls",
+                    "gameNameEn": "Egyptian Classics 10",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs10egyptcls.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs10eyestorm",
+                    "gameNameEn": "Eye of the Storm 10",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs10eyestorm.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs10fdrasbf",
+                    "gameNameEn": "Fire Dragon 10",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs10fdrasbf.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs10firestrike",
+                    "gameNameEn": "Fire Strike 10",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs10firestrike.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs10firestrike2",
+                    "gameNameEn": "Fire Strike 2",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs10firestrike2.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs10fisheye",
+                    "gameNameEn": "Fish Eye 10",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs10fisheye.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs10floatdrg",
+                    "gameNameEn": "Floating Dragon 10",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs10floatdrg.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs10fruity2",
+                    "gameNameEn": "Fruity Party 2",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs10fruity2.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs10gdchalleng",
+                    "gameNameEn": "Gold Challenge 10",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs10gdchalleng.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs10gizagods",
+                    "gameNameEn": "Giza Gods 10",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs10gizagods.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs10goldfish",
+                    "gameNameEn": "Gold Fish 10",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs10goldfish.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs10kingofdth",
+                    "gameNameEn": "King of the Dead 10",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs10kingofdth.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs10luckcharm",
+                    "gameNameEn": "Lucky Charm 10",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs10luckcharm.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs10madame",
+                    "gameNameEn": "Madame Destiny 10",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs10madame.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs10mayangods",
+                    "gameNameEn": "Mayan Gods 10",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs10mayangods.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs10mmm",
+                    "gameNameEn": "Mystic Money 10",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs10mmm.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs10nudgeit",
+                    "gameNameEn": "Nudge It 10",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs10nudgeit.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs10powerlines",
+                    "gameNameEn": "Power Lines 10",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs10powerlines.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs10returndead",
+                    "gameNameEn": "Return of the Dead 10",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs10returndead.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs10runes",
+                    "gameNameEn": "Runes of Power 10",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs10runes.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs10snakeeyes",
+                    "gameNameEn": "Snake Eyes 10",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs10snakeeyes.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs10spiritadv",
+                    "gameNameEn": "Spirit Adventure 10",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs10spiritadv.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs10starpirate",
+                    "gameNameEn": "Star Pirates 10",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs10starpirate.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs10threestar",
+                    "gameNameEn": "Three Stars 10",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs10threestar.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs10tictac",
+                    "gameNameEn": "Tic Tac Take 10",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs10tictac.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs10trail",
+                    "gameNameEn": "Treasure Trail 10",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs10trail.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs10txbigbass",
+                    "gameNameEn": "Texas Big Bass 10",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs10txbigbass.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs10vampwolf",
+                    "gameNameEn": "Vampire vs Wolf 10",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs10vampwolf.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs10wildtut",
+                    "gameNameEn": "Wild Tut 10",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs10wildtut.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs117649starz",
+                    "gameNameEn": "Starz Megaways",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs117649starz.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs12bbb",
+                    "gameNameEn": "Big Bass Blast 12",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs12bbb.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs12tropicana",
+                    "gameNameEn": "Tropicana 12",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs12tropicana.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs15diamond",
+                    "gameNameEn": "Diamond Strike 15",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs15diamond.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs15fairytale",
+                    "gameNameEn": "Fairytale Fortune 15",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs15fairytale.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs1600drago",
+                    "gameNameEn": "Drago 1600",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs1600drago.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs18mashang",
+                    "gameNameEn": "Mashang 18",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs18mashang.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs1ball",
+                    "gameNameEn": "Ball of Fortune",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs1ball.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs1dragon8",
+                    "gameNameEn": "Dragon 8",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs1dragon8.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs1fortunetree",
+                    "gameNameEn": "Fortune Tree",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs1fortunetree.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs1fufufu",
+                    "gameNameEn": "Fu Fu Fu",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs1fufufu.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs1masterjoker",
+                    "gameNameEn": "Master Joker",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs1masterjoker.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs1money",
+                    "gameNameEn": "Money Roll",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs1money.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs1tigers",
+                    "gameNameEn": "Tiger's Glory",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs1tigers.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20aladdinsorc",
+                    "gameNameEn": "Aladdin and the Sorcerer 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20aladdinsorc.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20amuleteg",
+                    "gameNameEn": "Amulet of Egypt 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20amuleteg.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20bchprty",
+                    "gameNameEn": "Beach Party 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20bchprty.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20beefed",
+                    "gameNameEn": "Beefed Up 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20beefed.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20bermuda",
+                    "gameNameEn": "Bermuda Riches 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20bermuda.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20bnnzdice",
+                    "gameNameEn": "Bonanza Dice 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20bnnzdice.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20bonzgold",
+                    "gameNameEn": "Bonanza Gold 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20bonzgold.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20candvil",
+                    "gameNameEn": "Candy Village 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20candvil.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20candyblitz",
+                    "gameNameEn": "Candy Blitz 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20candyblitz.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20cashmachine",
+                    "gameNameEn": "Cash Machine 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20cashmachine.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20chickdrop",
+                    "gameNameEn": "Chicken Drop 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20chickdrop.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20chicken",
+                    "gameNameEn": "Chicken Fiesta 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20chicken.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20cleocatra",
+                    "gameNameEn": "Cleocatra 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20cleocatra.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20clspwrndg",
+                    "gameNameEn": "Cluster Power Nudge 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20clspwrndg.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20clustwild",
+                    "gameNameEn": "Cluster Wild 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20clustwild.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20colcashzone",
+                    "gameNameEn": "Cold Cash Zone 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20colcashzone.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20daydead",
+                    "gameNameEn": "Day of the Dead 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20daydead.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20doghouse",
+                    "gameNameEn": "The Dog House 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20doghouse.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20doghousemh",
+                    "gameNameEn": "The Dog House Multihold 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20doghousemh.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRDrAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20drtgold",
+                    "gameNameEn": "Druid's Gold 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20drtgold.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20dugems",
+                    "gameNameEn": "Dueling Gems 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20dugems.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20earthquake",
+                    "gameNameEn": "Earthquake 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20earthquake.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20egypttrs",
+                    "gameNameEn": "Egyptian Treasures 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20egypttrs.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20eightdragons",
+                    "gameNameEn": "Eight Dragons 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20eightdragons.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20emptybank",
+                    "gameNameEn": "Empty the Bank 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20emptybank.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20excalibur",
+                    "gameNameEn": "Excalibur Unleashed 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20excalibur.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20farmfest",
+                    "gameNameEn": "Farm Festival 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20farmfest.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20fh",
+                    "gameNameEn": "Fire Hot 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20fh.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20forge",
+                    "gameNameEn": "Forge of Olympus 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20forge.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20fparty2",
+                    "gameNameEn": "Fruit Party 2",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20fparty2.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20framazon",
+                    "gameNameEn": "Fruit Amazon 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20framazon.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20fruitparty",
+                    "gameNameEn": "Fruit Party 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20fruitparty.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20fruitsw",
+                    "gameNameEn": "Fruit Sweet 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20fruitsw.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20gatotfury",
+                    "gameNameEn": "Gatot Kaca's Fury 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20gatotfury.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20gobnudge",
+                    "gameNameEn": "Goblin Nudge 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20gobnudge.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20godiva",
+                    "gameNameEn": "Godiva Gold 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20godiva.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20goldclust",
+                    "gameNameEn": "Gold Cluster 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20goldclust.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20goldfever",
+                    "gameNameEn": "Gold Fever 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20goldfever.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20gorilla",
+                    "gameNameEn": "Gorilla Mayhem 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20gorilla.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20gravity",
+                    "gameNameEn": "Gravity Bonanza 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20gravity.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20hburnhs",
+                    "gameNameEn": "Hot Burn Hold & Spin 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20hburnhs.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20hercpeg",
+                    "gameNameEn": "Hercules and Pegasus 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20hercpeg.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20honey",
+                    "gameNameEn": "Honey Honey Honey 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20honey.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20hotzone",
+                    "gameNameEn": "Hot Zone 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20hotzone.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20hstgldngt",
+                    "gameNameEn": "Heist Gold Night 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20hstgldngt.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20jewelparty",
+                    "gameNameEn": "Jewel Party 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20jewelparty.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20kraken",
+                    "gameNameEn": "Release the Kraken 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20kraken.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20lampinf",
+                    "gameNameEn": "Lamp of Infinity 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20lampinf.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20lcount",
+                    "gameNameEn": "Lucky Count 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20lcount.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20leprechaun",
+                    "gameNameEn": "Leprechaun Song 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20leprechaun.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20leprexmas",
+                    "gameNameEn": "Leprechaun Xmas 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20leprexmas.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20lobcrab",
+                    "gameNameEn": "Lobster Crab 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20lobcrab.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20lvlup",
+                    "gameNameEn": "Level Up 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20lvlup.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20magicpot",
+                    "gameNameEn": "Magic Pot 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20magicpot.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20maskgame",
+                    "gameNameEn": "Mask Game 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20maskgame.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20midas",
+                    "gameNameEn": "Hand of Midas 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20midas.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20mochimon",
+                    "gameNameEn": "Mochimon 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20mochimon.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20mparty",
+                    "gameNameEn": "Monkey Party 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20mparty.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20muertos",
+                    "gameNameEn": "Muertos Multiplier 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20muertos.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20mustanggld2",
+                    "gameNameEn": "Mustang Gold 2",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20mustanggld2.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20mvwild",
+                    "gameNameEn": "Maverick Wild 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20mvwild.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20octobeer",
+                    "gameNameEn": "Octobeer Fortunes 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20octobeer.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20olympgate",
+                    "gameNameEn": "Gates of Olympus 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20olympgate.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20olympgrace",
+                    "gameNameEn": "Olympus Grace 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20olympgrace.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20pbonanza",
+                    "gameNameEn": "Pyramid Bonanza 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20pbonanza.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20phoenixf",
+                    "gameNameEn": "Phoenix Forge 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20phoenixf.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20piggybank",
+                    "gameNameEn": "Piggy Bank Bills 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20piggybank.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20procount",
+                    "gameNameEn": "Prospector Count 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20procount.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20rainbowg",
+                    "gameNameEn": "Rainbow Gold 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20rainbowg.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20rhino",
+                    "gameNameEn": "Great Rhino 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20rhino.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20rhinoluxe",
+                    "gameNameEn": "Great Rhino Deluxe 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20rhinoluxe.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20rockvegas",
+                    "gameNameEn": "Rock Vegas 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20rockvegas.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20saiman",
+                    "gameNameEn": "Saiman 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20saiman.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20santa",
+                    "gameNameEn": "Santa's Great Gifts 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20santa.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20santawonder",
+                    "gameNameEn": "Santa's Wonderland 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20santawonder.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20sbxmas",
+                    "gameNameEn": "Sweet Bonanza Xmas 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20sbxmas.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20sh",
+                    "gameNameEn": "Super Hot 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20sh.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20sknights",
+                    "gameNameEn": "Sky Knights 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20sknights.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20smugcove",
+                    "gameNameEn": "Smugglers Cove 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20smugcove.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20sparta",
+                    "gameNameEn": "Spartan Quest 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20sparta.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20splmystery",
+                    "gameNameEn": "Spin Mystery 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20splmystery.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20starlight",
+                    "gameNameEn": "Starlight Princess 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20starlight.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20starlightx",
+                    "gameNameEn": "Starlight Xmas 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20starlightx.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20stickysymbol",
+                    "gameNameEn": "Sticky Symbols 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20stickysymbol.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20stickywild",
+                    "gameNameEn": "Sticky Wilds 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20stickywild.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20sugarcoins",
+                    "gameNameEn": "Sugar Coins 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20sugarcoins.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20sugarrush",
+                    "gameNameEn": "Sugar Rush 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20sugarrush.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20superlanche",
+                    "gameNameEn": "Super Lanche 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20superlanche.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20supermania",
+                    "gameNameEn": "Super Mania 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20supermania.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20superx",
+                    "gameNameEn": "Super X 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20superx.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20swordofares",
+                    "gameNameEn": "Sword of Ares 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20swordofares.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20trsbox",
+                    "gameNameEn": "Treasure Box 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20trsbox.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20trswild2",
+                    "gameNameEn": "Treasure Wild 2",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20trswild2.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20tweethouse",
+                    "gameNameEn": "Tweet House 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20tweethouse.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20ultim5",
+                    "gameNameEn": "Ultimate 5",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20ultim5.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20underground",
+                    "gameNameEn": "Underground 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20underground.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20vegasmagic",
+                    "gameNameEn": "Vegas Magic 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20vegasmagic.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20wildboost",
+                    "gameNameEn": "Wild Boost 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20wildboost.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20wildparty",
+                    "gameNameEn": "Wild Party 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20wildparty.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20wildpix",
+                    "gameNameEn": "Wild Pixies 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20wildpix.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20wolfie",
+                    "gameNameEn": "Wolfie 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20wolfie.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20xmascarol",
+                    "gameNameEn": "Christmas Carol 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20xmascarol.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs20yisunshin",
+                    "gameNameEn": "Yi Sun Shin 20",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs20yisunshin.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs243caishien",
+                    "gameNameEn": "Caishen's Cash 243",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs243caishien.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs243chargebull",
+                    "gameNameEn": "Charging Bull 243",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs243chargebull.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs243ckemp",
+                    "gameNameEn": "Chicken Emperor 243",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs243ckemp.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs243dancingpar",
+                    "gameNameEn": "Dancing Party 243",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs243dancingpar.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs243discolady",
+                    "gameNameEn": "Disco Lady 243",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs243discolady.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                },
+                {
+                    "gameCode": "vs243empcaishen",
+                    "gameNameEn": "Emperor Caishen 243",
+                    "img": "https://bhaukaalgame.fun/assets/PlayFiver/Pragmatic/vs243empcaishen.png",
+                    "vendorId": 18,
+                    "vendorCode": "PRAGMATIC",
+                    "imgUrl2": null,
+                    "customGameType": 0
+                }
+            ]
+        }

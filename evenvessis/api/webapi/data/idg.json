@@ -1,0 +1,371 @@
+{
+    "gameCustomTypeLists": [],
+    "gameLists": [
+        {
+          "gameNameEn": "Emperor Qin",
+          "gameCode": "d58b1c2dd6456da42b2c1a33c70c1630",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-emperorqin.png"
+        },
+        {
+          "gameNameEn": "Cracker",
+          "gameCode": "b6668f2abcfff3f7f78ae92fe908f99f",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-cracker.png"
+        },
+        {
+          "gameNameEn": "FaFaFa",
+          "gameCode": "017c1edeaf54d4684d675055c44a6f7e",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-fafafa.png"
+        },
+        {
+          "gameNameEn": "Gold Toad",
+          "gameCode": "654155802c34cee717e943c4e2bb6bfe",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-goldtoad.png"
+        },
+        {
+          "gameNameEn": "Lion Legend",
+          "gameCode": "eb8dd621ea38d742ff846362a9b1085d",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-lionlegend.png"
+        },
+        {
+          "gameNameEn": "Goblin's Gold",
+          "gameCode": "697993800419bf160901aa9133cde524",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-goblingold.png"
+        },
+        {
+          "gameNameEn": "The Unsurpassed Grace",
+          "gameCode": "bf0ae3c404807429451d088725ae5377",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-theunsurpassedgrace.png"
+        },
+        {
+          "gameNameEn": "Arctic King",
+          "gameCode": "8249b0e703ceb0816f3645dbac0a83ce",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-arcticking.png"
+        },
+        {
+          "gameNameEn": "Jalapeno",
+          "gameCode": "f23ad5acc6c690a45f1280ba49d28266",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-jalapeno.png"
+        },
+        {
+          "gameNameEn": "Ice Age Mammoths",
+          "gameCode": "484025f23c821e32fc6ac31ff75613d6",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-iceagemammoths.png"
+        },
+        {
+          "gameNameEn": "Zorro",
+          "gameCode": "e2a8a030f69553e9dd8f287c11bed399",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-zorro.png"
+        },
+        {
+          "gameNameEn": "Three Kings",
+          "gameCode": "316aa38ad4468a2ab757ff5a8836ab59",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-threekings.png"
+        },
+        {
+          "gameNameEn": "Panda Warrior",
+          "gameCode": "96b1f087066664f4bbf547719f4ce562",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-pandawarrior.png"
+        },
+        {
+          "gameNameEn": "Pirate Attack",
+          "gameCode": "1ae2dd4a2b6b520ea618e49734114cc2",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-pirateattack.png"
+        },
+        {
+          "gameNameEn": "Crazy Penguin",
+          "gameCode": "b242216f35f89856685b923ea29033d5",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-crazypenguin.png"
+        },
+        {
+          "gameNameEn": "Fortune Cat",
+          "gameCode": "a1149d0f9c50430ae060b026f09e4c7a",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-fortunecat.png"
+        },
+        {
+          "gameNameEn": "Toy Soldiers",
+          "gameCode": "32d3a212089035386a95a21d6582d368",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-toysoldiers.png"
+        },
+        {
+          "gameNameEn": "Power of Thor",
+          "gameCode": "324d92fb13d0d6228279b4f7792a75ac",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-powerofthor.png"
+        },
+        {
+          "gameNameEn": "Dragon Tiles",
+          "gameCode": "ba653f265134f4662d05363515e5c510",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-dragontiles.png"
+        },
+        {
+          "gameNameEn": "Fortune Gate",
+          "gameCode": "18bd994afe332e7ac903f511d485644e",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-fortunegate.png"
+        },
+        {
+          "gameNameEn": "Shining Diamond",
+          "gameCode": "c5d0d421f875023cbf927692da2009d9",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-shiningdiamond.png"
+        },
+        {
+          "gameNameEn": "Gold Miner",
+          "gameCode": "182d8051c14f15943b8362f809bb23f0",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-goldminer.png"
+        },
+        {
+          "gameNameEn": "Foxy Heist",
+          "gameCode": "466cbf64cf586706eddbc2dd89e2d5b0",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-foxyheist.png"
+        },
+        {
+          "gameNameEn": "Treasure Mine",
+          "gameCode": "a38019da304f80b536e9677aba84ec9e",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-treasuremine.png"
+        },
+        {
+          "gameNameEn": "God of Fortune",
+          "gameCode": "a1353a355a096a5d7d15fb2636f19f0a",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-godoffortune.png"
+        },
+        {
+          "gameNameEn": "Fortune Koi",
+          "gameCode": "1eedbd0f491dd245a7e325f200d94834",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-fortunekoi2.png"
+        },
+        {
+          "gameNameEn": "Viking Age",
+          "gameCode": "4bca928196d945e72b3826e8077ba69f",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-vikingage.png"
+        },
+        {
+          "gameNameEn": "Fortune Boy",
+          "gameCode": "4e17695dcfeb6f29e97d392f209f6035",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-fortuneboy.png"
+        },
+        {
+          "gameNameEn": "Fortune Panda",
+          "gameCode": "ce8cc0acf6790e96586cd18e2911c9fc",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-fortunepanda.png"
+        },
+        {
+          "gameNameEn": "Gold Rush",
+          "gameCode": "a6edba75571a6e2ad7627bb3c3fbf1aa",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-goldrush.png"
+        },
+        {
+          "gameNameEn": "Train Robber",
+          "gameCode": "96972e9e911bcff850e2447d4e659378",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-trainrobber.png"
+        },
+        {
+          "gameNameEn": "Jalapeno 2",
+          "gameCode": "eaa49c574b992a6fb3f45c94b9fb4e80",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-jalapeno2.png"
+        },
+        {
+          "gameNameEn": "Mystery Show",
+          "gameCode": "1532bc4df58dc85a1be5117db62675c5",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-mysteryshow.png"
+        },
+        {
+          "gameNameEn": "Pirate Treasure",
+          "gameCode": "1d6dbb878939ef9da13b6b8874eb922b",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-piratetreasure.png"
+        },
+        {
+          "gameNameEn": "Royale Expedition",
+          "gameCode": "b96cb5a9b96659e7697cd854e201cf3b",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-royaleexpedition.png"
+        },
+        {
+          "gameNameEn": "Eagle Parade",
+          "gameCode": "b0112c09fd807bfe0c1d839b6f002948",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-eagleparade.png"
+        },
+        {
+          "gameNameEn": "The King Of Olympus",
+          "gameCode": "aca500c0066dbf7668bba2ebf63e0ae4",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-thekingofolympus.png"
+        },
+        {
+          "gameNameEn": "Mahjong Gold",
+          "gameCode": "58f09506283d7a0832dfcab0327ae379",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-mahjonggold.png"
+        },
+        {
+          "gameNameEn": "Candy Burst",
+          "gameCode": "dffdfcc2b41ec5672c30b88bbb2e92b7",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-candyburst.png"
+        },
+        {
+          "gameNameEn": "Leprechaun",
+          "gameCode": "0c78c20229def7d837cbb6bf2d8ae73d",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-leprechaun.png"
+        },
+        {
+          "gameNameEn": "Fortune Neko",
+          "gameCode": "98a25fb8528bd23ab8f88c1ccf1c92ce",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-fortuneneko.png"
+        },
+        {
+          "gameNameEn": "Legend of Aztec",
+          "gameCode": "6c50989ecf5860cc47279d5ee858037e",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-legendofaztec.png"
+        },
+        {
+          "gameNameEn": "Almighty Zeus",
+          "gameCode": "d7102fbb62d30b0e9e951c49ad376bfd",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-almightyzeus.png"
+        },
+        {
+          "gameNameEn": "Gemstone Princess",
+          "gameCode": "d15afcbd55b16b6b21d6612ea7f09869",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-gemstoneprincess.png"
+        },
+        {
+          "gameNameEn": "Mahjong Gold 2",
+          "gameCode": "77d52f4b95fdc6c04828bd9605e7d1c0",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-mahjonggold2.png"
+        },
+        {
+          "gameNameEn": "Lucky Witch",
+          "gameCode": "322742d014aca4cb302d86fb3029aba2",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-luckywitch.png"
+        },
+        {
+          "gameNameEn": "Fishing Tycoon",
+          "gameCode": "35970ef5302ee2f20b9de877d6727448",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-fishingtycoon.png"
+        },
+        {
+          "gameNameEn": "Jade Emperor",
+          "gameCode": "db2e28711729f50609629a9d38de6f9f",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-jadeemperor.png"
+        },
+        {
+          "gameNameEn": "Crazy Thieves",
+          "gameCode": "992092a828098028e7de260f937aa4da",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-theheists.png"
+        },
+        {
+          "gameNameEn": "Spooky Halloween",
+          "gameCode": "124c8e22d59b3fc448265a1e9b32620c",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-spookyhalloween.png"
+        },
+        {
+          "gameNameEn": "Fortune Bull",
+          "gameCode": "3d014cc72ef954a49db85f8c04ab2a2a",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-fortunebull.png"
+        },
+        {
+          "gameNameEn": "Pharaoh Treasures",
+          "gameCode": "943e0f1c86ebcad476815003a2084147",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-pharaohtreasures.png"
+        },
+        {
+          "gameNameEn": "Thanksgiving Blast",
+          "gameCode": "f10b39257abb364e56df597f9e07a090",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-thanksgivingblast.png"
+        },
+        {
+          "gameNameEn": "Kokushimusou",
+          "gameCode": "5cb1f73869693063dc0aa1ec4ab4756e",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-kokushimusou.png"
+        },
+        {
+          "gameNameEn": "Buffalo",
+          "gameCode": "6cdbaee9633f74e049259494e1eb33f2",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-buffalo.png"
+        },
+        {
+          "gameNameEn": "Tiger Master",
+          "gameCode": "ac813b4b69128a3732d78fb975752a6a",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-tigermaster.png"
+        },
+        {
+          "gameNameEn": "Xiangqi Warfare",
+          "gameCode": "5bdacaf675d2f94258102e2cbc8d2254",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-xiangqiwarfare.png"
+        },
+        {
+          "gameNameEn": "Huangdi Legend",
+          "gameCode": "d760f79443978cce11af6c13c34d9c29",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-huangdilegend.png"
+        },
+        {
+          "gameNameEn": "Prosperity 168",
+          "gameCode": "979c421948f713a2e52dcde7c04bfb4f",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-prosperity168.png"
+        },
+        {
+          "gameNameEn": "King Gummy Bear",
+          "gameCode": "8abb0acf4faa451ea4b51eb5e18e3d8b",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-kinggummybear.png"
+        },
+        {
+          "gameNameEn": "Mahjong Infinity",
+          "gameCode": "28a9308652063ba362472e2bd1a1f913",
+          "customGameType": 0,
+          "img": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/yesgaming/ht-mahjonginfinity.png"
+        }
+      ]
+}

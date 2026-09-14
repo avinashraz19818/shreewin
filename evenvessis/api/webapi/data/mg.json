@@ -1,0 +1,338 @@
+{
+    "gameCustomTypeLists": [],
+    "gameLists": [
+        {
+            "gameID": "b6e3f379228119389ebf1e6ed2b51a3d",
+            "gameNameEn": "Wildfire Wins",
+            "img": "https://ossimg.91admin123admin.com/91club/gamelogo/MG/SMG_wildfireWins.png",
+            "vendorId": 4,
+            "vendorCode": "tadagaming",
+            "imgUrl2": null,
+            "customGameType": 0
+        },
+        {
+            "gameID": "71be67621d9aa9df0ab6f14f524abbe1",
+            "gameNameEn": "Cash 'N Riches Megaways™",
+            "img": "https://ossimg.91admin123admin.com/91club/gamelogo/MG/SMG_cashNRichesMegaways.png",
+            "vendorId": 4,
+            "vendorCode": "microgaming",
+            "imgUrl2": null,
+            "customGameType": 0
+        },
+        {
+            "gameID": "eba214daa72d7e9fb8554e324dd590f2",
+            "gameNameEn": "10000 Wishes",
+            "img": "https://ossimg.91admin123admin.com/91club/gamelogo/MG/SMG_10000Wishes.png",
+            "vendorId": 4,
+            "vendorCode": "microgaming",
+            "imgUrl2": null,
+            "customGameType": 0
+        },
+        {
+            "gameID": "6f31c38a01cfc0ae57a08f6790935e92",
+            "gameNameEn": "Aurora Wilds",
+            "img": "https://ossimg.91admin123admin.com/91club/gamelogo/MG/SMG_auroraWilds.png",
+            "vendorId": 4,
+            "vendorCode": "microgaming",
+            "imgUrl2": null,
+            "customGameType": 0
+        },
+        {
+            "gameID": "809cdf853b4ac08a3f13145b3a015351",
+            "gameNameEn": "25000 Talons",
+            "img": "https://ossimg.91admin123admin.com/91club/gamelogo/MG/SMG_25000Talons.png",
+            "vendorId": 4,
+            "vendorCode": "microgaming",
+            "imgUrl2": null,
+            "customGameType": 0
+        },
+        {
+            "gameID": "ca45b8ab8c3e04af8c6979a26b09ac17",
+            "gameNameEn": "777 Mega Deluxe™",
+            "img": "https://ossimg.91admin123admin.com/91club/gamelogo/MG/SMG_777MegaDeluxe.png",
+            "vendorId": 4,
+            "vendorCode": "microgaming",
+            "imgUrl2": null,
+            "customGameType": 0
+        },
+        {
+            "gameID": "148d2df4c671a1017a2a57ef9c1cb6f3",
+            "gameNameEn": "Hyper Gold",
+            "img": "https://ossimg.91admin123admin.com/91club/gamelogo/MG/SMG_hyperGold.png",
+            "vendorId": 4,
+            "vendorCode": "microgaming",
+            "imgUrl2": null,
+            "customGameType": 0
+        },
+        {
+            "gameID": "de20527e86a82427aa1b2c345691b87b",
+            "gameNameEn": "777 Royal Wheel",
+            "img": "https://ossimg.91admin123admin.com/91club/gamelogo/MG/SMG_777RoyalWheel.png",
+            "vendorId": 4,
+            "vendorCode": "microgaming",
+            "imgUrl2": null,
+            "customGameType": 0
+        },
+        {
+            "gameID": "ce24436121ee34b3599a19385593add6",
+            "gameNameEn": "Golden Dragons",
+            "img": "https://ossimg.91admin123admin.com/91club/gamelogo/MG/SMG_goldenDragons.png",
+            "vendorId": 4,
+            "vendorCode": "microgaming",
+            "imgUrl2": null,
+            "customGameType": 0
+        },
+        {
+            "gameID": "0077aab39c96003020db1ef8d319b933",
+            "gameNameEn": "Break da Bank Again",
+            "img": "https://ossimg.91admin123admin.com/91club/gamelogo/MG/SMG_breakDaBankAgain.png",
+            "vendorId": 4,
+            "vendorCode": "microgaming",
+            "imgUrl2": null,
+            "customGameType": 0
+        },
+        {
+            "gameID": "865ad65eca37b325394178bba635f8ec",
+            "gameNameEn": "Lucky Twins Jackpot",
+            "img": "https://ossimg.91admin123admin.com/91club/gamelogo/MG/SMG_luckyTwinsJackpot.png",
+            "vendorId": 4,
+            "vendorCode": "microgaming",
+            "imgUrl2": null,
+            "customGameType": 0
+        },
+        {
+            "gameID": "81ad20295258e0ff224e597e309d0bc5",
+            "gameNameEn": "15 Tridents",
+            "img": "https://ossimg.91admin123admin.com/91club/gamelogo/MG/SMG_15Tridents.png",
+            "vendorId": 4,
+            "vendorCode": "microgaming",
+            "imgUrl2": null,
+            "customGameType": 0
+        },
+        {
+            "gameID": "598b73a6bc5d3f75b8b1f24031df33e6",
+            "gameNameEn": "777 Surge",
+            "img": "https://ossimg.91admin123admin.com/91club/gamelogo/MG/SMG_777Surge.png",
+            "vendorId": 4,
+            "vendorCode": "microgaming",
+            "imgUrl2": null,
+            "customGameType": 0
+        },
+        {
+            "gameID": "de05ecc1ddce9911bb6046fb15b16661",
+            "gameNameEn": "Squealin' Riches",
+            "img": "https://ossimg.91admin123admin.com/91club/gamelogo/MG/SMG_squealinRiches.png",
+            "vendorId": 4,
+            "vendorCode": "microgaming",
+            "imgUrl2": null,
+            "customGameType": 0
+        },
+        {
+            "gameID": "75284597e5f4dbd8a83b60feea2353c0",
+            "gameNameEn": "Fire Forge",
+            "img": "https://ossimg.91admin123admin.com/91club/gamelogo/MG/SMG_fireForge.png",
+            "vendorId": 4,
+            "vendorCode": "microgaming",
+            "imgUrl2": null,
+            "customGameType": 0
+        },
+        {
+            "gameID": "f88e1996ce3c8a16067a175d40e8ae02",
+            "gameNameEn": "High Society",
+            "img": "https://ossimg.91admin123admin.com/91club/gamelogo/MG/SMG_highSociety.png",
+            "vendorId": 4,
+            "vendorCode": "microgaming",
+            "imgUrl2": null,
+            "customGameType": 0
+        },
+        {
+            "gameID": "89df8873885f4072c5e44349b5978fff",
+            "gameNameEn": "4 Diamond Blues™ - Megaways™",
+            "img": "https://ossimg.91admin123admin.com/91club/gamelogo/MG/SMG_4DiamondBlues.png",
+            "vendorId": 4,
+            "vendorCode": "microgaming",
+            "imgUrl2": null,
+            "customGameType": 0
+        },
+        {
+            "gameID": "d89d910a6a063040aaf4e3d0aede92b8",
+            "gameNameEn": "Mega Money Multiplier",
+            "img": "https://ossimg.91admin123admin.com/91club/gamelogo/MG/SMG_megaMoneyMultiplier.png",
+            "vendorId": 4,
+            "vendorCode": "microgaming",
+            "imgUrl2": null,
+            "customGameType": 0
+        },
+        {
+            "gameID": "c05bc93f2accf4b0cf5c7808d94a0d54",
+            "gameNameEn": "Ancient Fortunes: Zeus",
+            "img": "https://ossimg.91admin123admin.com/91club/gamelogo/MG/SMG_ancientFortunesZeus.png",
+            "vendorId": 4,
+            "vendorCode": "microgaming",
+            "imgUrl2": null,
+            "customGameType": 0
+        },
+        {
+            "gameID": "e055f1cbae3ea20feae609ba5fd49a19",
+            "gameNameEn": "Serengeti Gold",
+            "img": "https://ossimg.91admin123admin.com/91club/gamelogo/MG/SMG_serengetiGold.png",
+            "vendorId": 4,
+            "vendorCode": "microgaming",
+            "imgUrl2": null,
+            "customGameType": 0
+        },
+        {
+            "gameID": "6eb8137f1d9c2723fcdcd6e4060eae4b",
+            "gameNameEn": "Bolt X UP",
+            "img": "https://ossimg.91admin123admin.com/91club/gamelogo/MG/SMG_boltXUP.png",
+            "vendorId": 4,
+            "vendorCode": "microgaming",
+            "imgUrl2": null,
+            "customGameType": 0
+        },
+        {
+            "gameID": "6ffddfef71a53e14852030aadde35ead",
+            "gameNameEn": "9 Pots of Gold",
+            "img": "https://ossimg.91admin123admin.com/91club/gamelogo/MG/SMG_9potsOfGold.png",
+            "vendorId": 4,
+            "vendorCode": "microgaming",
+            "imgUrl2": null,
+            "customGameType": 0
+        },
+        {
+            "gameID": "9cf43d6192eea651fedc3695ed0ff850",
+            "gameNameEn": "Break Da Bank Again™ MEGAWAYS™",
+            "img": "https://ossimg.91admin123admin.com/91club/gamelogo/MG/SMG_breakDaBankAgainMegaways.png",
+            "vendorId": 4,
+            "vendorCode": "microgaming",
+            "imgUrl2": null,
+            "customGameType": 0
+        },
+        {
+            "gameID": "8fb88fc48b2847737b35185b27566e73",
+            "gameNameEn": "Ancient Fortunes: Poseidon Megaways ™",
+            "img": "https://ossimg.91admin123admin.com/91club/gamelogo/MG/SMG_ancientFortunesPoseidonMegaways.png",
+            "vendorId": 4,
+            "vendorCode": "microgaming",
+            "imgUrl2": null,
+            "customGameType": 0
+        },
+        {
+            "gameID": "8be4e126200b885c9843902fe53e91ee",
+            "gameNameEn": "Dungeons and Diamonds",
+            "img": "https://ossimg.91admin123admin.com/91club/gamelogo/MG/SMG_dungeonsAndDiamonds.png",
+            "vendorId": 4,
+            "vendorCode": "microgaming",
+            "imgUrl2": null,
+            "customGameType": 0
+        },
+        {
+            "gameID": "402e33797c474334d5206fbbd67a421c",
+            "gameNameEn": "Mask of Amun",
+            "img": "https://ossimg.91admin123admin.com/91club/gamelogo/MG/SMG_maskOfAmun.png",
+            "vendorId": 4,
+            "vendorCode": "microgaming",
+            "imgUrl2": null,
+            "customGameType": 0
+        },
+        {
+            "gameID": "0a77ef8813e793b9bfa9fc7611aa10ed",
+            "gameNameEn": "5 Star Knockout",
+            "img": "https://ossimg.91admin123admin.com/91club/gamelogo/MG/SMG_5StarKnockout.png",
+            "vendorId": 4,
+            "vendorCode": "microgaming",
+            "imgUrl2": null,
+            "customGameType": 0
+        },
+        {
+            "gameID": "bafcf5c29dd7eaa2e0c4a7ff67646028",
+            "gameNameEn": "Blazing Mammoth",
+            "img": "https://ossimg.91admin123admin.com/91club/gamelogo/MG/SMG_blazingMammoth.png",
+            "vendorId": 4,
+            "vendorCode": "microgaming",
+            "imgUrl2": null,
+            "customGameType": 0
+        },
+        {
+            "gameID": "ea3af3c1f464762cc593d029821ed794",
+            "gameNameEn": "Fishin' Pots of Gold",
+            "img": "https://ossimg.91admin123admin.com/91club/gamelogo/MG/SMG_fishinPotsOfGold.png",
+            "vendorId": 4,
+            "vendorCode": "microgaming",
+            "imgUrl2": null,
+            "customGameType": 0
+        },
+        {
+            "gameID": "5fe86b62b4bce5e221771acacccf14e8",
+            "gameNameEn": "Playboy Fortunes",
+            "img": "https://ossimg.91admin123admin.com/91club/gamelogo/MG/SMG_playboyFortunes.png",
+            "vendorId": 4,
+            "vendorCode": "microgaming",
+            "imgUrl2": null,
+            "customGameType": 0
+        },
+        {
+            "gameID": "6ea073e96db242df979fccdddfc87541",
+            "gameNameEn": "Lucky Twins Wilds",
+            "img": "https://ossimg.91admin123admin.com/91club/gamelogo/MG/SMG_luckyTwinsWilds.png",
+            "vendorId": 4,
+            "vendorCode": "microgaming",
+            "imgUrl2": null,
+            "customGameType": 0
+        },
+        {
+            "gameID": "f38f0627f192db45627e73a08d56e378",
+            "gameNameEn": "9 Masks of Fire™ HyperSpins™",
+            "img": "https://ossimg.91admin123admin.com/91club/gamelogo/MG/SMG_9masksOfFireHyperSpins.png",
+            "vendorId": 4,
+            "vendorCode": "microgaming",
+            "imgUrl2": null,
+            "customGameType": 0
+        },
+        {
+            "gameID": "c1487e33c18273b10afedf9c6c6fb049",
+            "gameNameEn": "Book of Oz",
+            "img": "https://ossimg.91admin123admin.com/91club/gamelogo/MG/SMG_bookOfOz.png",
+            "vendorId": 4,
+            "vendorCode": "microgaming",
+            "imgUrl2": null,
+            "customGameType": 0
+        },
+        {
+            "gameID": "e893224daab09c50ad732af88f12d448",
+            "gameNameEn": "Dragon's Breath",
+            "img": "https://ossimg.91admin123admin.com/91club/gamelogo/MG/SMG_dragonsBreath.png",
+            "vendorId": 4,
+            "vendorCode": "microgaming",
+            "imgUrl2": null,
+            "customGameType": 0
+        },
+        {
+            "gameID": "34b31abc6b236b2fff86996c81379931",
+            "gameNameEn": "Lucky Leprechaun Clusters",
+            "img": "https://ossimg.91admin123admin.com/91club/gamelogo/MG/SMG_luckyLeprechaunClusters.png",
+            "vendorId": 4,
+            "vendorCode": "microgaming",
+            "imgUrl2": null,
+            "customGameType": 0
+        },
+        {
+            "gameID": "f4dc0c05fd57dd197c35e139fa13e2b4",
+            "gameNameEn": "Queen of Alexandria™",
+            "img": "https://ossimg.91admin123admin.com/91club/gamelogo/MG/SMG_queenofAlexandria.png",
+            "vendorId": 4,
+            "vendorCode": "microgaming",
+            "imgUrl2": null,
+            "customGameType": 0
+        },
+        {
+            "gameID": "d4895b401ffba4e8e6b42c109db7849b",
+            "gameNameEn": "Western Gold",
+            "img": "https://ossimg.91admin123admin.com/91club/gamelogo/MG/SMG_westernGold.png",
+            "vendorId": 4,
+            "vendorCode": "microgaming",
+            "imgUrl2": null,
+            "customGameType": 0
+        }
+    ]
+}

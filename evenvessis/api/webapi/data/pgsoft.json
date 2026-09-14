@@ -1,0 +1,271 @@
+{
+    "gameCustomTypeLists": [],
+    "gameLists": [
+        {
+            "gameNameEn": "Fortune Tiger",
+            "gameCode": "1189baca156e1bbbecc3b26651a63565",
+            "vendorCode": "pgsoft",
+            "img": "https://imagensfivers.com/Games/Pgsoft/126.webp",
+            "customGameType": 0
+        },
+        {
+            "gameNameEn": "Fortune Ox",
+            "gameCode": "ba2adf72179e1ead9e3dae8f0a7d4c07",
+            "vendorCode": "pgsoft",
+            "img": "https://imagensfivers.com/Games/Pgsoft/98.webp",
+            "customGameType": 0
+        },
+        {
+            "gameNameEn": "Fortune Mouse",
+            "gameCode": "2fa9a84d096d6ff0bab53f81b79876c8",
+            "vendorCode": "pgsoft",
+            "img": "https://imagensfivers.com/Games/Pgsoft/68.webp",
+            "customGameType": 0
+        },
+        {
+            "gameNameEn": "Fortune Rabbit",
+            "gameCode": "fb2a2ac51303c0a0801dbe6a72d936f7",
+            "vendorCode": "pgsoft",
+            "img": "https://imagensfivers.com/Games/Pgsoft/1543462.webp",
+            "customGameType": 0
+        },
+        {
+            "gameNameEn": "Bikini Paradise",
+            "gameCode": "e1b4c6b95746d519228744771f15fe4b",
+            "vendorCode": "pgsoft",
+            "img": "https://imagensfivers.com/Games/Pgsoft/69.webp",
+            "customGameType": 0
+        },
+        {
+            "gameNameEn": "Jungle Delight",
+            "gameCode": "cd29b9906a852ce26b53b6d6d81037d4",
+            "vendorCode": "pgsoft",
+            "img": "https://imagensfivers.com/Games/Pgsoft/40.webp",
+            "customGameType": 0
+        },
+        {
+            "gameNameEn": "Fortune Dragon",
+            "gameCode": "83a6890cf84e4c5a6bacf96d5355d472",
+            "vendorCode": "pgsoft",
+            "img": "https://imagensfivers.com/Games/Pgsoft/1695365.webp",
+            "customGameType": 0
+        },
+        {
+            "gameNameEn": "Chicky Run",
+            "gameCode": "95fc290bb05c07b5aad1a054eba4dcc4",
+            "vendorCode": "pgsoft",
+            "img": "https://imagensfivers.com/Games/Pgsoft/1738001.webp",
+            "customGameType": 0
+        },
+        {
+            "gameNameEn": "Ganesha Gold",
+            "gameCode": "fedfca553a97a791a3a41c4f1e3bff58",
+            "vendorCode": "pgsoft",
+            "img": "https://imagensfivers.com/Games/Pgsoft/42.webp",
+            "customGameType": 0
+        },
+        {
+            "gameNameEn": "Wild Bandito",
+            "gameCode": "4afef91d3addb9ce5107abaf3342b9a5",
+            "vendorCode": "pgsoft",
+            "img": "https://imagensfivers.com/Games/Pgsoft/104.webp",
+            "customGameType": 0
+        },
+        {
+            "gameNameEn": "Piggy Gold",
+            "gameCode": "3810e528e0abb8ce1cd7ddc2ece005c0",
+            "vendorCode": "pgsoft",
+            "img": "https://imagensfivers.com/Games/Pgsoft/piggy-gold.webp",
+            "customGameType": 0
+        },
+        {
+            "gameNameEn": "Double Fortune",
+            "gameCode": "99f07ed2226f37e22570325fc1c078f2",
+            "vendorCode": "pgsoft",
+            "img": "https://imagensfivers.com/Games/Pgsoft/double-fortune.webp",
+            "customGameType": 0
+        },
+        {
+            "gameNameEn": "The Great Icescape",
+            "gameCode": "82a810ba99a5fb3e23fc514afebd6314",
+            "vendorCode": "pgsoft",
+            "img": "https://imagensfivers.com/Games/Pgsoft/the-great-icescape.webp",
+            "customGameType": 0
+        },
+        {
+            "gameNameEn": "Captain's Bounty",
+            "gameCode": "c4b57c6dcfac5c8a31b9174523103c8c",
+            "vendorCode": "pgsoft",
+            "img": "https://imagensfivers.com/Games/Pgsoft/captains-bounty.webp",
+            "customGameType": 0
+        },
+        {
+            "gameNameEn": "Dragon Hatch",
+            "gameCode": "0ef82ebe6f819619f53b83e218b9452c",
+            "vendorCode": "pgsoft",
+            "img": "https://imagensfivers.com/Games/Pgsoft/dragon-hatch.webp",
+            "customGameType": 0
+        },
+        {
+            "gameNameEn": "Vampire's Charm",
+            "gameCode": "8db4eb6d781f915eebab2a26133db0e9",
+            "vendorCode": "pgsoft",
+            "img": "https://imagensfivers.com/Games/Pgsoft/vampires-charm.webp",
+            "customGameType": 0
+        },
+        {
+            "gameNameEn": "Gem Saviour Conquest",
+            "gameCode": "c98bb64436826fe9a2c62955ff70cba9",
+            "vendorCode": "pgsoft",
+            "img": "https://imagensfivers.com/Games/Pgsoft/gem-saviour-conquest.webp",
+            "customGameType": 0
+        },
+        {
+            "gameNameEn": "Mahjong Ways",
+            "gameCode": "0da0fda6981138234f03cb665984c07e",
+            "vendorCode": "pgsoft",
+            "img": "https://imagensfivers.com/Games/Pgsoft/mahjong-ways.webp",
+            "customGameType": 0
+        },
+        {
+            "gameNameEn": "Candy Burst",
+            "gameCode": "7e6298970ad1c3c983e495be86833dee",
+            "vendorCode": "pgsoft",
+            "img": "https://imagensfivers.com/Games/Pgsoft/candy-burst.webp",
+            "customGameType": 0
+        },
+        {
+            "gameNameEn": "Mahjong Ways 2",
+            "gameCode": "1babfc499be7bc670f11695e8668b59d",
+            "vendorCode": "pgsoft",
+            "img": "https://imagensfivers.com/Games/Pgsoft/mahjong-ways2.webp",
+            "customGameType": 0
+        },
+        {
+            "gameNameEn": "Ganesha Fortune",
+            "gameCode": "21c55c4cd28bb1ebf465fcfaf413477c",
+            "vendorCode": "pgsoft",
+            "img": "https://imagensfivers.com/Games/Pgsoft/ganesha-fortune.webp",
+            "customGameType": 0
+        },
+        {
+            "gameNameEn": "Phoenix Rises",
+            "gameCode": "fb8888b2dec33fe9d28996376580b410",
+            "vendorCode": "pgsoft",
+            "img": "https://imagensfivers.com/Games/Pgsoft/phoenix-rises.webp",
+            "customGameType": 0
+        },
+        {
+            "gameNameEn": "Wild Fireworks",
+            "gameCode": "fcc6918b79eddf49984d4f5f650c8ded",
+            "vendorCode": "pgsoft",
+            "img": "https://imagensfivers.com/Games/Pgsoft/wild-fireworks.webp",
+            "customGameType": 0
+        },
+        {
+            "gameNameEn": "Galactic Gems",
+            "gameCode": "c79544b2cf7a3326c85f6ab5bdf53d25",
+            "vendorCode": "pgsoft",
+            "img": "https://imagensfivers.com/Games/Pgsoft/galactic-gems.webp",
+            "customGameType": 0
+        },
+        {
+            "gameNameEn": "Treasures of Aztec",
+            "gameCode": "b1e11902cecf38023f2916569c32040a",
+            "vendorCode": "pgsoft",
+            "img": "https://imagensfivers.com/Games/Pgsoft/treasures-aztec.webp",
+            "customGameType": 0
+        },
+        {
+            "gameNameEn": "Jewels of Prosperity",
+            "gameCode": "4eef5090166a6889956a630321713366",
+            "vendorCode": "pgsoft",
+            "img": "https://imagensfivers.com/Games/Pgsoft/jewels-prosper.webp",
+            "customGameType": 0
+        },
+        {
+            "gameNameEn": "Guardians of Ice and Fire",
+            "gameCode": "5bea5667515cb7a31f6f07dc3caa13b1",
+            "vendorCode": "pgsoft",
+            "img": "https://imagensfivers.com/Games/Pgsoft/gdn-ice-fire.webp",
+            "customGameType": 0
+        },
+        {
+            "gameNameEn": "Bali Vacation",
+            "gameCode": "9a8482565ce343ad3ea7fc4bc42cb043",
+            "vendorCode": "pgsoft",
+            "img": "https://imagensfivers.com/Games/Pgsoft/bali-vacation.webp",
+            "customGameType": 0
+        },
+        {
+            "gameNameEn": "Majestic Treasures",
+            "gameCode": "386a9d8e184d9bc7c7aca32a8a5db686",
+            "vendorCode": "pgsoft",
+            "img": "https://imagensfivers.com/Games/Pgsoft/majestic-ts.webp",
+            "customGameType": 0
+        },
+        {
+            "gameNameEn": "Jack Frost's Winter",
+            "gameCode": "6e37f6e1b6042c2147866c4d86206979",
+            "vendorCode": "pgsoft",
+            "img": "https://imagensfivers.com/Games/Pgsoft/jack-frosts.webp",
+            "customGameType": 0
+        },
+        {
+            "gameNameEn": "Candy Bonanza",
+            "gameCode": "cd0cc7e653b42133d57145d5505d4e96",
+            "vendorCode": "pgsoft",
+            "img": "https://imagensfivers.com/Games/Pgsoft/candy-bonanza.webp",
+            "customGameType": 0
+        },
+        {
+            "gameNameEn": "Heist Stakes",
+            "gameCode": "d3aad7ca1486eb3f145e2c43f38b559c",
+            "vendorCode": "pgsoft",
+            "img": "https://imagensfivers.com/Games/Pgsoft/heist-stakes.webp",
+            "customGameType": 0
+        },
+        {
+            "gameNameEn": "Legendary Monkey King",
+            "gameCode": "43862cc768882dff441a60b26dcec1c0",
+            "vendorCode": "pgsoft",
+            "img": "https://imagensfivers.com/Games/Pgsoft/lgd-monkey-kg.webp",
+            "customGameType": 0
+        },
+        {
+            "gameNameEn": "Buffalo Win",
+            "gameCode": "1c6d773d6a616d74e2573343a5dcecc3",
+            "vendorCode": "pgsoft",
+            "img": "https://imagensfivers.com/Games/Pgsoft/buffalo-win.webp",
+            "customGameType": 0
+        },
+        {
+            "gameNameEn": "Raider Jane's Crypt of Fortune",
+            "gameCode": "e7d7e8396619459db2c178ed72f81049",
+            "vendorCode": "pgsoft",
+            "img": "https://imagensfivers.com/Games/Pgsoft/crypt-fortune.webp",
+            "customGameType": 0
+        },
+        {
+            "gameNameEn": "Emoji Riches",
+            "gameCode": "dcc55631d793ad44be98d21c99f7e361",
+            "vendorCode": "pgsoft",
+            "img": "https://imagensfivers.com/Games/Pgsoft/emoji-riches.webp",
+            "customGameType": 0
+        },
+        {
+            "gameNameEn": "Supermarket Spree",
+            "gameCode": "b34c5e632cdc53fc67f1a5eec5758af7",
+            "vendorCode": "pgsoft",
+            "img": "https://imagensfivers.com/Games/Pgsoft/sprmkt-spree.webp",
+            "customGameType": 0
+        },
+        {
+            "gameNameEn": "Spirited Wonders",
+            "gameCode": "9e795df6bdf093a144e714fd35afbb7a",
+            "vendorCode": "pgsoft",
+            "img": "https://imagensfivers.com/Games/Pgsoft/spirit-wonder.webp",
+            "customGameType": 0
+        }
+    ]
+}

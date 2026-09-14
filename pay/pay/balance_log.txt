@@ -1,0 +1,18 @@
+2025-09-26 07:24:56 - Balance API Attempt: https://www.lg-pay.com/api/balance/query - HTTP Code: 200
+2025-09-26 07:24:56 - Balance API Response: {"status":0,"msg":"Fatal Error","data":[]}
+2025-09-26 07:24:57 - Balance API Attempt: https://www.lg-pay.com/api/merchant/balance - HTTP Code: 200
+2025-09-26 07:24:57 - Balance API Response: {"status":0,"msg":"Fatal Error","data":[]}
+2025-09-26 07:24:57 - Balance API Attempt: https://www.lg-pay.com/api/account/balance - HTTP Code: 200
+2025-09-26 07:24:57 - Balance API Response: {"status":0,"msg":"Fatal Error","data":[]}
+2025-09-26 07:24:59 - Balance API Attempt: https://www.lg-pay.com/api/balance/query - HTTP Code: 200
+2025-09-26 07:24:59 - Balance API Response: {"status":0,"msg":"Fatal Error","data":[]}
+2025-09-26 07:24:59 - Balance API Attempt: https://www.lg-pay.com/api/merchant/balance - HTTP Code: 200
+2025-09-26 07:24:59 - Balance API Response: {"status":0,"msg":"Fatal Error","data":[]}
+2025-09-26 07:25:00 - Balance API Attempt: https://www.lg-pay.com/api/account/balance - HTTP Code: 200
+2025-09-26 07:25:00 - Balance API Response: {"status":0,"msg":"Fatal Error","data":[]}
+2025-09-26 07:25:18 - Balance API Attempt: https://www.lg-pay.com/api/balance/query - HTTP Code: 200
+2025-09-26 07:25:18 - Balance API Response: {"status":0,"msg":"Fatal Error","data":[]}
+2025-09-26 07:25:18 - Balance API Attempt: https://www.lg-pay.com/api/merchant/balance - HTTP Code: 200
+2025-09-26 07:25:18 - Balance API Response: {"status":0,"msg":"Fatal Error","data":[]}
+2025-09-26 07:25:18 - Balance API Attempt: https://www.lg-pay.com/api/account/balance - HTTP Code: 200
+2025-09-26 07:25:18 - Balance API Response: {"status":0,"msg":"Fatal Error","data":[]}

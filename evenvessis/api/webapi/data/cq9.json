@@ -1,0 +1,185 @@
+{
+  "gameCustomTypeLists": [],
+  "gameLists": [
+    {
+      "gameID": "630a841b4cf75a38e2e657040f785e63",
+      "gameNameEn": "OneShotFishing",
+      "img": "https://ossimg.yuk87k786d.com/sikkim/gamelogo/CQ9/AT01.png",
+      "vendorId": 2,
+      "vendorCode": "cq9",
+      "imgUrl2": null,
+      "customGameType": 0
+    },
+    {
+      "gameID": "b602205d6a56d999df188e17ecc2bc91",
+      "gameNameEn": "Hot Spin",
+      "img": "https://ossimg.yuk87k786d.com/sikkim/gamelogo/CQ9/19.png",
+      "vendorId": 19,
+      "vendorCode": "cq9",
+      "imgUrl2": null,
+      "customGameType": 0
+    },
+    {
+      "gameID": "8d57ec6274960fe2f2c252f4a49adf7f",
+      "gameNameEn": "LuckyFishing",
+      "img": "https://ossimg.yuk87k786d.com/sikkim/gamelogo/CQ9/AT05.png",
+      "vendorId": 2,
+      "vendorCode": "cq9",
+      "imgUrl2": null,
+      "customGameType": 0
+    },
+    {
+      "gameID": "1282953e9452fe2852cb1724b4b9d617",
+      "gameNameEn": "Fruity Carnival",
+      "img": "https://ossimg.yuk87k786d.com/sikkim/gamelogo/CQ9/102.png",
+      "vendorId": 2,
+      "vendorCode": "cq9",
+      "imgUrl2": null,
+      "customGameType": 0
+    },
+    {
+      "gameID": "50568ba2a8da9f30dded83dbbd3655d6",
+      "gameNameEn": "Lucky Bats",
+      "img": "https://ossimg.yuk87k786d.com/sikkim/gamelogo/CQ9/10.png",
+      "vendorId": 2,
+      "vendorCode": "cq9",
+      "imgUrl2": null,
+      "customGameType": 0
+    },
+    {
+      "gameID": "f4b6484dc2b96fc339604446cd042534",
+      "gameNameEn": "Jump Higher Mobile",
+      "img": "https://ossimg.yuk87k786d.com/sikkim/gamelogo/CQ9/108.png",
+      "vendorId": 2,
+      "vendorCode": "cq9",
+      "imgUrl2": null,
+      "customGameType": 0
+    },
+    {
+      "gameID": "afddbebb27c4b7408bda624aa9354aa7",
+      "gameNameEn": "Money Tree",
+      "img": "https://ossimg.yuk87k786d.com/sikkim/gamelogo/CQ9/208.png",
+      "vendorId": 2,
+      "vendorCode": "cq9",
+      "imgUrl2": null,
+      "customGameType": 0
+    },
+    {
+      "gameID": "0f944952a27be9ab52d8deabf275a552",
+      "gameNameEn": "Paradise",
+      "img": "https://ossimg.yuk87k786d.com/sikkim/gamelogo/CQ9/AB3.png",
+      "vendorId": 2,
+      "vendorCode": "cq9",
+      "imgUrl2": null,
+      "customGameType": 0
+    },
+    {
+      "gameID": "82839530d48814c586b8844b84693ca4",
+      "gameNameEn": "Running Toro",
+      "img": "https://ossimg.yuk87k786d.com/sikkim/gamelogo/CQ9/86.png",
+      "vendorId": 2,
+      "vendorCode": "cq9",
+      "imgUrl2": null,
+      "customGameType": 0
+    },
+    {
+      "gameID": "c069592afd5d6ffab7bf759a491a71cd",
+      "gameNameEn": "Fire 777",
+      "img": "https://ossimg.yuk87k786d.com/sikkim/gamelogo/CQ9/66.png",
+      "vendorId": 2,
+      "vendorCode": "cq9",
+      "imgUrl2": null,
+      "customGameType": 0
+    },
+    {
+      "gameID": "61d7c57fedb24242f4e56df7d5c80bfd",
+      "gameNameEn": "Golden Eggs",
+      "img": "https://ossimg.yuk87k786d.com/sikkim/gamelogo/CQ9/67.png",
+      "vendorId": 2,
+      "vendorCode": "cq9",
+      "imgUrl2": null,
+      "customGameType": 0
+    },
+    {
+      "gameID": "80af0735d78f6056a920770abca9f51c",
+      "gameNameEn": "Hero Fishing",
+      "img": "https://ossimg.yuk87k786d.com/sikkim/gamelogo/CQ9/GO02.png",
+      "vendorId": 2,
+      "vendorCode": "cq9",
+      "imgUrl2": null,
+      "customGameType": 0
+    },
+    {
+      "gameID": "da2929eef2ac66b7b3d44fdf0655c27a",
+      "gameNameEn": "Greek Gods",
+      "img": "https://ossimg.yuk87k786d.com/sikkim/gamelogo/CQ9/171.png",
+      "vendorId": 2,
+      "vendorCode": "cq9",
+      "imgUrl2": null,
+      "customGameType": 0
+    },
+    {
+      "gameID": "46c55e2ba632f9ae9addda6e169f7743",
+      "gameNameEn": "888",
+      "img": "https://ossimg.yuk87k786d.com/sikkim/gamelogo/CQ9/20.png",
+      "vendorId": 2,
+      "vendorCode": "cq9",
+      "imgUrl2": null,
+      "customGameType": 0
+    },
+    {
+      "gameID": "cee72070e3d6fee077cfcb9a050df57d",
+      "gameNameEn": "Lord Ganesha",
+      "img": "https://ossimg.yuk87k786d.com/sikkim/gamelogo/CQ9/195.png",
+      "vendorId": 2,
+      "vendorCode": "cq9",
+      "imgUrl2": null,
+      "customGameType": 0
+    },
+    {
+      "gameID": "7b0b749b726371330c991ad01513539a",
+      "gameNameEn": "Wheel Money",
+      "img": "https://ossimg.yuk87k786d.com/sikkim/gamelogo/CQ9/128.png",
+      "vendorId": 2,
+      "vendorCode": "cq9",
+      "imgUrl2": null,
+      "customGameType": 0
+    },
+    {
+      "gameID": "8d505ecfefce9b2c3058f58b415782b2",
+      "gameNameEn": "Mini Roulette",
+      "img": "https://ossimg.yuk87k786d.com/sikkim/gamelogo/CQ9/213.png",
+      "vendorId": 2,
+      "vendorCode": "cq9",
+      "imgUrl2": null,
+      "customGameType": 0
+    },
+    {
+      "gameID": "7148d1ecd2f6787e3d4cfae4580a7b86",
+      "gameNameEn": "Invincible Elephant",
+      "img": "https://ossimg.yuk87k786d.com/sikkim/gamelogo/CQ9/124.png",
+      "vendorId": 2,
+      "vendorCode": "cq9",
+      "imgUrl2": null,
+      "customGameType": 0
+    },
+    {
+      "gameID": "8e77c76cd001acc431fb96ce6d216f80",
+      "gameNameEn": "Ganesha Jr.",
+      "img": "https://ossimg.yuk87k786d.com/sikkim/gamelogo/CQ9/GB6.png",
+      "vendorId": 2,
+      "vendorCode": "cq9",
+      "imgUrl2": null,
+      "customGameType": 0
+    },
+    {
+      "gameID": "a36b6a69ffa118773a5e828bcc74dcf8",
+      "gameNameEn": "5 God beasts",
+      "img": "https://ossimg.yuk87k786d.com/sikkim/gamelogo/CQ9/117.png",
+      "vendorId": 2,
+      "vendorCode": "cq9",
+      "imgUrl2": null,
+      "customGameType": 0
+    }
+  ]
+}
