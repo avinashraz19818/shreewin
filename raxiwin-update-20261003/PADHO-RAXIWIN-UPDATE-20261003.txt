@@ -32,7 +32,7 @@ KYA FIX HUA
      Yaani "jo result aa chuka hai, uspe bet lage to win/loss ready".
    - GetWinLossResult ab kabhi bet ko pending chhod kar "null" nahi deta:
         * result save hote hi pending bets settle kar deta hai,
-        * closing draw ka thoda (max ~4 second) wait karta hai, taaki
+        * closing draw ka thoda (max ~3 second) wait karta hai, taaki
           round khatam hone ke turant baad wale ek hi poll me hi
           won/lost + amount mil jaye (popup aa jaye).
    - Pehle se jitni bets pending atki hui hain, unka bhi settlement ho jata

@@ -1,5 +1,5 @@
 diff --git a/saas_lottery/bootstrap.php b/saas_lottery/bootstrap.php
-index 8822a3c..3ceac15 100644
+index 8822a3c..5eec4b0 100644
 --- a/saas_lottery/bootstrap.php
 +++ b/saas_lottery/bootstrap.php
 @@ -140,7 +140,7 @@ function sl_install_schema()
@@ -310,7 +310,7 @@ index 8822a3c..3ceac15 100644
              'winLoseAmount'=>$winLose,'betTime'=>(string)$row['created_at'],'orderNumber'=>(string)$row['id'],
              'betAmount'=>$stake,'number'=>$recordNumber,'resultNumber'=>$isWingo && $premium !== '' ? (int)$premium : null,
              'color'=>$isWingo && $premium !== '' ? sl_result_color((int)$premium) : '',
-@@ -1812,17 +1990,44 @@ function sl_win_loss($userId, $input)
+@@ -1812,17 +1990,48 @@ function sl_win_loss($userId, $input)
      if ($gameCode !== '') {
          sl_sync_results($gameCode);
      }
@@ -323,10 +323,14 @@ index 8822a3c..3ceac15 100644
 +        // available the pending rows are settled so this single poll answers
 +        // won/lost instead of a null status.
 +        if ($summary['total'] > 0 && sl_stored_result($gameCode, $issue) === null) {
-+            $deadline = microtime(true) + 4.0;
++            $deadline = microtime(true) + 3.0;
++            $resynced = false;
 +            while (microtime(true) < $deadline && sl_stored_result($gameCode, $issue) === null) {
-+                usleep(400000);
-+                sl_sync_results($gameCode);
++                usleep(300000);
++                if (!$resynced && microtime(true) < $deadline) {
++                    $resynced = true;
++                    sl_sync_results($gameCode);
++                }
 +            }
 +        }
 +        sl_settle_pending_from_stored($gameCode, $issue);
@@ -360,7 +364,7 @@ index 8822a3c..3ceac15 100644
  
  function sl_history_values($gameCode, $item)
 diff --git a/saas_lottery/bootstrap_live_v4.php b/saas_lottery/bootstrap_live_v4.php
-index ab4d83e..cf629b9 100644
+index ab4d83e..3ef69aa 100644
 --- a/saas_lottery/bootstrap_live_v4.php
 +++ b/saas_lottery/bootstrap_live_v4.php
 @@ -164,6 +164,32 @@ function sl_install_schema()
@@ -664,7 +668,7 @@ index ab4d83e..cf629b9 100644
              'winLoseAmount'=>$winLose,'betTime'=>(string)$row['created_at'],'orderNumber'=>(string)$row['id'],
              'betAmount'=>$stake,'number'=>$recordNumber,'resultNumber'=>$isWingo && $premium !== '' ? (int)$premium : null,
              'color'=>$isWingo && $premium !== '' ? sl_result_color((int)$premium) : '',
-@@ -1778,17 +1959,44 @@ function sl_win_loss($userId, $input)
+@@ -1778,17 +1959,48 @@ function sl_win_loss($userId, $input)
      if ($gameCode !== '') {
          sl_sync_results($gameCode);
      }
@@ -677,10 +681,14 @@ index ab4d83e..cf629b9 100644
 +        // available the pending rows are settled so this single poll answers
 +        // won/lost instead of a null status.
 +        if ($summary['total'] > 0 && sl_stored_result($gameCode, $issue) === null) {
-+            $deadline = microtime(true) + 4.0;
++            $deadline = microtime(true) + 3.0;
++            $resynced = false;
 +            while (microtime(true) < $deadline && sl_stored_result($gameCode, $issue) === null) {
-+                usleep(400000);
-+                sl_sync_results($gameCode);
++                usleep(300000);
++                if (!$resynced && microtime(true) < $deadline) {
++                    $resynced = true;
++                    sl_sync_results($gameCode);
++                }
 +            }
 +        }
 +        sl_settle_pending_from_stored($gameCode, $issue);

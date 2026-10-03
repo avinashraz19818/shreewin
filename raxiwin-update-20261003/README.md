@@ -7,7 +7,7 @@ shipped engine files change; both are drop-in replacements.
 
 | file | note |
 | --- | --- |
-| `raxiwin-update-20261003.zip` | the uploadable package (44,005 B, md5 `3b559b198b38c39b07d3e69dadfe494d`) |
+| `raxiwin-update-20261003.zip` | the uploadable package (44,060 B, md5 `df85b15aaf258ac50348cc1413fa261a`) |
 | `PADHO-RAXIWIN-UPDATE-20261003.txt` | the same instructions in Hinglish (also inside the ZIP) |
 | `saas_lottery/bootstrap.php` | patched live engine for `/api/Lottery/*` and `draw/` |
 | `saas_lottery/bootstrap_live_v4.php` | patched live engine for `/api-live-v4/*` and `/draw-live-v4/*` |

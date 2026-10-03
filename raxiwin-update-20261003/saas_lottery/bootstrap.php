@@ -1999,10 +1999,14 @@ function sl_win_loss($userId, $input)
         // available the pending rows are settled so this single poll answers
         // won/lost instead of a null status.
         if ($summary['total'] > 0 && sl_stored_result($gameCode, $issue) === null) {
-            $deadline = microtime(true) + 4.0;
+            $deadline = microtime(true) + 3.0;
+            $resynced = false;
             while (microtime(true) < $deadline && sl_stored_result($gameCode, $issue) === null) {
-                usleep(400000);
-                sl_sync_results($gameCode);
+                usleep(300000);
+                if (!$resynced && microtime(true) < $deadline) {
+                    $resynced = true;
+                    sl_sync_results($gameCode);
+                }
             }
         }
         sl_settle_pending_from_stored($gameCode, $issue);
