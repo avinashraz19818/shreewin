@@ -1,0 +1,157 @@
+RAXIWIN UPDATE - 03-10-2026  (v3)
+=================================
+
+Is package me 5 badli hui files hain (site root ke hisab se path ke saath).
+Upload + Extract karne ke baad koi manual SQL / setting badalne ki zarurat nahi.
+
+
+V3 ME KYA NAYA (v2 ke baad) - SABSE ZAROORI
+-------------------------------------------
+
+Aapne bataya tha: "upar 91 period dikh raha hai lekin bet 92 par lag gayi,
+1 period piche hai to bet bhi piche hi rehni chahiye".
+
+- v2 me piche wale label ko aage (running period par) book kiya jata tha,
+  isliye screen par 91 aur bet 92 wala farak bacha hua tha.
+- Ab v3 me: SCREEN PAR JO PERIOD DIKHTA HAI, BET THEEK USI PAR LAGTI HAI.
+  Bet ko kabhi aage nahi badhaya jata. Display ka number = bet ka number.
+- Aur wo bet us period ka TIMER 0 hone ke baad hi settle hoti hai
+  (naya column saas_lottery_bets.settle_after). Isliye:
+     * bet lagate hi win/loss kabhi nahi,
+     * result sirf us period ke timer khatam hone ke baad hi milta hai.
+
+Purana (cached) client ho ya naya client - dono me bet apne displayed period
+par hi rehti hai, kyunki ye fix ab SERVER (engine) me hai, browser JS par
+nirbhar nahi.
+
+
+KYA FIX HUA
+-----------
+
+1) BET KA TAX / SERVICE CHARGE  ("bet me tax wagera fix")
+   - Pehle bet record me tax/service charge hamesha 0.00 aata tha, isliye
+     "amount after tax" = poori stake dikhti thi.
+   - Ab har bet par tax stake ke saath hi save hota hai:
+        tax = stake * 2%   (setting key: lottery_payout_tax_percent)
+   - Record / API me ye fields bhar ke jaate hain:
+        realAmount, realBettingAmount, fee, serviceCharge, tax, taxAmount,
+        taxRate
+     Isliye My Record / bet history screen me tax wali line dikhegi.
+   - Purane bets ka tax bhi pehli request par ek baar automatically
+     backfill ho jata hai (koi SQL chalane ki zarurat nahi).
+   - Winning payout par se tax pehle ki tarah hi (2% default) katta hai;
+     tax % aap chahein to badal sakte hain (neeche SETTINGS dekhein).
+
+2) ISSUE KA NUMBER aur BET ka PERIOD - dono ab EK HI
+   ("91 dikha, bet 92 par lag gayi")
+   - Server ab client ke bheje hue displayed label ko hi apna period maanta
+     hai (running period par aage nahi khiskata, aur reject bhi nahi karta).
+   - Server khud verify karta hai ki label current ya just-previous canonical
+     period hai; isse bahar ka label fail ho jata hai
+     ("Betting has stopped for the current period").
+   - History / result panel me bhi wahi labels bina shift ke dikhte hain,
+     aur jo period chal raha hai wo timer khatam hone se pehle list me
+     nahi aata.
+
+3) BET LAGATE HI WIN/LOSS NEHI - TIMER KHATAM HONE KA WAIT
+   ("bet lagate hi win ho jaa rha h")
+   - Pehle: agar result pehle se save tha to bet turant usi saved result
+     se settle kar diya jata tha -> bet lagate hi win/loss.
+   - Ab: har nayi bet ke saath us period ka end-time save hota hai, aur
+     settlement us end-time ke baad hi hoti hai (settle_after).
+   - Timer khatam hone ke baad bhi result pending nahi atakta:
+        * result save hote hi pending bets settle ho jaate hain,
+        * closing draw ka thoda (max ~3 second) wait hota hai, taaki round
+          khatam hone ke turant baad wale poll me hi won/lost + amount
+          mil jaye (popup aa jaye),
+        * cached client ka piche wala label ho to bhi engine usi bet ka
+          result dhoondh kar deta hai (issue +/-1 tak safe).
+
+4) HISTORY / RESULT PANEL
+   - Result list ke label pehle shift kiye jaate the; ab labels bina shift
+     ke, sahi period par dikhte hain (draw-live-v4/index.php).
+   - Ek period ka result sirf uske timer khatam hone ke baad hi public
+     history me aata hai.
+
+
+FILES
+-----
+
+  saas_lottery/bootstrap.php           (engine: /api/Lottery/* aur draw/)
+  saas_lottery/bootstrap_live_v4.php   (engine: /api-live-v4/*, /draw-live-v4/*)
+  draw-live-v4/index.php               (public draw/result screen)
+  assets/js/useLottery.hook-_2rEnQ4S.js (client: issue label + countdown)
+  assets/js/useWinGo3-5zV6kUzs.js       (client: bet + win/loss + history)
+
+Agar aapki site in dono engines ko use karti hai to dono patch ho gaye hain
+aur dono ek hi database tables use karte hain, isliye tax/settlement dono
+taraf se same rahega.
+
+NOTE (client JS): asli fix ab server me hai. Client JS files package me
+saath hain (display ka -1 label shift hata dete hain), lekin inhe extract
+na bhi karein to bhi bet displayed period par hi lagegi.
+
+
+UPLOAD KAISE KARNA HAI (cPanel)
+-------------------------------
+
+1. cPanel > File Manager kholein.
+2. Site ke root folder me jayein (jahan index.html aur saas_lottery folder hai).
+3. Is ZIP ko wahi upload karein.
+4. ZIP par right click > Extract > Overwrite / Replace "Yes" karein.
+   (ZIP ke andar saas_lottery/..., draw-live-v4/... aur assets/js/... path
+   already sahi hai, isliye files apni jagah chali jayengi. Koi folder
+   manually move karne ki zarurat nahi.)
+5. Page ko Ctrl+F5 (hard refresh) kar lein - purani JS cache se hata dein.
+   Mobile app / PWA me ho to cache clear karke dobara kholein.
+6. Test:
+   - WinGo khol kar dekhein: upar jo issue number dikh raha ho, bet lagane
+     ke baad My Record / win-loss me wahi number aana chahiye.
+   - Ek WinGo bet lagayein -> bet lagte hi winner popup NAHI aana chahiye;
+     jo period screen par chal raha hai uska timer 0 hone ke baad hi
+     win/loss aaye.
+   - My Record me us bet row me tax / service charge (fee) 0.00 ki jagah
+     2% dikhna chahiye.
+
+
+SETTINGS (optional - table: saas_lottery_settings)
+--------------------------------------------------
+
+  lottery_payout_tax_percent = 2.00   -> tax percentage (default 2)
+  accept_previous_period_bets = 1     -> 1 (default): cached client ka
+                                         piche wala label bhi accept hota
+                                         hai aur USI (displayed) period par
+                                         book hota hai.
+                                         0 karne par sirf exactly current
+                                         period ka label accept hota hai,
+                                         baaki par "Betting has stopped".
+
+Dono soorat me bet apne period ke timer khatam hone se pehle settle NAHI
+hoti aur display ka issue number = bet ka issue number rehta hai.
+
+
+DATABASE
+--------
+
+Engine khud hi ye columns add kar leta hai (koi SQL chalane ki zarurat nahi):
+
+  saas_lottery_bets.tax_fee       DECIMAL(18,4)  -- bet ka 2% service charge
+  saas_lottery_bets.settle_after  BIGINT         -- us period ka end time (ms)
+
+Dono purane code ko nahi todte; purani rows ke liye default 0 rehta hai
+(0 = purana behaviour: turant settle allowed).
+
+
+ROLLBACK
+--------
+
+Extract karne se pehle ye files backup kar lein:
+
+  saas_lottery/bootstrap.php
+  saas_lottery/bootstrap_live_v4.php
+  draw-live-v4/index.php
+  assets/js/useLottery.hook-_2rEnQ4S.js
+  assets/js/useWinGo3-5zV6kUzs.js
+
+Purana behaviour wapas chahiye to sirf yahi backup files dobara upload kar
+dein.

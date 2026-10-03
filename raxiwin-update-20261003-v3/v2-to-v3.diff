@@ -1,0 +1,412 @@
+--- raxiwin-update-20261003/saas_lottery/bootstrap.php	2026-10-03 06:28:40.856251327 +0000
++++ /home/user/raxiwin/saas_lottery/bootstrap.php	2026-10-03 06:48:01.711115910 +0000
+@@ -140,7 +140,7 @@
+     }
+ 
+     $queries = array(
+-        "CREATE TABLE IF NOT EXISTS saas_lottery_bets (id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,user_id BIGINT NOT NULL,game_code VARCHAR(32) NOT NULL,issue_number VARCHAR(40) NOT NULL,bet_content VARCHAR(190) NOT NULL,amount DECIMAL(18,4) NOT NULL,bet_multiple INT NOT NULL,bet_units INT NOT NULL DEFAULT 1,stake DECIMAL(18,4) NOT NULL,request_group_key CHAR(64) NOT NULL,request_key CHAR(64) NOT NULL,status VARCHAR(16) NOT NULL DEFAULT 'pending',result_premium VARCHAR(64) NULL,payout DECIMAL(18,4) NOT NULL DEFAULT 0,tax_fee DECIMAL(18,4) NOT NULL DEFAULT 0,created_at DATETIME NOT NULL,settled_at DATETIME NULL,vip_exp_applied TINYINT(1) NOT NULL DEFAULT 0,PRIMARY KEY(id),UNIQUE KEY uq_saas_lottery_request(request_key),KEY idx_saas_lottery_group(request_group_key),KEY idx_saas_lottery_user_created(user_id,created_at),KEY idx_saas_lottery_issue_status(game_code,issue_number,status),KEY idx_saas_vip_exp(vip_exp_applied,user_id)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
++        "CREATE TABLE IF NOT EXISTS saas_lottery_bets (id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,user_id BIGINT NOT NULL,game_code VARCHAR(32) NOT NULL,issue_number VARCHAR(40) NOT NULL,bet_content VARCHAR(190) NOT NULL,amount DECIMAL(18,4) NOT NULL,bet_multiple INT NOT NULL,bet_units INT NOT NULL DEFAULT 1,stake DECIMAL(18,4) NOT NULL,request_group_key CHAR(64) NOT NULL,request_key CHAR(64) NOT NULL,status VARCHAR(16) NOT NULL DEFAULT 'pending',result_premium VARCHAR(64) NULL,payout DECIMAL(18,4) NOT NULL DEFAULT 0,tax_fee DECIMAL(18,4) NOT NULL DEFAULT 0,settle_after BIGINT NOT NULL DEFAULT 0,created_at DATETIME NOT NULL,settled_at DATETIME NULL,vip_exp_applied TINYINT(1) NOT NULL DEFAULT 0,PRIMARY KEY(id),UNIQUE KEY uq_saas_lottery_request(request_key),KEY idx_saas_lottery_group(request_group_key),KEY idx_saas_lottery_user_created(user_id,created_at),KEY idx_saas_lottery_issue_status(game_code,issue_number,status),KEY idx_saas_vip_exp(vip_exp_applied,user_id)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+         "CREATE TABLE IF NOT EXISTS saas_lottery_requests (request_group_key CHAR(64) NOT NULL,user_id BIGINT NOT NULL,game_code VARCHAR(32) NOT NULL,issue_number VARCHAR(40) NOT NULL,created_at DATETIME NOT NULL,PRIMARY KEY(request_group_key),KEY idx_saas_request_user_created(user_id,created_at)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+         "CREATE TABLE IF NOT EXISTS saas_lottery_results (id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,game_code VARCHAR(32) NOT NULL,issue_number VARCHAR(40) NOT NULL,premium VARCHAR(64) NOT NULL,number VARCHAR(32) NOT NULL DEFAULT '',color VARCHAR(32) NOT NULL DEFAULT '',result_sum INT NOT NULL DEFAULT 0,provider_seen_at DATETIME NOT NULL,created_at DATETIME NOT NULL,PRIMARY KEY(id),UNIQUE KEY uq_saas_lottery_result(game_code,issue_number),KEY idx_saas_lottery_result_created(game_code,created_at)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+         "CREATE TABLE IF NOT EXISTS saas_wallet_ledger (id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,user_id BIGINT NOT NULL,entry_key VARCHAR(96) NOT NULL,entry_type VARCHAR(32) NOT NULL,reference_type VARCHAR(32) NULL,reference_id VARCHAR(64) NULL,amount DECIMAL(18,4) NOT NULL,balance_before DECIMAL(18,4) NOT NULL,balance_after DECIMAL(18,4) NOT NULL,created_at DATETIME NOT NULL,PRIMARY KEY(id),UNIQUE KEY uq_saas_wallet_entry(entry_key),KEY idx_saas_wallet_user_created(user_id,created_at)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+@@ -168,6 +168,9 @@
+         if (app_table_exists('saas_lottery_bets') && !app_column_exists('saas_lottery_bets', 'tax_fee')) {
+             $conn->query('ALTER TABLE saas_lottery_bets ADD COLUMN tax_fee DECIMAL(18,4) NOT NULL DEFAULT 0 AFTER payout');
+         }
++        if (app_table_exists('saas_lottery_bets') && !app_column_exists('saas_lottery_bets', 'settle_after')) {
++            $conn->query('ALTER TABLE saas_lottery_bets ADD COLUMN settle_after BIGINT NOT NULL DEFAULT 0 AFTER tax_fee');
++        }
+         if (app_table_exists('saas_lottery_bets') && app_column_exists('saas_lottery_bets', 'tax_fee')) {
+             // Backfill the stake service fee once for rows written before the
+             // tax column existed, then remember that the table was converted.
+@@ -1426,6 +1429,55 @@
+     return $has;
+ }
+ 
++/**
++ * True when the bet table carries the per-bet settlement deadline.
++ */
++function sl_bets_have_settle_after()
++{
++    static $has = null;
++    if ($has === null) {
++        global $conn;
++        $has = false;
++        try {
++            $has = function_exists('app_column_exists') && app_column_exists('saas_lottery_bets', 'settle_after');
++        } catch (Throwable $e) {
++            $has = false;
++        }
++    }
++    return $has;
++}
++
++/**
++ * Add or subtract small values from a numeric issue label without touching
++ * floats (labels carry seventeen digits).
++ */
++function sl_issue_shift($issue, $delta)
++{
++    $issue = preg_replace('/[^0-9]/', '', (string) $issue);
++    if ($issue === '' || strlen($issue) > 18) {
++        return (string) $issue;
++    }
++    $digits = str_split($issue);
++    $carry = $delta > 0 ? 1 : -1;
++    for ($step = 0; $step < abs((int) $delta); $step++) {
++        $i = count($digits) - 1;
++        while ($i >= 0) {
++            $digit = (int) $digits[$i] + $carry;
++            if ($digit >= 0 && $digit <= 9) {
++                $digits[$i] = (string) $digit;
++                break;
++            }
++            $digits[$i] = $carry > 0 ? '0' : '9';
++            $i--;
++        }
++        if ($i < 0) {
++            break;
++        }
++    }
++    return implode('', $digits);
++}
++
++
+ function sl_net_payout_after_tax($grossPayout)
+ {
+     $grossPayout = max(0.0, (float) $grossPayout);
+@@ -1443,7 +1495,8 @@
+     }
+     $conn->begin_transaction();
+     try {
+-        $stmt = $conn->prepare("SELECT id,user_id,bet_content,amount,bet_multiple,stake FROM saas_lottery_bets WHERE game_code=? AND issue_number=? AND status='pending' FOR UPDATE");
++        $settleSelect = sl_bets_have_settle_after() ? ',settle_after' : '';
++        $stmt = $conn->prepare("SELECT id,user_id,bet_content,amount,bet_multiple,stake" . $settleSelect . " FROM saas_lottery_bets WHERE game_code=? AND issue_number=? AND status='pending' FOR UPDATE");
+         $stmt->bind_param('ss', $gameCode, $issue);
+         $stmt->execute();
+         $result = $stmt->get_result();
+@@ -1454,6 +1507,12 @@
+         $stmt->close();
+ 
+         foreach ($bets as $bet) {
++            $deferUntil = isset($bet['settle_after']) ? (int) $bet['settle_after'] : 0;
++            if ($deferUntil > 0 && sl_now_ms() < $deferUntil) {
++                // Bet stored on the round the player sees; report the outcome
++                // only after the player's own countdown for that round ends.
++                continue;
++            }
+             list($winningUnits, $rate) = sl_evaluate_bet($gameCode, (string) $bet['bet_content'], $resultItem);
+             $unitStake = (float) $bet['amount'] * (int) $bet['bet_multiple'];
+             $grossPayout = $winningUnits > 0 ? round($unitStake * $rate * $winningUnits, 4) : 0.0;
+@@ -1625,39 +1684,30 @@
+     $endTime = (int) $current['current']['endTime'];
+     $control = app_game_control($gameCode);
+     $lockSeconds = max((int) $SL_CONFIG['bet_lock_seconds'], (int) ($control['lock_before_close_seconds'] ?? 0));
++    $currentStart = (int) floor(((int) $current['current']['startTime']) / 1000);
++    $interval = sl_interval_seconds($gameCode);
+     $acceptCurrent = ($currentIssue === $issue) && ($endTime > sl_now_ms() + ($lockSeconds * 1000));
+-    // The bundled client may still send the label of a period that closed
+-    // while its own timer window advances. Such a bet must never settle before
+-    // the running period ends, so it is re-booked on the running (current)
+-    // period instead of being rejected or settled early.
+-    // Set saas_lottery_settings.accept_previous_period_bets=0 to reject those
+-    // labels again.
+-    if (!$acceptCurrent && $currentIssue !== $issue && app_setting_bool('accept_previous_period_bets', true)) {
+-        $currentStart = (int) floor(((int) $current['current']['startTime']) / 1000);
+-        $interval = sl_interval_seconds($gameCode);
+-        $nearby = false;
+-        if (!empty($current['previous']['issueNumber']) && (string) $current['previous']['issueNumber'] === $issue) {
+-            $nearby = true;
+-        }
+-        if (!$nearby) {
+-            for ($back = 1; $back <= 3; $back++) {
+-                if ($issue === sl_issue_number_for_start($gameCode, $currentStart - ($back * $interval))) {
+-                    $nearby = true;
+-                    break;
+-                }
+-            }
+-        }
+-        if ($nearby) {
+-            error_log('[saas-lottery lagging bet] requested=' . $issue . ' booked=' . $currentIssue . ' game=' . $gameCode . ' user=' . (int) $user['id']);
+-            $issue = $currentIssue;
+-        }
+-    }
+-    if ($issue !== $currentIssue) {
++    // The bundled WinGo client prints the round it polled minus one and sends
++    // the payload's running label, so the player plays the round shown on the
++    // screen. The bet is stored on that same round (the previous canonical
++    // period) instead of being rejected or pushed forward, and it is settled
++    // only after the player's own countdown for that round has finished.
++    // accept_previous_period_bets=0 restores the strict running-period mode.
++    $appRound = sl_issue_number_for_start($gameCode, $currentStart - $interval);
++    $settleAfter = 0;
++    if (app_setting_bool('accept_previous_period_bets', true)) {
++        if ($issue !== $appRound && $issue !== $currentIssue) {
++            sl_fail(404, 'Betting has stopped for the current period', 404, 200);
++        }
++        $issue = $appRound;
++        $settleAfter = $endTime;
++    } elseif ($issue !== $currentIssue) {
+         sl_fail(404, 'Betting has stopped for the current period', 404, 200);
+     }
+     if ($endTime <= sl_now_ms() + ($lockSeconds * 1000)) {
+         sl_fail(404, 'Betting has stopped for the current period', 404, 200);
+     }
++    unset($acceptCurrent);
+ 
+     $userId = (int) $user['id'];
+     $clientNonce = isset($input['random']) && (string) $input['random'] !== ''
+@@ -1720,7 +1770,14 @@
+             $rowStake = round($amount * $multiple * $units, 4);
+             $rowTax = sl_stake_tax_fee($rowStake);
+             $requestKey = hash('sha256', $groupKey . '|' . $index . '|' . $content);
+-            if (sl_bets_have_tax_column()) {
++            $rowSettleAfter = (int) $settleAfter;
++            if (sl_bets_have_tax_column() && sl_bets_have_settle_after()) {
++                $insert = $conn->prepare("INSERT INTO saas_lottery_bets(user_id,game_code,issue_number,bet_content,amount,bet_multiple,bet_units,stake,tax_fee,settle_after,request_group_key,request_key,status,created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,'pending',NOW())");
++                if (!$insert) {
++                    throw new RuntimeException('Bet insert prepare failed: ' . $conn->error);
++                }
++                $insert->bind_param('isssdiiddiss', $userId, $gameCode, $issue, $content, $amount, $multiple, $units, $rowStake, $rowTax, $rowSettleAfter, $groupKey, $requestKey);
++            } elseif (sl_bets_have_tax_column()) {
+                 $insert = $conn->prepare("INSERT INTO saas_lottery_bets(user_id,game_code,issue_number,bet_content,amount,bet_multiple,bet_units,stake,tax_fee,request_group_key,request_key,status,created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,'pending',NOW())");
+                 if (!$insert) {
+                     throw new RuntimeException('Bet insert prepare failed: ' . $conn->error);
+@@ -2035,11 +2092,13 @@
+ }
+ 
+ /**
+- * Newest bet of the same game that a lagging poll label belongs to.
++ * Newest bet of the same game that a poll label belongs to.
+  *
+- * When sl_place_bet() re-books a closed-period label on the running period,
+- * the client poll still carries the old label. Only a recent (10 minutes) bet
+- * with a newer label is followed, so an unrelated poll stays untouched.
++ * The bundled client prints the round it polled minus one while the bet is
++ * stored on the printed round, so the poll can carry either the displayed
++ * label or the payload label. Only a recent (10 minutes) bet on the polled
++ * label or one of its two neighbours is followed, so an unrelated poll stays
++ * untouched.
+  */
+ function sl_win_loss_follow_issue($userId, $gameCode, $issue)
+ {
+@@ -2047,7 +2106,9 @@
+     if ($issue === '') {
+         return null;
+     }
+-    $sql = "SELECT issue_number,game_code FROM saas_lottery_bets WHERE user_id=? AND created_at >= (NOW() - INTERVAL 10 MINUTE) AND issue_number > ?";
++    $low = strlen($issue) > 3 ? sl_issue_shift($issue, -1) : $issue;
++    $high = strlen($issue) > 3 ? sl_issue_shift($issue, 1) : $issue;
++    $sql = "SELECT issue_number,game_code FROM saas_lottery_bets WHERE user_id=? AND created_at >= (NOW() - INTERVAL 10 MINUTE) AND issue_number BETWEEN ? AND ?";
+     if ($gameCode !== '') {
+         $sql .= ' AND game_code=?';
+     }
+@@ -2057,9 +2118,9 @@
+         return null;
+     }
+     if ($gameCode !== '') {
+-        $stmt->bind_param('iss', $userId, $issue, $gameCode);
++        $stmt->bind_param('isss', $userId, $low, $high, $gameCode);
+     } else {
+-        $stmt->bind_param('is', $userId, $issue);
++        $stmt->bind_param('iss', $userId, $low, $high);
+     }
+     $stmt->execute();
+     $result = $stmt->get_result();
+--- raxiwin-update-20261003/saas_lottery/bootstrap_live_v4.php	2026-10-03 06:28:40.856251327 +0000
++++ /home/user/raxiwin/saas_lottery/bootstrap_live_v4.php	2026-10-03 06:48:01.715115944 +0000
+@@ -140,7 +140,7 @@
+     }
+ 
+     $queries = array(
+-        "CREATE TABLE IF NOT EXISTS saas_lottery_bets (id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,user_id BIGINT NOT NULL,game_code VARCHAR(32) NOT NULL,issue_number VARCHAR(40) NOT NULL,bet_content VARCHAR(190) NOT NULL,amount DECIMAL(18,4) NOT NULL,bet_multiple INT NOT NULL,bet_units INT NOT NULL DEFAULT 1,stake DECIMAL(18,4) NOT NULL,request_group_key CHAR(64) NOT NULL,request_key CHAR(64) NOT NULL,status VARCHAR(16) NOT NULL DEFAULT 'pending',result_premium VARCHAR(64) NULL,payout DECIMAL(18,4) NOT NULL DEFAULT 0,created_at DATETIME NOT NULL,settled_at DATETIME NULL,vip_exp_applied TINYINT(1) NOT NULL DEFAULT 0,PRIMARY KEY(id),UNIQUE KEY uq_saas_lottery_request(request_key),KEY idx_saas_lottery_group(request_group_key),KEY idx_saas_lottery_user_created(user_id,created_at),KEY idx_saas_lottery_issue_status(game_code,issue_number,status),KEY idx_saas_vip_exp(vip_exp_applied,user_id)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
++        "CREATE TABLE IF NOT EXISTS saas_lottery_bets (id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,user_id BIGINT NOT NULL,game_code VARCHAR(32) NOT NULL,issue_number VARCHAR(40) NOT NULL,bet_content VARCHAR(190) NOT NULL,amount DECIMAL(18,4) NOT NULL,bet_multiple INT NOT NULL,bet_units INT NOT NULL DEFAULT 1,stake DECIMAL(18,4) NOT NULL,request_group_key CHAR(64) NOT NULL,request_key CHAR(64) NOT NULL,status VARCHAR(16) NOT NULL DEFAULT 'pending',result_premium VARCHAR(64) NULL,payout DECIMAL(18,4) NOT NULL DEFAULT 0,tax_fee DECIMAL(18,4) NOT NULL DEFAULT 0,settle_after BIGINT NOT NULL DEFAULT 0,created_at DATETIME NOT NULL,settled_at DATETIME NULL,vip_exp_applied TINYINT(1) NOT NULL DEFAULT 0,PRIMARY KEY(id),UNIQUE KEY uq_saas_lottery_request(request_key),KEY idx_saas_lottery_group(request_group_key),KEY idx_saas_lottery_user_created(user_id,created_at),KEY idx_saas_lottery_issue_status(game_code,issue_number,status),KEY idx_saas_vip_exp(vip_exp_applied,user_id)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+         "CREATE TABLE IF NOT EXISTS saas_lottery_requests (request_group_key CHAR(64) NOT NULL,user_id BIGINT NOT NULL,game_code VARCHAR(32) NOT NULL,issue_number VARCHAR(40) NOT NULL,created_at DATETIME NOT NULL,PRIMARY KEY(request_group_key),KEY idx_saas_request_user_created(user_id,created_at)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+         "CREATE TABLE IF NOT EXISTS saas_lottery_results (id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,game_code VARCHAR(32) NOT NULL,issue_number VARCHAR(40) NOT NULL,premium VARCHAR(64) NOT NULL,number VARCHAR(32) NOT NULL DEFAULT '',color VARCHAR(32) NOT NULL DEFAULT '',result_sum INT NOT NULL DEFAULT 0,provider_seen_at DATETIME NOT NULL,created_at DATETIME NOT NULL,PRIMARY KEY(id),UNIQUE KEY uq_saas_lottery_result(game_code,issue_number),KEY idx_saas_lottery_result_created(game_code,created_at)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+         "CREATE TABLE IF NOT EXISTS saas_wallet_ledger (id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,user_id BIGINT NOT NULL,entry_key VARCHAR(96) NOT NULL,entry_type VARCHAR(32) NOT NULL,reference_type VARCHAR(32) NULL,reference_id VARCHAR(64) NULL,amount DECIMAL(18,4) NOT NULL,balance_before DECIMAL(18,4) NOT NULL,balance_after DECIMAL(18,4) NOT NULL,created_at DATETIME NOT NULL,PRIMARY KEY(id),UNIQUE KEY uq_saas_wallet_entry(entry_key),KEY idx_saas_wallet_user_created(user_id,created_at)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+@@ -168,6 +168,9 @@
+         if (app_table_exists('saas_lottery_bets') && !app_column_exists('saas_lottery_bets', 'tax_fee')) {
+             $conn->query('ALTER TABLE saas_lottery_bets ADD COLUMN tax_fee DECIMAL(18,4) NOT NULL DEFAULT 0 AFTER payout');
+         }
++        if (app_table_exists('saas_lottery_bets') && !app_column_exists('saas_lottery_bets', 'settle_after')) {
++            $conn->query('ALTER TABLE saas_lottery_bets ADD COLUMN settle_after BIGINT NOT NULL DEFAULT 0 AFTER tax_fee');
++        }
+         if (app_table_exists('saas_lottery_bets') && app_column_exists('saas_lottery_bets', 'tax_fee')) {
+             // Backfill the stake service fee once for rows written before the
+             // tax column existed, then remember that the table was converted.
+@@ -1411,6 +1414,55 @@
+ }
+ 
+ /**
++ * True when the bet table carries the per-bet settlement deadline.
++ */
++function sl_bets_have_settle_after()
++{
++    static $has = null;
++    if ($has === null) {
++        global $conn;
++        $has = false;
++        try {
++            $has = function_exists('app_column_exists') && app_column_exists('saas_lottery_bets', 'settle_after');
++        } catch (Throwable $e) {
++            $has = false;
++        }
++    }
++    return $has;
++}
++
++/**
++ * Add or subtract small values from a numeric issue label without touching
++ * floats (labels carry seventeen digits).
++ */
++function sl_issue_shift($issue, $delta)
++{
++    $issue = preg_replace('/[^0-9]/', '', (string) $issue);
++    if ($issue === '' || strlen($issue) > 18) {
++        return (string) $issue;
++    }
++    $digits = str_split($issue);
++    $carry = $delta > 0 ? 1 : -1;
++    for ($step = 0; $step < abs((int) $delta); $step++) {
++        $i = count($digits) - 1;
++        while ($i >= 0) {
++            $digit = (int) $digits[$i] + $carry;
++            if ($digit >= 0 && $digit <= 9) {
++                $digits[$i] = (string) $digit;
++                break;
++            }
++            $digits[$i] = $carry > 0 ? '0' : '9';
++            $i--;
++        }
++        if ($i < 0) {
++            break;
++        }
++    }
++    return implode('', $digits);
++}
++
++
++/**
+  * Return the net amount credited for a winning bet.
+  *
+  * Game odds remain gross display odds (for example 2X). Settlement always
+@@ -1434,7 +1486,8 @@
+     }
+     $conn->begin_transaction();
+     try {
+-        $stmt = $conn->prepare("SELECT id,user_id,bet_content,amount,bet_multiple,stake FROM saas_lottery_bets WHERE game_code=? AND issue_number=? AND status='pending' FOR UPDATE");
++        $settleSelect = sl_bets_have_settle_after() ? ',settle_after' : '';
++        $stmt = $conn->prepare("SELECT id,user_id,bet_content,amount,bet_multiple,stake" . $settleSelect . " FROM saas_lottery_bets WHERE game_code=? AND issue_number=? AND status='pending' FOR UPDATE");
+         $stmt->bind_param('ss', $gameCode, $issue);
+         $stmt->execute();
+         $result = $stmt->get_result();
+@@ -1445,6 +1498,12 @@
+         $stmt->close();
+ 
+         foreach ($bets as $bet) {
++            $deferUntil = isset($bet['settle_after']) ? (int) $bet['settle_after'] : 0;
++            if ($deferUntil > 0 && sl_now_ms() < $deferUntil) {
++                // Bet stored on the round the player sees; report the outcome
++                // only after the player's own countdown for that round ends.
++                continue;
++            }
+             list($winningUnits, $rate) = sl_evaluate_bet($gameCode, (string) $bet['bet_content'], $resultItem);
+             $unitStake = (float) $bet['amount'] * (int) $bet['bet_multiple'];
+             $grossPayout = $winningUnits > 0 ? round($unitStake * $rate * $winningUnits, 4) : 0.0;
+@@ -1615,39 +1674,30 @@
+     $endTime = (int) $current['current']['endTime'];
+     $control = app_game_control($gameCode);
+     $lockSeconds = max((int) $SL_CONFIG['bet_lock_seconds'], (int) ($control['lock_before_close_seconds'] ?? 0));
++    $currentStart = (int) floor(((int) $current['current']['startTime']) / 1000);
++    $interval = sl_interval_seconds($gameCode);
+     $acceptCurrent = ($currentIssue === $issue) && ($endTime > sl_now_ms() + ($lockSeconds * 1000));
+-    // The bundled client may still send the label of a period that closed
+-    // while its own timer window advances. Such a bet must never settle before
+-    // the running period ends, so it is re-booked on the running (current)
+-    // period instead of being rejected or settled early.
+-    // Set saas_lottery_settings.accept_previous_period_bets=0 to reject those
+-    // labels again.
+-    if (!$acceptCurrent && $currentIssue !== $issue && app_setting_bool('accept_previous_period_bets', true)) {
+-        $currentStart = (int) floor(((int) $current['current']['startTime']) / 1000);
+-        $interval = sl_interval_seconds($gameCode);
+-        $nearby = false;
+-        if (!empty($current['previous']['issueNumber']) && (string) $current['previous']['issueNumber'] === $issue) {
+-            $nearby = true;
+-        }
+-        if (!$nearby) {
+-            for ($back = 1; $back <= 3; $back++) {
+-                if ($issue === sl_issue_number_for_start($gameCode, $currentStart - ($back * $interval))) {
+-                    $nearby = true;
+-                    break;
+-                }
+-            }
+-        }
+-        if ($nearby) {
+-            error_log('[saas-lottery lagging bet] requested=' . $issue . ' booked=' . $currentIssue . ' game=' . $gameCode . ' user=' . (int) $user['id']);
+-            $issue = $currentIssue;
+-        }
+-    }
+-    if ($issue !== $currentIssue) {
++    // The bundled WinGo client prints the round it polled minus one and sends
++    // the payload's running label, so the player plays the round shown on the
++    // screen. The bet is stored on that same round (the previous canonical
++    // period) instead of being rejected or pushed forward, and it is settled
++    // only after the player's own countdown for that round has finished.
++    // accept_previous_period_bets=0 restores the strict running-period mode.
++    $appRound = sl_issue_number_for_start($gameCode, $currentStart - $interval);
++    $settleAfter = 0;
++    if (app_setting_bool('accept_previous_period_bets', true)) {
++        if ($issue !== $appRound && $issue !== $currentIssue) {
++            sl_fail(404, 'Betting has stopped for the current period', 404, 200);
++        }
++        $issue = $appRound;
++        $settleAfter = $endTime;
++    } elseif ($issue !== $currentIssue) {
+         sl_fail(404, 'Betting has stopped for the current period', 404, 200);
+     }
+     if ($endTime <= sl_now_ms() + ($lockSeconds * 1000)) {
+         sl_fail(404, 'Betting has stopped for the current period', 404, 200);
+     }
++    unset($acceptCurrent);
+ 
+     $userId = (int) $user['id'];
+     $clientNonce = isset($input['random']) && (string) $input['random'] !== ''
+@@ -1702,7 +1752,14 @@
+             $rowStake = round($amount * $multiple * $units, 4);
+             $rowTax = sl_stake_tax_fee($rowStake);
+             $requestKey = hash('sha256', $groupKey . '|' . $index . '|' . $content);
+-            if (sl_bets_have_tax_column()) {
++            $rowSettleAfter = (int) $settleAfter;
++            if (sl_bets_have_tax_column() && sl_bets_have_settle_after()) {
++                $insert = $conn->prepare("INSERT INTO saas_lottery_bets(user_id,game_code,issue_number,bet_content,amount,bet_multiple,bet_units,stake,tax_fee,settle_after,request_group_key,request_key,status,created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,'pending',NOW())");
++                if (!$insert) {
++                    throw new RuntimeException('Bet insert prepare failed: ' . $conn->error);
++                }
++                $insert->bind_param('isssdiiddiss', $userId, $gameCode, $issue, $content, $amount, $multiple, $units, $rowStake, $rowTax, $rowSettleAfter, $groupKey, $requestKey);
++            } elseif (sl_bets_have_tax_column()) {
+                 $insert = $conn->prepare("INSERT INTO saas_lottery_bets(user_id,game_code,issue_number,bet_content,amount,bet_multiple,bet_units,stake,tax_fee,request_group_key,request_key,status,created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,'pending',NOW())");
+                 $insert->bind_param('isssdiiddss', $userId, $gameCode, $issue, $content, $amount, $multiple, $units, $rowStake, $rowTax, $groupKey, $requestKey);
+             } else {
+@@ -2017,7 +2074,9 @@
+     if ($issue === '') {
+         return null;
+     }
+-    $sql = "SELECT issue_number,game_code FROM saas_lottery_bets WHERE user_id=? AND created_at >= (NOW() - INTERVAL 10 MINUTE) AND issue_number > ?";
++    $low = strlen($issue) > 3 ? sl_issue_shift($issue, -1) : $issue;
++    $high = strlen($issue) > 3 ? sl_issue_shift($issue, 1) : $issue;
++    $sql = "SELECT issue_number,game_code FROM saas_lottery_bets WHERE user_id=? AND created_at >= (NOW() - INTERVAL 10 MINUTE) AND issue_number BETWEEN ? AND ?";
+     if ($gameCode !== '') {
+         $sql .= ' AND game_code=?';
+     }
+@@ -2027,9 +2086,9 @@
+         return null;
+     }
+     if ($gameCode !== '') {
+-        $stmt->bind_param('iss', $userId, $issue, $gameCode);
++        $stmt->bind_param('isss', $userId, $low, $high, $gameCode);
+     } else {
+-        $stmt->bind_param('is', $userId, $issue);
++        $stmt->bind_param('iss', $userId, $low, $high);
+     }
+     $stmt->execute();
+     $result = $stmt->get_result();
