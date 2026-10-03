@@ -1,0 +1,98 @@
+RAXIWIN UPDATE - 03-10-2026
+===========================
+
+Is package me sirf 2 badli hui files hain (site root ke hisab se path ke saath).
+Upload + Extract karne ke baad koi manual SQL / setting badalne ki zarurat nahi.
+
+
+KYA FIX HUA
+-----------
+
+1) BET KA TAX / SERVICE CHARGE  ("bet me tax wagera fix")
+   - Pehle bet record me tax/service charge hamesha 0.00 aata tha, isliye
+     "amount after tax" = poori stake dikhti thi.
+   - Ab har bet par tax stake ke saath hi save hota hai:
+        tax = stake * 2%   (setting key: lottery_payout_tax_percent)
+   - Record / API me ye fields bhar ke jaate hain:
+        realAmount, realBettingAmount, fee, serviceCharge, tax, taxAmount,
+        taxRate
+     Isliye My Record / bet history screen me tax wali line dikhegi.
+   - Purane bets ka tax bhi pehli request par ek baar automatically
+     backfill ho jata hai (koi SQL chalane ki zarurat nahi).
+   - Winning payout par se tax pehle ki tarah hi (2% default) katta hai;
+     tax % aap chahein to badal sakte hain (neeche SETTINGS dekhein).
+
+2) WIN / LOSS jo 1 PERIOD PICHE CHAL RAHA THA
+   - Client apna issue label ek period piche bhejta hai (ye app ka wahi
+     purana behaviour hai, wo humne nahi chheda).
+   - Ab us period ka RESULT PEHLE SE SAVE HO to bet reject nahi hota:
+        * bet turant accept hota hai,
+        * usi saved result se won/lost turant lag jata hai aur jeet ki
+          raqam wallet me credit ho jati hai.
+     Yaani "jo result aa chuka hai, uspe bet lage to win/loss ready".
+   - GetWinLossResult ab kabhi bet ko pending chhod kar "null" nahi deta:
+        * result save hote hi pending bets settle kar deta hai,
+        * closing draw ka thoda (max ~4 second) wait karta hai, taaki
+          round khatam hone ke turant baad wale ek hi poll me hi
+          won/lost + amount mil jaye (popup aa jaye).
+   - Pehle se jitni bets pending atki hui hain, unka bhi settlement ho jata
+     hai jab unka result table me aa jata hai.
+   - Result display / labels / win-luck list ka format jaisa chal raha tha
+     waisa hi hai, usme koi change nahi kiya.
+
+
+FILES
+-----
+
+  saas_lottery/bootstrap.php          (live engine: /api/Lottery/* aur draw/)
+  saas_lottery/bootstrap_live_v4.php  (live engine: /api-live-v4/*, /draw-live-v4/*)
+
+Agar aapki site in dono engines ko use karti hai to dono patch ho gaye hain
+aur dono ek hi database tables use karte hain, isliye tax/settlement dono
+taraf se same rahega.
+
+
+UPLOAD KAISE KARNA HAI (cPanel)
+-------------------------------
+
+1. cPanel > File Manager kholein.
+2. Site ke root folder me jayein (jahan index.html aur saas_lottery folder hai).
+3. Is ZIP ko wahi upload karein.
+4. ZIP par right click > Extract > Overwrite / Replace "Yes" karein.
+   (ZIP ke andar saas_lottery/... path already sahi hai, isliye files apni
+   jagah chali jayengi. Koi folder manually move karne ki zarurat nahi.)
+5. Bas ho gaya. Page ko Ctrl+F5 (hard refresh) kar lein.
+6. Test:
+   - Ek WinGo bet lagayein -> My Record me us bet row me tax / service charge
+     (fee) 0.00 ki jagah 2% dikhna chahiye.
+   - Round khatam hone ke baad winner popup me win/loss aur amount aa jana
+     chahiye (pehle kai baar kuch nahi aata tha).
+   - Jo bet pichle (already nikle hue) period par lag jaye, us par bhi
+     turant win/loss lag jayega.
+
+
+SETTINGS (optional - table: saas_lottery_settings)
+--------------------------------------------------
+
+  lottery_payout_tax_percent = 2.00   -> tax percentage (default 2)
+  accept_previous_period_bets = 1     -> 1 (default) pe lagging period ka bet
+                                         accept + turant settle hota hai.
+                                         0 karne par aisa bet dobara reject
+                                         hoga (sirf current period ke bet
+                                         chalenge).
+
+Dhyan rakhein: lagging (1 period piche) bet already nikle result par lagta
+hai, isliye uska win/loss turant ready hota hai. Agar aap nahi chahte ki
+aisi bets lagein, to accept_previous_period_bets = 0 kar dein.
+
+
+ROLLBACK
+--------
+
+Extract karne se pehle ye 2 files backup kar lein:
+  saas_lottery/bootstrap.php
+  saas_lottery/bootstrap_live_v4.php
+
+Purana behaviour wapas chahiye to sirf yahi 2 backup files dobara upload kar
+dein. Database me sirf ek naya column (saas_lottery_bets.tax_fee) add hota hai
+jo purane code ko kisi tarah nahi todta.

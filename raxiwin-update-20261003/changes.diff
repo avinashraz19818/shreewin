@@ -1,0 +1,715 @@
+diff --git a/saas_lottery/bootstrap.php b/saas_lottery/bootstrap.php
+index 8822a3c..3ceac15 100644
+--- a/saas_lottery/bootstrap.php
++++ b/saas_lottery/bootstrap.php
+@@ -140,7 +140,7 @@ function sl_install_schema()
+     }
+ 
+     $queries = array(
+-        "CREATE TABLE IF NOT EXISTS saas_lottery_bets (id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,user_id BIGINT NOT NULL,game_code VARCHAR(32) NOT NULL,issue_number VARCHAR(40) NOT NULL,bet_content VARCHAR(190) NOT NULL,amount DECIMAL(18,4) NOT NULL,bet_multiple INT NOT NULL,bet_units INT NOT NULL DEFAULT 1,stake DECIMAL(18,4) NOT NULL,request_group_key CHAR(64) NOT NULL,request_key CHAR(64) NOT NULL,status VARCHAR(16) NOT NULL DEFAULT 'pending',result_premium VARCHAR(64) NULL,payout DECIMAL(18,4) NOT NULL DEFAULT 0,created_at DATETIME NOT NULL,settled_at DATETIME NULL,vip_exp_applied TINYINT(1) NOT NULL DEFAULT 0,PRIMARY KEY(id),UNIQUE KEY uq_saas_lottery_request(request_key),KEY idx_saas_lottery_group(request_group_key),KEY idx_saas_lottery_user_created(user_id,created_at),KEY idx_saas_lottery_issue_status(game_code,issue_number,status),KEY idx_saas_vip_exp(vip_exp_applied,user_id)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
++        "CREATE TABLE IF NOT EXISTS saas_lottery_bets (id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,user_id BIGINT NOT NULL,game_code VARCHAR(32) NOT NULL,issue_number VARCHAR(40) NOT NULL,bet_content VARCHAR(190) NOT NULL,amount DECIMAL(18,4) NOT NULL,bet_multiple INT NOT NULL,bet_units INT NOT NULL DEFAULT 1,stake DECIMAL(18,4) NOT NULL,request_group_key CHAR(64) NOT NULL,request_key CHAR(64) NOT NULL,status VARCHAR(16) NOT NULL DEFAULT 'pending',result_premium VARCHAR(64) NULL,payout DECIMAL(18,4) NOT NULL DEFAULT 0,tax_fee DECIMAL(18,4) NOT NULL DEFAULT 0,created_at DATETIME NOT NULL,settled_at DATETIME NULL,vip_exp_applied TINYINT(1) NOT NULL DEFAULT 0,PRIMARY KEY(id),UNIQUE KEY uq_saas_lottery_request(request_key),KEY idx_saas_lottery_group(request_group_key),KEY idx_saas_lottery_user_created(user_id,created_at),KEY idx_saas_lottery_issue_status(game_code,issue_number,status),KEY idx_saas_vip_exp(vip_exp_applied,user_id)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+         "CREATE TABLE IF NOT EXISTS saas_lottery_requests (request_group_key CHAR(64) NOT NULL,user_id BIGINT NOT NULL,game_code VARCHAR(32) NOT NULL,issue_number VARCHAR(40) NOT NULL,created_at DATETIME NOT NULL,PRIMARY KEY(request_group_key),KEY idx_saas_request_user_created(user_id,created_at)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+         "CREATE TABLE IF NOT EXISTS saas_lottery_results (id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,game_code VARCHAR(32) NOT NULL,issue_number VARCHAR(40) NOT NULL,premium VARCHAR(64) NOT NULL,number VARCHAR(32) NOT NULL DEFAULT '',color VARCHAR(32) NOT NULL DEFAULT '',result_sum INT NOT NULL DEFAULT 0,provider_seen_at DATETIME NOT NULL,created_at DATETIME NOT NULL,PRIMARY KEY(id),UNIQUE KEY uq_saas_lottery_result(game_code,issue_number),KEY idx_saas_lottery_result_created(game_code,created_at)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+         "CREATE TABLE IF NOT EXISTS saas_wallet_ledger (id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,user_id BIGINT NOT NULL,entry_key VARCHAR(96) NOT NULL,entry_type VARCHAR(32) NOT NULL,reference_type VARCHAR(32) NULL,reference_id VARCHAR(64) NULL,amount DECIMAL(18,4) NOT NULL,balance_before DECIMAL(18,4) NOT NULL,balance_after DECIMAL(18,4) NOT NULL,created_at DATETIME NOT NULL,PRIMARY KEY(id),UNIQUE KEY uq_saas_wallet_entry(entry_key),KEY idx_saas_wallet_user_created(user_id,created_at)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+@@ -164,6 +164,32 @@ function sl_install_schema()
+         error_log('[sl_install_schema_ledger] ' . $e->getMessage());
+     }
+ 
++    try {
++        if (app_table_exists('saas_lottery_bets') && !app_column_exists('saas_lottery_bets', 'tax_fee')) {
++            $conn->query('ALTER TABLE saas_lottery_bets ADD COLUMN tax_fee DECIMAL(18,4) NOT NULL DEFAULT 0 AFTER payout');
++        }
++        if (app_table_exists('saas_lottery_bets') && app_column_exists('saas_lottery_bets', 'tax_fee')) {
++            // Backfill the stake service fee once for rows written before the
++            // tax column existed, then remember that the table was converted.
++            $marker = $conn->query("SELECT setting_value FROM saas_lottery_settings WHERE setting_key='tax_fee_backfill_complete' LIMIT 1");
++            $markerRow = $marker ? $marker->fetch_assoc() : null;
++            if (!$markerRow || (string) $markerRow['setting_value'] !== '1') {
++                $rate = number_format(sl_tax_percent() / 100.0, 6, '.', '');
++                for ($pass = 0; $pass < 20; $pass++) {
++                    if (!$conn->query('UPDATE saas_lottery_bets SET tax_fee=ROUND(stake*' . $rate . ',4) WHERE stake>0 AND tax_fee=0 LIMIT 5000')) {
++                        break;
++                    }
++                    if ((int) $conn->affected_rows < 5000) {
++                        break;
++                    }
++                }
++                $conn->query("INSERT INTO saas_lottery_settings(setting_key,setting_value,updated_at) VALUES ('tax_fee_backfill_complete','1',NOW()) ON DUPLICATE KEY UPDATE setting_value=VALUES(setting_value),updated_at=NOW()");
++            }
++        }
++    } catch (Throwable $e) {
++        error_log('[sl_install_schema_tax] ' . $e->getMessage());
++    }
++
+     try {
+         app_vip_ensure_saas_tracking($conn, false);
+     } catch (Throwable $e) {
+@@ -1006,7 +1032,13 @@ function sl_save_and_settle_results($gameCode, $list)
+         $sum = (int) $item['sum'];
+ 
+         if (isset($existing[$issue])) {
+-            // Period already settled — NEVER modify. Skip settlement re-trigger too.
++            // Period already settled — NEVER modify old history. A bet can
++            // still arrive for this exact period (the bundled client asks one
++            // round behind), so resolve its pending rows from the stored draw
++            // instead of leaving them pending forever.
++            if (!empty($pending[$issue])) {
++                sl_settle_pending_from_stored($gameCode, $issue);
++            }
+             continue;
+         }
+ 
+@@ -1359,17 +1391,48 @@ function sl_evaluate_bet($gameCode, $content, $result)
+  * Return the net amount credited for a winning bet.
+  *
+  * Game odds remain gross display odds (for example 2X). Settlement always
+- * deducts the mandatory 2% payout tax once and stores only the net amount, so
+- * the winner popup, wallet, ledger and record APIs cannot disagree.
++ * deducts the payout tax once and stores only the net amount, so the winner
++ * popup, wallet, ledger and record APIs cannot disagree.
+  */
++function sl_tax_percent()
++{
++    $taxPercent = function_exists('app_setting') ? (float) app_setting('lottery_payout_tax_percent', '2.00') : 2.0;
++    return max(0.0, min(100.0, $taxPercent));
++}
++
++function sl_stake_tax_fee($stake)
++{
++    return round(max(0.0, (float) $stake) * sl_tax_percent() / 100.0, 4);
++}
++
++/**
++ * Whether the bet table already carries the stake service fee column.
++ *
++ * The column is created by sl_install_schema(); the guard keeps settlement
++ * working on an installation whose schema upgrade has not run yet.
++ */
++function sl_bets_have_tax_column()
++{
++    static $has = null;
++    if ($has === null) {
++        global $conn;
++        $has = false;
++        try {
++            $has = function_exists('app_column_exists') && app_column_exists('saas_lottery_bets', 'tax_fee');
++        } catch (Throwable $e) {
++            $has = false;
++        }
++    }
++    return $has;
++}
++
+ function sl_net_payout_after_tax($grossPayout)
+ {
+-    $taxPercent = 2.0;
+     $grossPayout = max(0.0, (float) $grossPayout);
+     if ($grossPayout <= 0.0) {
+         return 0.0;
+     }
+-    return round($grossPayout * (100.0 - $taxPercent) / 100.0, 2);
++    return round($grossPayout * (100.0 - sl_tax_percent()) / 100.0, 2);
+ }
+ 
+ function sl_settle_issue($gameCode, $issue, $resultItem)
+@@ -1395,6 +1458,7 @@ function sl_settle_issue($gameCode, $issue, $resultItem)
+             $unitStake = (float) $bet['amount'] * (int) $bet['bet_multiple'];
+             $grossPayout = $winningUnits > 0 ? round($unitStake * $rate * $winningUnits, 4) : 0.0;
+             $payout = $winningUnits > 0 ? sl_net_payout_after_tax($grossPayout) : 0.0;
++            $taxFee = sl_stake_tax_fee((float) $bet['stake']);
+             $status = $winningUnits > 0 ? 'won' : 'lost';
+             $userId = (int) $bet['user_id'];
+             $betId = (int) $bet['id'];
+@@ -1427,8 +1491,13 @@ function sl_settle_issue($gameCode, $issue, $resultItem)
+             }
+ 
+             $premium = (string) $resultItem['premium'];
+-            $update = $conn->prepare("UPDATE saas_lottery_bets SET status=?,result_premium=?,payout=?,settled_at=NOW() WHERE id=? AND status='pending'");
+-            $update->bind_param('ssdi', $status, $premium, $payout, $betId);
++            if (sl_bets_have_tax_column()) {
++                $update = $conn->prepare("UPDATE saas_lottery_bets SET status=?,result_premium=?,payout=?,tax_fee=?,settled_at=NOW() WHERE id=? AND status='pending'");
++                $update->bind_param('ssddi', $status, $premium, $payout, $taxFee, $betId);
++            } else {
++                $update = $conn->prepare("UPDATE saas_lottery_bets SET status=?,result_premium=?,payout=?,settled_at=NOW() WHERE id=? AND status='pending'");
++                $update->bind_param('ssdi', $status, $premium, $payout, $betId);
++            }
+             $update->execute();
+             $update->close();
+         }
+@@ -1439,6 +1508,71 @@ function sl_settle_issue($gameCode, $issue, $resultItem)
+     }
+ }
+ 
++/**
++ * Read the immutable draw that is already stored for a period.
++ */
++function sl_stored_result($gameCode, $issue)
++{
++    global $conn;
++    $gameCode = (string) $gameCode;
++    $issue = (string) $issue;
++    if ($gameCode === '' || $issue === '') {
++        return null;
++    }
++    $stmt = $conn->prepare('SELECT issue_number,premium,number,color,result_sum FROM saas_lottery_results WHERE game_code=? AND issue_number=? LIMIT 1');
++    if (!$stmt) {
++        return null;
++    }
++    $stmt->bind_param('ss', $gameCode, $issue);
++    $stmt->execute();
++    $result = $stmt->get_result();
++    $row = $result ? $result->fetch_assoc() : null;
++    $stmt->close();
++    if (!$row) {
++        return null;
++    }
++    return array(
++        'issueNumber'=>(string) $row['issue_number'],
++        'premium'=>(string) $row['premium'],
++        'number'=>(string) $row['number'],
++        'color'=>(string) $row['color'],
++        'sum'=>(int) $row['result_sum']
++    );
++}
++
++/**
++ * Settle every pending bet of a period whose draw is already stored.
++ *
++ * sl_save_and_settle_results() never rewrites an existing result row, so a bet
++ * that arrives for a period that was drawn a moment earlier would otherwise
++ * stay 'pending' forever (the client polls GetWinLossResult for the period it
++ * bet on and must get the won/lost answer immediately).
++ *
++ * Returns true when a stored draw exists for the period.
++ */
++function sl_settle_pending_from_stored($gameCode, $issue)
++{
++    global $conn;
++    $item = sl_stored_result($gameCode, $issue);
++    if (!$item) {
++        return false;
++    }
++    $stmt = $conn->prepare("SELECT COUNT(*) FROM saas_lottery_bets WHERE game_code=? AND issue_number=? AND status='pending'");
++    if (!$stmt) {
++        return true;
++    }
++    $stmt->bind_param('ss', $gameCode, $issue);
++    $stmt->execute();
++    $pending = 0;
++    $stmt->bind_result($pending);
++    $stmt->fetch();
++    $stmt->close();
++    if ((int) $pending > 0) {
++        sl_settle_issue($gameCode, $issue, $item);
++    }
++    return true;
++}
++
+ function sl_wallet_balance($userId)
+ {
+     global $conn;
+@@ -1491,7 +1625,27 @@ function sl_place_bet($user, $input)
+     $endTime = (int) $current['current']['endTime'];
+     $control = app_game_control($gameCode);
+     $lockSeconds = max((int) $SL_CONFIG['bet_lock_seconds'], (int) ($control['lock_before_close_seconds'] ?? 0));
+-    if ($currentIssue !== $issue || $endTime <= sl_now_ms() + ($lockSeconds * 1000)) {
++    $acceptCurrent = ($currentIssue === $issue) && ($endTime > sl_now_ms() + ($lockSeconds * 1000));
++    // The bundled client keeps the issue label of the round it polled one
++    // period earlier, so a bet can arrive for the period that just closed.
++    // When that period's draw is already stored the outcome is known, so the
++    // bet is accepted and settled immediately (see below) instead of being
++    // rejected. Set saas_lottery_settings.accept_previous_period_bets=0 to
++    // disable this and reject such bets again.
++    $acceptDrawnPrevious = false;
++    if (!$acceptCurrent && $currentIssue !== $issue && app_setting_bool('accept_previous_period_bets', true)) {
++        $recentIssues = array();
++        if (!empty($current['previous']['issueNumber'])) {
++            $recentIssues[] = (string) $current['previous']['issueNumber'];
++        }
++        $currentStart = (int) floor(((int) $current['current']['startTime']) / 1000);
++        $recentIssues[] = sl_issue_number_for_start($gameCode, $currentStart - sl_interval_seconds($gameCode));
++        if (in_array($issue, $recentIssues, true) && sl_stored_result($gameCode, $issue) !== null) {
++            $acceptDrawnPrevious = true;
++            error_log('[saas-lottery drawn-period bet] game=' . $gameCode . ' issue=' . $issue . ' current=' . $currentIssue . ' user=' . (int) $user['id']);
++        }
++    }
++    if (!$acceptCurrent && !$acceptDrawnPrevious) {
+         sl_fail(404, 'Betting has stopped for the current period', 404, 200);
+     }
+ 
+@@ -1554,12 +1708,21 @@ function sl_place_bet($user, $input)
+             $content = (string) $bet['content'];
+             $units = (int) $bet['units'];
+             $rowStake = round($amount * $multiple * $units, 4);
++            $rowTax = sl_stake_tax_fee($rowStake);
+             $requestKey = hash('sha256', $groupKey . '|' . $index . '|' . $content);
+-            $insert = $conn->prepare("INSERT INTO saas_lottery_bets(user_id,game_code,issue_number,bet_content,amount,bet_multiple,bet_units,stake,request_group_key,request_key,status,created_at) VALUES (?,?,?,?,?,?,?,?,?,?,'pending',NOW())");
+-            if (!$insert) {
+-                throw new RuntimeException('Bet insert prepare failed: ' . $conn->error);
++            if (sl_bets_have_tax_column()) {
++                $insert = $conn->prepare("INSERT INTO saas_lottery_bets(user_id,game_code,issue_number,bet_content,amount,bet_multiple,bet_units,stake,tax_fee,request_group_key,request_key,status,created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,'pending',NOW())");
++                if (!$insert) {
++                    throw new RuntimeException('Bet insert prepare failed: ' . $conn->error);
++                }
++                $insert->bind_param('isssdiiddss', $userId, $gameCode, $issue, $content, $amount, $multiple, $units, $rowStake, $rowTax, $groupKey, $requestKey);
++            } else {
++                $insert = $conn->prepare("INSERT INTO saas_lottery_bets(user_id,game_code,issue_number,bet_content,amount,bet_multiple,bet_units,stake,request_group_key,request_key,status,created_at) VALUES (?,?,?,?,?,?,?,?,?,?,'pending',NOW())");
++                if (!$insert) {
++                    throw new RuntimeException('Bet insert prepare failed: ' . $conn->error);
++                }
++                $insert->bind_param('isssdiidss', $userId, $gameCode, $issue, $content, $amount, $multiple, $units, $rowStake, $groupKey, $requestKey);
+             }
+-            $insert->bind_param('isssdiidss', $userId, $gameCode, $issue, $content, $amount, $multiple, $units, $rowStake, $groupKey, $requestKey);
+             $insert->execute();
+             $betIds[] = (int) $insert->insert_id;
+             $insert->close();
+@@ -1611,6 +1774,18 @@ function sl_place_bet($user, $input)
+         }
+ 
+         $conn->commit();
++
++        // A bet accepted for a period that was already drawn must report its
++        // win/loss right away: the bundled client polls GetWinLossResult only
++        // once per bet and forgets the period when it comes back as pending.
++        if ($acceptDrawnPrevious) {
++            try {
++                sl_settle_pending_from_stored($gameCode, $issue);
++            } catch (Throwable $settleEx) {
++                error_log('[saas-lottery drawn-period settle] ' . $settleEx->getMessage());
++            }
++        }
++
+         return array(
+             'betId'=>$betIds[0] ?? 0,
+             'betIds'=>$betIds,
+@@ -1753,7 +1928,8 @@ function sl_record_page($userId, $input)
+     $count->fetch();
+     $count->close();
+ 
+-    $fields = 'id,game_code,issue_number,bet_content,amount,bet_multiple,bet_units,stake,status,result_premium,payout,created_at';
++    $taxField = sl_bets_have_tax_column() ? 'tax_fee' : '0 AS tax_fee';
++    $fields = 'id,game_code,issue_number,bet_content,amount,bet_multiple,bet_units,stake,status,result_premium,payout,' . $taxField . ',created_at';
+     if ($gameCode !== '') {
+         $stmt = $conn->prepare('SELECT '.$fields.' FROM saas_lottery_bets WHERE user_id=? AND game_code=? ORDER BY id DESC LIMIT ? OFFSET ?');
+         $stmt->bind_param('isii', $userId, $gameCode, $pageSize, $offset);
+@@ -1768,6 +1944,8 @@ function sl_record_page($userId, $input)
+         $state = $row['status'] === 'pending' ? 2 : ($row['status'] === 'won' ? 1 : 0);
+         $stake = (float) $row['stake'];
+         $payout = (float) $row['payout'];
++        $taxFee = isset($row['tax_fee']) ? (float) $row['tax_fee'] : 0.0;
++        if ($taxFee <= 0.0 && $stake > 0.0) { $taxFee = sl_stake_tax_fee($stake); }
+         $winLose = $row['status'] === 'won' ? round($payout - $stake, 4) : ($row['status'] === 'lost' ? -$stake : 0.0);
+         $premium = $row['result_premium'] === null ? '' : (string) $row['result_premium'];
+         $recordFamily = sl_game_family((string) $row['game_code']);
+@@ -1784,7 +1962,7 @@ function sl_record_page($userId, $input)
+             'orderNo'=>(string)$row['id'],'issueNumber'=>(string)$row['issue_number'],'gameCode'=>(string)$row['game_code'],
+             'betContent'=>(string)$row['bet_content'],'playType'=>$playType,'selectType'=>$selectType,
+             'amount'=>$stake,'unitAmount'=>(float)$row['amount'],'betMultiple'=>(int)$row['bet_multiple'],'betCount'=>(int)$row['bet_multiple'],
+-            'betUnits'=>(int)$row['bet_units'],'realAmount'=>$stake,'fee'=>0.0,'state'=>$state,'premium'=>$premium,
++            'betUnits'=>(int)$row['bet_units'],'realAmount'=>max(0.0, round($stake-$taxFee,4)),'realBettingAmount'=>max(0.0, round($stake-$taxFee,4)),'fee'=>$taxFee,'serviceCharge'=>$taxFee,'tax'=>$taxFee,'taxAmount'=>$taxFee,'taxRate'=>sl_tax_percent(),'state'=>$state,'premium'=>$premium,
+             'winLoseAmount'=>$winLose,'betTime'=>(string)$row['created_at'],'orderNumber'=>(string)$row['id'],
+             'betAmount'=>$stake,'number'=>$recordNumber,'resultNumber'=>$isWingo && $premium !== '' ? (int)$premium : null,
+             'color'=>$isWingo && $premium !== '' ? sl_result_color((int)$premium) : '',
+@@ -1812,17 +1990,44 @@ function sl_win_loss($userId, $input)
+     if ($gameCode !== '') {
+         sl_sync_results($gameCode);
+     }
++    $summary = sl_win_loss_summary($userId, $issue);
++    if ($gameCode !== '' && $summary['pending'] > 0) {
++        // The bundled client asks for the result only once, a couple of
++        // seconds after the period closes, and forgets the period when the
++        // answer is still "pending". When the closing draw is not stored yet
++        // wait a short bounded moment for the provider; the moment a draw is
++        // available the pending rows are settled so this single poll answers
++        // won/lost instead of a null status.
++        if ($summary['total'] > 0 && sl_stored_result($gameCode, $issue) === null) {
++            $deadline = microtime(true) + 4.0;
++            while (microtime(true) < $deadline && sl_stored_result($gameCode, $issue) === null) {
++                usleep(400000);
++                sl_sync_results($gameCode);
++            }
++        }
++        sl_settle_pending_from_stored($gameCode, $issue);
++        $summary = sl_win_loss_summary($userId, $issue);
++    }
++    if ($summary['total'] === 0 || $summary['pending'] > 0) {
++        return array('status'=>null,'winAmount'=>0);
++    }
++    return array('status'=>$summary['won'] > 0,'winAmount'=>$summary['winAmount']);
++}
++
++function sl_win_loss_summary($userId, $issue)
++{
++    global $conn;
+     $stmt = $conn->prepare("SELECT COUNT(*),SUM(status='pending'),SUM(status='won'),COALESCE(SUM(payout),0) FROM saas_lottery_bets WHERE user_id=? AND issue_number=?");
++    if (!$stmt) {
++        return array('total'=>0,'pending'=>0,'won'=>0,'winAmount'=>0.0);
++    }
+     $stmt->bind_param('is', $userId, $issue);
+     $stmt->execute();
+     $total = $pending = $won = $winAmount = 0;
+     $stmt->bind_result($total, $pending, $won, $winAmount);
+     $stmt->fetch();
+     $stmt->close();
+-    if ((int) $total === 0 || (int) $pending > 0) {
+-        return array('status'=>null,'winAmount'=>0);
+-    }
+-    return array('status'=>(int)$won > 0,'winAmount'=>(float)$winAmount);
++    return array('total'=>(int)$total, 'pending'=>(int)$pending, 'won'=>(int)$won, 'winAmount'=>(float)$winAmount);
+ }
+ 
+ function sl_history_values($gameCode, $item)
+diff --git a/saas_lottery/bootstrap_live_v4.php b/saas_lottery/bootstrap_live_v4.php
+index ab4d83e..cf629b9 100644
+--- a/saas_lottery/bootstrap_live_v4.php
++++ b/saas_lottery/bootstrap_live_v4.php
+@@ -164,6 +164,32 @@ function sl_install_schema()
+         error_log('[sl_install_schema_ledger] ' . $e->getMessage());
+     }
+ 
++    try {
++        if (app_table_exists('saas_lottery_bets') && !app_column_exists('saas_lottery_bets', 'tax_fee')) {
++            $conn->query('ALTER TABLE saas_lottery_bets ADD COLUMN tax_fee DECIMAL(18,4) NOT NULL DEFAULT 0 AFTER payout');
++        }
++        if (app_table_exists('saas_lottery_bets') && app_column_exists('saas_lottery_bets', 'tax_fee')) {
++            // Backfill the stake service fee once for rows written before the
++            // tax column existed, then remember that the table was converted.
++            $marker = $conn->query("SELECT setting_value FROM saas_lottery_settings WHERE setting_key='tax_fee_backfill_complete' LIMIT 1");
++            $markerRow = $marker ? $marker->fetch_assoc() : null;
++            if (!$markerRow || (string) $markerRow['setting_value'] !== '1') {
++                $rate = number_format(sl_tax_percent() / 100.0, 6, '.', '');
++                for ($pass = 0; $pass < 20; $pass++) {
++                    if (!$conn->query('UPDATE saas_lottery_bets SET tax_fee=ROUND(stake*' . $rate . ',4) WHERE stake>0 AND tax_fee=0 LIMIT 5000')) {
++                        break;
++                    }
++                    if ((int) $conn->affected_rows < 5000) {
++                        break;
++                    }
++                }
++                $conn->query("INSERT INTO saas_lottery_settings(setting_key,setting_value,updated_at) VALUES ('tax_fee_backfill_complete','1',NOW()) ON DUPLICATE KEY UPDATE setting_value=VALUES(setting_value),updated_at=NOW()");
++            }
++        }
++    } catch (Throwable $e) {
++        error_log('[sl_install_schema_tax] ' . $e->getMessage());
++    }
++
+     try {
+         app_vip_ensure_saas_tracking($conn, false);
+     } catch (Throwable $e) {
+@@ -993,7 +1019,13 @@ function sl_save_and_settle_results($gameCode, $list)
+         $sum = (int) $item['sum'];
+ 
+         if (isset($existing[$issue])) {
+-            // Period already settled — NEVER modify old history.
++            // Period already settled — NEVER modify old history. A bet can
++            // still arrive for this exact period (the bundled client asks one
++            // round behind), so resolve its pending rows from the stored draw
++            // instead of leaving them pending forever.
++            if (!empty($pending[$issue])) {
++                sl_settle_pending_from_stored($gameCode, $issue);
++            }
+             continue;
+         }
+ 
+@@ -1339,21 +1371,59 @@ function sl_evaluate_bet($gameCode, $content, $result)
+     return array(0, 0.0);
+ }
+ 
++/**
++ * Tax percentage applied to the lottery wallet.
++ *
++ * The same percentage drives the payout tax deducted at settlement and the
++ * stake service fee shown on every bet record ("after tax amount" + "tax"),
++ * so the popup, wallet, ledger and record APIs cannot disagree.
++ */
++function sl_tax_percent()
++{
++    $taxPercent = function_exists('app_setting') ? (float) app_setting('lottery_payout_tax_percent', '2.00') : 2.0;
++    return max(0.0, min(100.0, $taxPercent));
++}
++
++function sl_stake_tax_fee($stake)
++{
++    return round(max(0.0, (float) $stake) * sl_tax_percent() / 100.0, 4);
++}
++
++/**
++ * Whether the bet table already carries the stake service fee column.
++ *
++ * The column is created by sl_install_schema(); the guard keeps settlement
++ * working on an installation whose schema upgrade has not run yet.
++ */
++function sl_bets_have_tax_column()
++{
++    static $has = null;
++    if ($has === null) {
++        global $conn;
++        $has = false;
++        try {
++            $has = function_exists('app_column_exists') && app_column_exists('saas_lottery_bets', 'tax_fee');
++        } catch (Throwable $e) {
++            $has = false;
++        }
++    }
++    return $has;
++}
++
+ /**
+  * Return the net amount credited for a winning bet.
+  *
+  * Game odds remain gross display odds (for example 2X). Settlement always
+- * deducts the mandatory 2% payout tax once and stores only the net amount, so
+- * the winner popup, wallet, ledger and record APIs cannot disagree.
++ * deducts the payout tax once and stores only the net amount, so the winner
++ * popup, wallet, ledger and record APIs cannot disagree.
+  */
+ function sl_net_payout_after_tax($grossPayout)
+ {
+-    $taxPercent = 2.0;
+     $grossPayout = max(0.0, (float) $grossPayout);
+     if ($grossPayout <= 0.0) {
+         return 0.0;
+     }
+-    return round($grossPayout * (100.0 - $taxPercent) / 100.0, 2);
++    return round($grossPayout * (100.0 - sl_tax_percent()) / 100.0, 2);
+ }
+ 
+ function sl_settle_issue($gameCode, $issue, $resultItem)
+@@ -1379,6 +1449,7 @@ function sl_settle_issue($gameCode, $issue, $resultItem)
+             $unitStake = (float) $bet['amount'] * (int) $bet['bet_multiple'];
+             $grossPayout = $winningUnits > 0 ? round($unitStake * $rate * $winningUnits, 4) : 0.0;
+             $payout = $winningUnits > 0 ? sl_net_payout_after_tax($grossPayout) : 0.0;
++            $taxFee = sl_stake_tax_fee((float) $bet['stake']);
+             $status = $winningUnits > 0 ? 'won' : 'lost';
+             $userId = (int) $bet['user_id'];
+             $betId = (int) $bet['id'];
+@@ -1411,8 +1482,13 @@ function sl_settle_issue($gameCode, $issue, $resultItem)
+             }
+ 
+             $premium = (string) $resultItem['premium'];
+-            $update = $conn->prepare("UPDATE saas_lottery_bets SET status=?,result_premium=?,payout=?,settled_at=NOW() WHERE id=? AND status='pending'");
+-            $update->bind_param('ssdi', $status, $premium, $payout, $betId);
++            if (sl_bets_have_tax_column()) {
++                $update = $conn->prepare("UPDATE saas_lottery_bets SET status=?,result_premium=?,payout=?,tax_fee=?,settled_at=NOW() WHERE id=? AND status='pending'");
++                $update->bind_param('ssddi', $status, $premium, $payout, $taxFee, $betId);
++            } else {
++                $update = $conn->prepare("UPDATE saas_lottery_bets SET status=?,result_premium=?,payout=?,settled_at=NOW() WHERE id=? AND status='pending'");
++                $update->bind_param('ssdi', $status, $premium, $payout, $betId);
++            }
+             $update->execute();
+             $update->close();
+         }
+@@ -1423,6 +1499,71 @@ function sl_settle_issue($gameCode, $issue, $resultItem)
+     }
+ }
+ 
++/**
++ * Read the immutable draw that is already stored for a period.
++ */
++function sl_stored_result($gameCode, $issue)
++{
++    global $conn;
++    $gameCode = (string) $gameCode;
++    $issue = (string) $issue;
++    if ($gameCode === '' || $issue === '') {
++        return null;
++    }
++    $stmt = $conn->prepare('SELECT issue_number,premium,number,color,result_sum FROM saas_lottery_results WHERE game_code=? AND issue_number=? LIMIT 1');
++    if (!$stmt) {
++        return null;
++    }
++    $stmt->bind_param('ss', $gameCode, $issue);
++    $stmt->execute();
++    $result = $stmt->get_result();
++    $row = $result ? $result->fetch_assoc() : null;
++    $stmt->close();
++    if (!$row) {
++        return null;
++    }
++    return array(
++        'issueNumber'=>(string) $row['issue_number'],
++        'premium'=>(string) $row['premium'],
++        'number'=>(string) $row['number'],
++        'color'=>(string) $row['color'],
++        'sum'=>(int) $row['result_sum']
++    );
++}
++
++/**
++ * Settle every pending bet of a period whose draw is already stored.
++ *
++ * sl_save_and_settle_results() never rewrites an existing result row, so a bet
++ * that arrives for a period that was drawn a moment earlier would otherwise
++ * stay 'pending' forever (the client polls GetWinLossResult for the period it
++ * bet on and must get the won/lost answer immediately).
++ *
++ * Returns true when a stored draw exists for the period.
++ */
++function sl_settle_pending_from_stored($gameCode, $issue)
++{
++    global $conn;
++    $item = sl_stored_result($gameCode, $issue);
++    if (!$item) {
++        return false;
++    }
++    $stmt = $conn->prepare("SELECT COUNT(*) FROM saas_lottery_bets WHERE game_code=? AND issue_number=? AND status='pending'");
++    if (!$stmt) {
++        return true;
++    }
++    $stmt->bind_param('ss', $gameCode, $issue);
++    $stmt->execute();
++    $pending = 0;
++    $stmt->bind_result($pending);
++    $stmt->fetch();
++    $stmt->close();
++    if ((int) $pending > 0) {
++        sl_settle_issue($gameCode, $issue, $item);
++    }
++    return true;
++}
++
+ function sl_wallet_balance($userId)
+ {
+     global $conn;
+@@ -1474,7 +1615,26 @@ function sl_place_bet($user, $input)
+     $endTime = (int) $current['current']['endTime'];
+     $control = app_game_control($gameCode);
+     $lockSeconds = max((int) $SL_CONFIG['bet_lock_seconds'], (int) ($control['lock_before_close_seconds'] ?? 0));
+-    if ($currentIssue !== $issue || $endTime <= sl_now_ms() + ($lockSeconds * 1000)) {
++    $acceptCurrent = ($currentIssue === $issue) && ($endTime > sl_now_ms() + ($lockSeconds * 1000));
++    // The bundled client keeps the issue label of the round it polled one
++    // period earlier, so a bet can arrive for the period that just closed.
++    // When that period's draw is already stored the outcome is known, so the
++    // bet is accepted and settled immediately (the settlement below resolves
++    // it in the same request) instead of being rejected.
++    $acceptDrawnPrevious = false;
++    if (!$acceptCurrent && $currentIssue !== $issue && app_setting_bool('accept_previous_period_bets', true)) {
++        $recentIssues = array();
++        if (!empty($current['previous']['issueNumber'])) {
++            $recentIssues[] = (string) $current['previous']['issueNumber'];
++        }
++        $currentStart = (int) floor(((int) $current['current']['startTime']) / 1000);
++        $recentIssues[] = sl_issue_number_for_start($gameCode, $currentStart - sl_interval_seconds($gameCode));
++        if (in_array($issue, $recentIssues, true) && sl_stored_result($gameCode, $issue) !== null) {
++            $acceptDrawnPrevious = true;
++            error_log('[saas-lottery drawn-period bet] game=' . $gameCode . ' issue=' . $issue . ' current=' . $currentIssue . ' user=' . (int) $user['id']);
++        }
++    }
++    if (!$acceptCurrent && !$acceptDrawnPrevious) {
+         sl_fail(404, 'Betting has stopped for the current period', 404, 200);
+     }
+ 
+@@ -1529,9 +1689,15 @@ function sl_place_bet($user, $input)
+             $content = (string) $bet['content'];
+             $units = (int) $bet['units'];
+             $rowStake = round($amount * $multiple * $units, 4);
++            $rowTax = sl_stake_tax_fee($rowStake);
+             $requestKey = hash('sha256', $groupKey . '|' . $index . '|' . $content);
+-            $insert = $conn->prepare("INSERT INTO saas_lottery_bets(user_id,game_code,issue_number,bet_content,amount,bet_multiple,bet_units,stake,request_group_key,request_key,status,created_at) VALUES (?,?,?,?,?,?,?,?,?,?,'pending',NOW())");
+-            $insert->bind_param('isssdiidss', $userId, $gameCode, $issue, $content, $amount, $multiple, $units, $rowStake, $groupKey, $requestKey);
++            if (sl_bets_have_tax_column()) {
++                $insert = $conn->prepare("INSERT INTO saas_lottery_bets(user_id,game_code,issue_number,bet_content,amount,bet_multiple,bet_units,stake,tax_fee,request_group_key,request_key,status,created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,'pending',NOW())");
++                $insert->bind_param('isssdiiddss', $userId, $gameCode, $issue, $content, $amount, $multiple, $units, $rowStake, $rowTax, $groupKey, $requestKey);
++            } else {
++                $insert = $conn->prepare("INSERT INTO saas_lottery_bets(user_id,game_code,issue_number,bet_content,amount,bet_multiple,bet_units,stake,request_group_key,request_key,status,created_at) VALUES (?,?,?,?,?,?,?,?,?,?,'pending',NOW())");
++                $insert->bind_param('isssdiidss', $userId, $gameCode, $issue, $content, $amount, $multiple, $units, $rowStake, $groupKey, $requestKey);
++            }
+             $insert->execute();
+             $betIds[] = (int) $insert->insert_id;
+             $insert->close();
+@@ -1577,6 +1743,18 @@ function sl_place_bet($user, $input)
+         }
+ 
+         $conn->commit();
++
++        // A bet accepted for a period that was already drawn must report its
++        // win/loss right away: the bundled client polls GetWinLossResult only
++        // once per bet and drops the period when it comes back as pending.
++        if ($acceptDrawnPrevious) {
++            try {
++                sl_settle_pending_from_stored($gameCode, $issue);
++            } catch (Throwable $settleEx) {
++                error_log('[saas-lottery drawn-period settle] ' . $settleEx->getMessage());
++            }
++        }
++
+         return array(
+             'betId'=>$betIds[0] ?? 0,
+             'betIds'=>$betIds,
+@@ -1719,7 +1897,8 @@ function sl_record_page($userId, $input)
+     $count->fetch();
+     $count->close();
+ 
+-    $fields = 'id,game_code,issue_number,bet_content,amount,bet_multiple,bet_units,stake,status,result_premium,payout,created_at';
++    $taxField = sl_bets_have_tax_column() ? 'tax_fee' : '0 AS tax_fee';
++    $fields = 'id,game_code,issue_number,bet_content,amount,bet_multiple,bet_units,stake,status,result_premium,payout,' . $taxField . ',created_at';
+     if ($gameCode !== '') {
+         $stmt = $conn->prepare('SELECT '.$fields.' FROM saas_lottery_bets WHERE user_id=? AND game_code=? ORDER BY id DESC LIMIT ? OFFSET ?');
+         $stmt->bind_param('isii', $userId, $gameCode, $pageSize, $offset);
+@@ -1734,6 +1913,8 @@ function sl_record_page($userId, $input)
+         $state = $row['status'] === 'pending' ? 2 : ($row['status'] === 'won' ? 1 : 0);
+         $stake = (float) $row['stake'];
+         $payout = (float) $row['payout'];
++        $taxFee = isset($row['tax_fee']) ? (float) $row['tax_fee'] : 0.0;
++        if ($taxFee <= 0.0 && $stake > 0.0) { $taxFee = sl_stake_tax_fee($stake); }
+         $winLose = $row['status'] === 'won' ? round($payout - $stake, 4) : ($row['status'] === 'lost' ? -$stake : 0.0);
+         $premium = $row['result_premium'] === null ? '' : (string) $row['result_premium'];
+         $recordFamily = sl_game_family((string) $row['game_code']);
+@@ -1750,7 +1931,7 @@ function sl_record_page($userId, $input)
+             'orderNo'=>(string)$row['id'],'issueNumber'=>(string)$row['issue_number'],'gameCode'=>(string)$row['game_code'],
+             'betContent'=>(string)$row['bet_content'],'playType'=>$playType,'selectType'=>$selectType,
+             'amount'=>$stake,'unitAmount'=>(float)$row['amount'],'betMultiple'=>(int)$row['bet_multiple'],'betCount'=>(int)$row['bet_multiple'],
+-            'betUnits'=>(int)$row['bet_units'],'realAmount'=>$stake,'fee'=>0.0,'state'=>$state,'premium'=>$premium,
++            'betUnits'=>(int)$row['bet_units'],'realAmount'=>max(0.0, round($stake-$taxFee,4)),'realBettingAmount'=>max(0.0, round($stake-$taxFee,4)),'fee'=>$taxFee,'serviceCharge'=>$taxFee,'tax'=>$taxFee,'taxAmount'=>$taxFee,'taxRate'=>sl_tax_percent(),'state'=>$state,'premium'=>$premium,
+             'winLoseAmount'=>$winLose,'betTime'=>(string)$row['created_at'],'orderNumber'=>(string)$row['id'],
+             'betAmount'=>$stake,'number'=>$recordNumber,'resultNumber'=>$isWingo && $premium !== '' ? (int)$premium : null,
+             'color'=>$isWingo && $premium !== '' ? sl_result_color((int)$premium) : '',
+@@ -1778,17 +1959,44 @@ function sl_win_loss($userId, $input)
+     if ($gameCode !== '') {
+         sl_sync_results($gameCode);
+     }
++    $summary = sl_win_loss_summary($userId, $issue);
++    if ($gameCode !== '' && $summary['pending'] > 0) {
++        // The bundled client asks for the result only once, a couple of
++        // seconds after the period closes, and forgets the period when the
++        // answer is still "pending". When the closing draw is not stored yet
++        // wait a short bounded moment for the provider; the moment a draw is
++        // available the pending rows are settled so this single poll answers
++        // won/lost instead of a null status.
++        if ($summary['total'] > 0 && sl_stored_result($gameCode, $issue) === null) {
++            $deadline = microtime(true) + 4.0;
++            while (microtime(true) < $deadline && sl_stored_result($gameCode, $issue) === null) {
++                usleep(400000);
++                sl_sync_results($gameCode);
++            }
++        }
++        sl_settle_pending_from_stored($gameCode, $issue);
++        $summary = sl_win_loss_summary($userId, $issue);
++    }
++    if ($summary['total'] === 0 || $summary['pending'] > 0) {
++        return array('status'=>null,'winAmount'=>0);
++    }
++    return array('status'=>$summary['won'] > 0,'winAmount'=>$summary['winAmount']);
++}
++
++function sl_win_loss_summary($userId, $issue)
++{
++    global $conn;
+     $stmt = $conn->prepare("SELECT COUNT(*),SUM(status='pending'),SUM(status='won'),COALESCE(SUM(payout),0) FROM saas_lottery_bets WHERE user_id=? AND issue_number=?");
++    if (!$stmt) {
++        return array('total'=>0,'pending'=>0,'won'=>0,'winAmount'=>0.0);
++    }
+     $stmt->bind_param('is', $userId, $issue);
+     $stmt->execute();
+     $total = $pending = $won = $winAmount = 0;
+     $stmt->bind_result($total, $pending, $won, $winAmount);
+     $stmt->fetch();
+     $stmt->close();
+-    if ((int) $total === 0 || (int) $pending > 0) {
+-        return array('status'=>null,'winAmount'=>0);
+-    }
+-    return array('status'=>(int)$won > 0,'winAmount'=>(float)$winAmount);
++    return array('total'=>(int)$total, 'pending'=>(int)$pending, 'won'=>(int)$won, 'winAmount'=>(float)$winAmount);
+ }
+ 
+ function sl_history_values($gameCode, $item)
