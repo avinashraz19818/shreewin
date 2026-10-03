@@ -1,5 +1,59 @@
+diff --git a/draw-live-v4/index.php b/draw-live-v4/index.php
+index d5394e6..03dc21a 100644
+--- a/draw-live-v4/index.php
++++ b/draw-live-v4/index.php
+@@ -15,34 +15,32 @@ require_once dirname(__DIR__) . '/saas_lottery/bootstrap_live_v4.php';
+  * ended; normal history requests still return immediately.
+  */
+ /**
+- * Display-only period alignment for the RaxiWin result screen.
++ * Public result-screen guard for the RaxiWin result screen.
+  *
+- * RaxiWin's provider result is saved/settled against its canonical issue
+- * number. The public history screen, however, is one round ahead. Re-label
+- * only the response rows; never change premium/result or settlement IDs.
++ * The screen, the bet slip and settlement must all use the same canonical
++ * issue number, so a row is never re-labelled here. The only normalisation is
++ * to hide the period that is still running, so a closing draw can never be
++ * revealed before its timer ends.
+  */
+ function raxiwin_display_previous_periods($gameCode, $list)
+ {
+     if (!is_array($list) || !$list || strpos((string)$gameCode, 'WinGo_') !== 0) {
+         return $list;
+     }
+-    $interval = sl_interval_seconds($gameCode);
+-    foreach ($list as &$item) {
++    $currentIssue = sl_wingo_current_issue($gameCode);
++    if ($currentIssue === '') {
++        return $list;
++    }
++    $visible = array();
++    foreach ($list as $item) {
+         $issue = isset($item['issueNumber']) ? (string)$item['issueNumber'] : '';
+-        if (!preg_match('/^(\d{8})\d{9}$/', $issue)) {
+-            continue;
+-        }
+-        $date = substr($issue, 0, 4) . '-' . substr($issue, 4, 2) . '-' . substr($issue, 6, 2);
+-        $sequence = (int)substr($issue, -4);
+-        $dayStart = strtotime($date . ' 00:00:00 UTC');
+-        if ($dayStart === false || $sequence < 1) {
++        if (preg_match('/^\d{17}$/', $issue) && strcmp($issue, $currentIssue) >= 0) {
++            // Current (or future) period: never expose it before it ends.
+             continue;
+         }
+-        $start = $dayStart + (($sequence - 1) * $interval) - $interval;
+-        $item['issueNumber'] = sl_issue_number_for_start($gameCode, $start);
++        $visible[] = $item;
+     }
+-    unset($item);
+-    return $list;
++    return $visible ? array_values($visible) : $list;
+ }
+ 
+ function dlv4_history_with_boundary_wait($gameCode, $input)
 diff --git a/saas_lottery/bootstrap.php b/saas_lottery/bootstrap.php
-index 8822a3c..5eec4b0 100644
+index 8822a3c..aaf0012 100644
 --- a/saas_lottery/bootstrap.php
 +++ b/saas_lottery/bootstrap.php
 @@ -140,7 +140,7 @@ function sl_install_schema()
@@ -67,7 +121,7 @@ index 8822a3c..5eec4b0 100644
 - * the winner popup, wallet, ledger and record APIs cannot disagree.
 + * deducts the payout tax once and stores only the net amount, so the winner
 + * popup, wallet, ledger and record APIs cannot disagree.
-  */
++ */
 +function sl_tax_percent()
 +{
 +    $taxPercent = function_exists('app_setting') ? (float) app_setting('lottery_payout_tax_percent', '2.00') : 2.0;
@@ -84,7 +138,7 @@ index 8822a3c..5eec4b0 100644
 + *
 + * The column is created by sl_install_schema(); the guard keeps settlement
 + * working on an installation whose schema upgrade has not run yet.
-+ */
+  */
 +function sl_bets_have_tax_column()
 +{
 +    static $has = null;
@@ -208,36 +262,46 @@ index 8822a3c..5eec4b0 100644
  function sl_wallet_balance($userId)
  {
      global $conn;
-@@ -1491,7 +1625,27 @@ function sl_place_bet($user, $input)
+@@ -1491,7 +1625,37 @@ function sl_place_bet($user, $input)
      $endTime = (int) $current['current']['endTime'];
      $control = app_game_control($gameCode);
      $lockSeconds = max((int) $SL_CONFIG['bet_lock_seconds'], (int) ($control['lock_before_close_seconds'] ?? 0));
 -    if ($currentIssue !== $issue || $endTime <= sl_now_ms() + ($lockSeconds * 1000)) {
 +    $acceptCurrent = ($currentIssue === $issue) && ($endTime > sl_now_ms() + ($lockSeconds * 1000));
-+    // The bundled client keeps the issue label of the round it polled one
-+    // period earlier, so a bet can arrive for the period that just closed.
-+    // When that period's draw is already stored the outcome is known, so the
-+    // bet is accepted and settled immediately (see below) instead of being
-+    // rejected. Set saas_lottery_settings.accept_previous_period_bets=0 to
-+    // disable this and reject such bets again.
-+    $acceptDrawnPrevious = false;
++    // The bundled client may still send the label of a period that closed
++    // while its own timer window advances. Such a bet must never settle before
++    // the running period ends, so it is re-booked on the running (current)
++    // period instead of being rejected or settled early.
++    // Set saas_lottery_settings.accept_previous_period_bets=0 to reject those
++    // labels again.
 +    if (!$acceptCurrent && $currentIssue !== $issue && app_setting_bool('accept_previous_period_bets', true)) {
-+        $recentIssues = array();
-+        if (!empty($current['previous']['issueNumber'])) {
-+            $recentIssues[] = (string) $current['previous']['issueNumber'];
-+        }
 +        $currentStart = (int) floor(((int) $current['current']['startTime']) / 1000);
-+        $recentIssues[] = sl_issue_number_for_start($gameCode, $currentStart - sl_interval_seconds($gameCode));
-+        if (in_array($issue, $recentIssues, true) && sl_stored_result($gameCode, $issue) !== null) {
-+            $acceptDrawnPrevious = true;
-+            error_log('[saas-lottery drawn-period bet] game=' . $gameCode . ' issue=' . $issue . ' current=' . $currentIssue . ' user=' . (int) $user['id']);
++        $interval = sl_interval_seconds($gameCode);
++        $nearby = false;
++        if (!empty($current['previous']['issueNumber']) && (string) $current['previous']['issueNumber'] === $issue) {
++            $nearby = true;
++        }
++        if (!$nearby) {
++            for ($back = 1; $back <= 3; $back++) {
++                if ($issue === sl_issue_number_for_start($gameCode, $currentStart - ($back * $interval))) {
++                    $nearby = true;
++                    break;
++                }
++            }
++        }
++        if ($nearby) {
++            error_log('[saas-lottery lagging bet] requested=' . $issue . ' booked=' . $currentIssue . ' game=' . $gameCode . ' user=' . (int) $user['id']);
++            $issue = $currentIssue;
 +        }
 +    }
-+    if (!$acceptCurrent && !$acceptDrawnPrevious) {
++    if ($issue !== $currentIssue) {
++        sl_fail(404, 'Betting has stopped for the current period', 404, 200);
++    }
++    if ($endTime <= sl_now_ms() + ($lockSeconds * 1000)) {
          sl_fail(404, 'Betting has stopped for the current period', 404, 200);
      }
  
-@@ -1554,12 +1708,21 @@ function sl_place_bet($user, $input)
+@@ -1554,12 +1718,21 @@ function sl_place_bet($user, $input)
              $content = (string) $bet['content'];
              $units = (int) $bet['units'];
              $rowStake = round($amount * $multiple * $units, 4);
@@ -263,26 +327,22 @@ index 8822a3c..5eec4b0 100644
              $insert->execute();
              $betIds[] = (int) $insert->insert_id;
              $insert->close();
-@@ -1611,6 +1774,18 @@ function sl_place_bet($user, $input)
+@@ -1611,9 +1784,14 @@ function sl_place_bet($user, $input)
          }
  
          $conn->commit();
 +
-+        // A bet accepted for a period that was already drawn must report its
-+        // win/loss right away: the bundled client polls GetWinLossResult only
-+        // once per bet and forgets the period when it comes back as pending.
-+        if ($acceptDrawnPrevious) {
-+            try {
-+                sl_settle_pending_from_stored($gameCode, $issue);
-+            } catch (Throwable $settleEx) {
-+                error_log('[saas-lottery drawn-period settle] ' . $settleEx->getMessage());
-+            }
-+        }
-+
          return array(
              'betId'=>$betIds[0] ?? 0,
              'betIds'=>$betIds,
-@@ -1753,7 +1928,8 @@ function sl_record_page($userId, $input)
++            // The period actually booked (a lagging label is re-booked on the
++            // running period), so a client can correct its own countdown.
++            'issueNumber'=>$issue,
++            'gameCode'=>$gameCode,
+             'accepted'=>true,
+             'balance'=>$after,
+             'stake'=>$stake,
+@@ -1753,7 +1931,8 @@ function sl_record_page($userId, $input)
      $count->fetch();
      $count->close();
  
@@ -292,7 +352,7 @@ index 8822a3c..5eec4b0 100644
      if ($gameCode !== '') {
          $stmt = $conn->prepare('SELECT '.$fields.' FROM saas_lottery_bets WHERE user_id=? AND game_code=? ORDER BY id DESC LIMIT ? OFFSET ?');
          $stmt->bind_param('isii', $userId, $gameCode, $pageSize, $offset);
-@@ -1768,6 +1944,8 @@ function sl_record_page($userId, $input)
+@@ -1768,6 +1947,8 @@ function sl_record_page($userId, $input)
          $state = $row['status'] === 'pending' ? 2 : ($row['status'] === 'won' ? 1 : 0);
          $stake = (float) $row['stake'];
          $payout = (float) $row['payout'];
@@ -301,7 +361,7 @@ index 8822a3c..5eec4b0 100644
          $winLose = $row['status'] === 'won' ? round($payout - $stake, 4) : ($row['status'] === 'lost' ? -$stake : 0.0);
          $premium = $row['result_premium'] === null ? '' : (string) $row['result_premium'];
          $recordFamily = sl_game_family((string) $row['game_code']);
-@@ -1784,7 +1962,7 @@ function sl_record_page($userId, $input)
+@@ -1784,7 +1965,7 @@ function sl_record_page($userId, $input)
              'orderNo'=>(string)$row['id'],'issueNumber'=>(string)$row['issue_number'],'gameCode'=>(string)$row['game_code'],
              'betContent'=>(string)$row['bet_content'],'playType'=>$playType,'selectType'=>$selectType,
              'amount'=>$stake,'unitAmount'=>(float)$row['amount'],'betMultiple'=>(int)$row['bet_multiple'],'betCount'=>(int)$row['bet_multiple'],
@@ -310,7 +370,23 @@ index 8822a3c..5eec4b0 100644
              'winLoseAmount'=>$winLose,'betTime'=>(string)$row['created_at'],'orderNumber'=>(string)$row['id'],
              'betAmount'=>$stake,'number'=>$recordNumber,'resultNumber'=>$isWingo && $premium !== '' ? (int)$premium : null,
              'color'=>$isWingo && $premium !== '' ? sl_result_color((int)$premium) : '',
-@@ -1812,17 +1990,48 @@ function sl_win_loss($userId, $input)
+@@ -1809,20 +1990,98 @@ function sl_win_loss($userId, $input)
+         $find->fetch();
+         $find->close();
+     }
++    // A lagging label can have been re-booked on the running period by
++    // sl_place_bet(); the bundled client still polls the label it sent, so
++    // follow that bet instead of answering with a null status.
++    $probe = sl_win_loss_summary($userId, $issue);
++    if ($probe['total'] === 0) {
++        $following = sl_win_loss_follow_issue($userId, $gameCode, $issue);
++        if ($following !== null) {
++            $issue = (string) $following['issue_number'];
++            if ($gameCode === '') {
++                $gameCode = (string) $following['game_code'];
++            }
++        }
++    }
      if ($gameCode !== '') {
          sl_sync_results($gameCode);
      }
@@ -342,6 +418,40 @@ index 8822a3c..5eec4b0 100644
 +    return array('status'=>$summary['won'] > 0,'winAmount'=>$summary['winAmount']);
 +}
 +
++/**
++ * Newest bet of the same game that a lagging poll label belongs to.
++ *
++ * When sl_place_bet() re-books a closed-period label on the running period,
++ * the client poll still carries the old label. Only a recent (10 minutes) bet
++ * with a newer label is followed, so an unrelated poll stays untouched.
++ */
++function sl_win_loss_follow_issue($userId, $gameCode, $issue)
++{
++    global $conn;
++    if ($issue === '') {
++        return null;
++    }
++    $sql = "SELECT issue_number,game_code FROM saas_lottery_bets WHERE user_id=? AND created_at >= (NOW() - INTERVAL 10 MINUTE) AND issue_number > ?";
++    if ($gameCode !== '') {
++        $sql .= ' AND game_code=?';
++    }
++    $sql .= ' ORDER BY id DESC LIMIT 1';
++    $stmt = $conn->prepare($sql);
++    if (!$stmt) {
++        return null;
++    }
++    if ($gameCode !== '') {
++        $stmt->bind_param('iss', $userId, $issue, $gameCode);
++    } else {
++        $stmt->bind_param('is', $userId, $issue);
++    }
++    $stmt->execute();
++    $result = $stmt->get_result();
++    $row = $result ? $result->fetch_assoc() : null;
++    $stmt->close();
++    return $row ? $row : null;
++}
++
 +function sl_win_loss_summary($userId, $issue)
 +{
 +    global $conn;
@@ -364,7 +474,7 @@ index 8822a3c..5eec4b0 100644
  
  function sl_history_values($gameCode, $item)
 diff --git a/saas_lottery/bootstrap_live_v4.php b/saas_lottery/bootstrap_live_v4.php
-index ab4d83e..3ef69aa 100644
+index ab4d83e..acc730b 100644
 --- a/saas_lottery/bootstrap_live_v4.php
 +++ b/saas_lottery/bootstrap_live_v4.php
 @@ -164,6 +164,32 @@ function sl_install_schema()
@@ -575,35 +685,46 @@ index ab4d83e..3ef69aa 100644
  function sl_wallet_balance($userId)
  {
      global $conn;
-@@ -1474,7 +1615,26 @@ function sl_place_bet($user, $input)
+@@ -1474,7 +1615,37 @@ function sl_place_bet($user, $input)
      $endTime = (int) $current['current']['endTime'];
      $control = app_game_control($gameCode);
      $lockSeconds = max((int) $SL_CONFIG['bet_lock_seconds'], (int) ($control['lock_before_close_seconds'] ?? 0));
 -    if ($currentIssue !== $issue || $endTime <= sl_now_ms() + ($lockSeconds * 1000)) {
 +    $acceptCurrent = ($currentIssue === $issue) && ($endTime > sl_now_ms() + ($lockSeconds * 1000));
-+    // The bundled client keeps the issue label of the round it polled one
-+    // period earlier, so a bet can arrive for the period that just closed.
-+    // When that period's draw is already stored the outcome is known, so the
-+    // bet is accepted and settled immediately (the settlement below resolves
-+    // it in the same request) instead of being rejected.
-+    $acceptDrawnPrevious = false;
++    // The bundled client may still send the label of a period that closed
++    // while its own timer window advances. Such a bet must never settle before
++    // the running period ends, so it is re-booked on the running (current)
++    // period instead of being rejected or settled early.
++    // Set saas_lottery_settings.accept_previous_period_bets=0 to reject those
++    // labels again.
 +    if (!$acceptCurrent && $currentIssue !== $issue && app_setting_bool('accept_previous_period_bets', true)) {
-+        $recentIssues = array();
-+        if (!empty($current['previous']['issueNumber'])) {
-+            $recentIssues[] = (string) $current['previous']['issueNumber'];
-+        }
 +        $currentStart = (int) floor(((int) $current['current']['startTime']) / 1000);
-+        $recentIssues[] = sl_issue_number_for_start($gameCode, $currentStart - sl_interval_seconds($gameCode));
-+        if (in_array($issue, $recentIssues, true) && sl_stored_result($gameCode, $issue) !== null) {
-+            $acceptDrawnPrevious = true;
-+            error_log('[saas-lottery drawn-period bet] game=' . $gameCode . ' issue=' . $issue . ' current=' . $currentIssue . ' user=' . (int) $user['id']);
++        $interval = sl_interval_seconds($gameCode);
++        $nearby = false;
++        if (!empty($current['previous']['issueNumber']) && (string) $current['previous']['issueNumber'] === $issue) {
++            $nearby = true;
++        }
++        if (!$nearby) {
++            for ($back = 1; $back <= 3; $back++) {
++                if ($issue === sl_issue_number_for_start($gameCode, $currentStart - ($back * $interval))) {
++                    $nearby = true;
++                    break;
++                }
++            }
++        }
++        if ($nearby) {
++            error_log('[saas-lottery lagging bet] requested=' . $issue . ' booked=' . $currentIssue . ' game=' . $gameCode . ' user=' . (int) $user['id']);
++            $issue = $currentIssue;
 +        }
 +    }
-+    if (!$acceptCurrent && !$acceptDrawnPrevious) {
++    if ($issue !== $currentIssue) {
++        sl_fail(404, 'Betting has stopped for the current period', 404, 200);
++    }
++    if ($endTime <= sl_now_ms() + ($lockSeconds * 1000)) {
          sl_fail(404, 'Betting has stopped for the current period', 404, 200);
      }
  
-@@ -1529,9 +1689,15 @@ function sl_place_bet($user, $input)
+@@ -1529,9 +1700,15 @@ function sl_place_bet($user, $input)
              $content = (string) $bet['content'];
              $units = (int) $bet['units'];
              $rowStake = round($amount * $multiple * $units, 4);
@@ -621,26 +742,22 @@ index ab4d83e..3ef69aa 100644
              $insert->execute();
              $betIds[] = (int) $insert->insert_id;
              $insert->close();
-@@ -1577,6 +1743,18 @@ function sl_place_bet($user, $input)
+@@ -1577,9 +1754,14 @@ function sl_place_bet($user, $input)
          }
  
          $conn->commit();
 +
-+        // A bet accepted for a period that was already drawn must report its
-+        // win/loss right away: the bundled client polls GetWinLossResult only
-+        // once per bet and drops the period when it comes back as pending.
-+        if ($acceptDrawnPrevious) {
-+            try {
-+                sl_settle_pending_from_stored($gameCode, $issue);
-+            } catch (Throwable $settleEx) {
-+                error_log('[saas-lottery drawn-period settle] ' . $settleEx->getMessage());
-+            }
-+        }
-+
          return array(
              'betId'=>$betIds[0] ?? 0,
              'betIds'=>$betIds,
-@@ -1719,7 +1897,8 @@ function sl_record_page($userId, $input)
++            // The period actually booked (a lagging label is re-booked on the
++            // running period), so a client can correct its own countdown.
++            'issueNumber'=>$issue,
++            'gameCode'=>$gameCode,
+             'accepted'=>true,
+             'balance'=>$after,
+             'stake'=>$stake,
+@@ -1719,7 +1901,8 @@ function sl_record_page($userId, $input)
      $count->fetch();
      $count->close();
  
@@ -650,7 +767,7 @@ index ab4d83e..3ef69aa 100644
      if ($gameCode !== '') {
          $stmt = $conn->prepare('SELECT '.$fields.' FROM saas_lottery_bets WHERE user_id=? AND game_code=? ORDER BY id DESC LIMIT ? OFFSET ?');
          $stmt->bind_param('isii', $userId, $gameCode, $pageSize, $offset);
-@@ -1734,6 +1913,8 @@ function sl_record_page($userId, $input)
+@@ -1734,6 +1917,8 @@ function sl_record_page($userId, $input)
          $state = $row['status'] === 'pending' ? 2 : ($row['status'] === 'won' ? 1 : 0);
          $stake = (float) $row['stake'];
          $payout = (float) $row['payout'];
@@ -659,7 +776,7 @@ index ab4d83e..3ef69aa 100644
          $winLose = $row['status'] === 'won' ? round($payout - $stake, 4) : ($row['status'] === 'lost' ? -$stake : 0.0);
          $premium = $row['result_premium'] === null ? '' : (string) $row['result_premium'];
          $recordFamily = sl_game_family((string) $row['game_code']);
-@@ -1750,7 +1931,7 @@ function sl_record_page($userId, $input)
+@@ -1750,7 +1935,7 @@ function sl_record_page($userId, $input)
              'orderNo'=>(string)$row['id'],'issueNumber'=>(string)$row['issue_number'],'gameCode'=>(string)$row['game_code'],
              'betContent'=>(string)$row['bet_content'],'playType'=>$playType,'selectType'=>$selectType,
              'amount'=>$stake,'unitAmount'=>(float)$row['amount'],'betMultiple'=>(int)$row['bet_multiple'],'betCount'=>(int)$row['bet_multiple'],
@@ -668,7 +785,23 @@ index ab4d83e..3ef69aa 100644
              'winLoseAmount'=>$winLose,'betTime'=>(string)$row['created_at'],'orderNumber'=>(string)$row['id'],
              'betAmount'=>$stake,'number'=>$recordNumber,'resultNumber'=>$isWingo && $premium !== '' ? (int)$premium : null,
              'color'=>$isWingo && $premium !== '' ? sl_result_color((int)$premium) : '',
-@@ -1778,17 +1959,48 @@ function sl_win_loss($userId, $input)
+@@ -1775,20 +1960,98 @@ function sl_win_loss($userId, $input)
+         $find->fetch();
+         $find->close();
+     }
++    // A lagging label can have been re-booked on the running period by
++    // sl_place_bet(); the bundled client still polls the label it sent, so
++    // follow that bet instead of answering with a null status.
++    $probe = sl_win_loss_summary($userId, $issue);
++    if ($probe['total'] === 0) {
++        $following = sl_win_loss_follow_issue($userId, $gameCode, $issue);
++        if ($following !== null) {
++            $issue = (string) $following['issue_number'];
++            if ($gameCode === '') {
++                $gameCode = (string) $following['game_code'];
++            }
++        }
++    }
      if ($gameCode !== '') {
          sl_sync_results($gameCode);
      }
@@ -698,6 +831,40 @@ index ab4d83e..3ef69aa 100644
 +        return array('status'=>null,'winAmount'=>0);
 +    }
 +    return array('status'=>$summary['won'] > 0,'winAmount'=>$summary['winAmount']);
++}
++
++/**
++ * Newest bet of the same game that a lagging poll label belongs to.
++ *
++ * When sl_place_bet() re-books a closed-period label on the running period,
++ * the client poll still carries the old label. Only a recent (10 minutes) bet
++ * with a newer label is followed, so an unrelated poll stays untouched.
++ */
++function sl_win_loss_follow_issue($userId, $gameCode, $issue)
++{
++    global $conn;
++    if ($issue === '') {
++        return null;
++    }
++    $sql = "SELECT issue_number,game_code FROM saas_lottery_bets WHERE user_id=? AND created_at >= (NOW() - INTERVAL 10 MINUTE) AND issue_number > ?";
++    if ($gameCode !== '') {
++        $sql .= ' AND game_code=?';
++    }
++    $sql .= ' ORDER BY id DESC LIMIT 1';
++    $stmt = $conn->prepare($sql);
++    if (!$stmt) {
++        return null;
++    }
++    if ($gameCode !== '') {
++        $stmt->bind_param('iss', $userId, $issue, $gameCode);
++    } else {
++        $stmt->bind_param('is', $userId, $issue);
++    }
++    $stmt->execute();
++    $result = $stmt->get_result();
++    $row = $result ? $result->fetch_assoc() : null;
++    $stmt->close();
++    return $row ? $row : null;
 +}
 +
 +function sl_win_loss_summary($userId, $issue)
