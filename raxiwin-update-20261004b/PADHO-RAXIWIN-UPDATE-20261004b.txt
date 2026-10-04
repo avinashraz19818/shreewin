@@ -1,0 +1,107 @@
+RAXIWIN UPDATE - 04-10-2026  (build 20261004b)
+==============================================
+
+POORI APP 1 PERIOD PICHE
+------------------------
+
+Aapne kaha: "1 period piche nhi chl rha h, final file do jisme sab proper piche
+ho jaye". Ab poora WinGo screen, bet, record, history aur result - SAB ek hi
+(lagging) label par chalte hain, exactly jaise pehle chalta tha.
+
+MAP (samajhne ke liye)
+----------------------
+
+  provider ki asli running period : 341  (jaise BDG WIN me dikhta hai)
+  app par dikhta hai               : 340  (1 piche)  <- header period
+  app ka countdown                 : 341 ke window ka hi rehta hai (wahi waqt)
+
+  Jab wo countdown 0 hota hai:
+     - app ka period 341 ho jata hai,
+     - aur 340 ka RESULT history me aa jata hai (jo draw hua).
+
+  Matlab: har period apne puraane number se hi dikhta hai, aur uska result
+  uske countdown khatam hone par hi aata hai - bilkul consistent.
+
+KYA-KYA PICHE SHIFT HUA (aur kahin mismatch nahi rahega)
+--------------------------------------------------------
+
+1) HEADER (running period)   : provider - 1
+2) BET                       : jo label screen par (340) usi par bet banti hai,
+                               record me bhi 340 hi jata hai.
+3) WIN/LOSS                  : 340 bet ka result 341 wale draw se banta hai,
+                               aur wo draw tab aata hai jab 340 ka timer khatam
+                               ho (bet lagate hi win/loss NAHI).
+4) HISTORY / RESULT LIST     : sab rows ka label 1 piche, number/colour wahi
+                               jo asli draw hua. Chal raha period timer khatam
+                               hone se pehle list me nahi aata.
+5) RECORD (My Record)        : wahi label jo screen par tha.
+
+Histoy me "header = top row + 1" hi rahega (jaise aapke screenshot me 334/333
+tha) - bas ab wo dono numbers provider se 1 piche honge.
+
+SWITCH (zarurat pade to)
+------------------------
+
+  table: saas_lottery_settings
+     raxiwin_period_label_offset = -1   -> default: 1 period piche (ye build)
+     raxiwin_period_label_offset =  0   -> canonical/current (jaisa purane
+                                           20261004 build me tha)
+
+  Display aur settlement DONO isi ek setting se chalta hai, isliye switch karne
+  par bhi display = bet = result rehta hai. Koi code change nahi.
+
+PEHLE SE MAUJOOD FIX (wahi hai)
+-------------------------------
+
+  - Bet par tax / service charge (stake ka 2%) record me aata hai.
+  - Bet lagate hi win/loss nahi aata; apne period ka timer khatam hone ke baad.
+  - History labels shift nahi hote; chal raha period pehle reveal nahi hota.
+
+FILES
+-----
+
+  saas_lottery/bootstrap.php           (engine: /api/Lottery/*, draw/)
+  saas_lottery/bootstrap_live_v4.php   (engine: /api-live-v4/*, /draw-live-v4/*)
+  draw-live-v4/index.php               (public draw/result + current-period feed)
+  assets/js/useLottery.hook-_2rEnQ4S.js (client: issue label + countdown)
+  assets/js/useWinGo3-5zV6kUzs.js       (client: bet + win/loss + history)
+
+Sara shift SERVER par hai, isliye purane/cached client par bhi kaam karega.
+Client JS files package me saath hain (wahi pichhle build wali).
+
+UPLOAD KAISE KARNA HAI (cPanel)
+-------------------------------
+
+1. cPanel > File Manager > site root (jahan index.html aur saas_lottery folder).
+2. ZIP upload karein.
+3. Right click > Extract > Overwrite / Replace "Yes".
+4. Page Ctrl+F5 (mobile/PWA me cache clear).
+   (Pehle 20261004 build laga tha to iske upar extract karein - 3 PHP files
+    update hongi, JS wahi rahegi.)
+
+TEST
+----
+
+  - WinGo khol kar dekhein: header period, apne doosre app (BDG) se 1 piche
+    number dikhega. Countdown wahi 1 minute ka.
+  - Ek chhota bet lagayein: My Record me WAHI number aana chahiye jo header me
+    tha. Result tab aaye jab us period ka timer 0 ho.
+
+DATABASE
+--------
+
+Is build me koi naya column nahi (tax_fee aur settle_after pichhle build ne
+add kar diye the). Koi SQL chalane ki zarurat nahi.
+
+ROLLBACK
+--------
+
+  saas_lottery/bootstrap.php
+  saas_lottery/bootstrap_live_v4.php
+  draw-live-v4/index.php
+  assets/js/useLottery.hook-_2rEnQ4S.js
+  assets/js/useWinGo3-5zV6kUzs.js
+
+Purana (canonical) behaviour wapas chahiye to:
+  - upar wali setting 0 kar dein (turant), ya
+  - pichhla 20261004 build dobara extract kar dein.

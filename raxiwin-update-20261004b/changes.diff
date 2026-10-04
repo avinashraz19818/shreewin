@@ -1,0 +1,1224 @@
+--- a/saas_lottery/bootstrap.php
++++ b/saas_lottery/bootstrap.php
+@@ -140,7 +140,7 @@
+     }
+ 
+     $queries = array(
+-        "CREATE TABLE IF NOT EXISTS saas_lottery_bets (id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,user_id BIGINT NOT NULL,game_code VARCHAR(32) NOT NULL,issue_number VARCHAR(40) NOT NULL,bet_content VARCHAR(190) NOT NULL,amount DECIMAL(18,4) NOT NULL,bet_multiple INT NOT NULL,bet_units INT NOT NULL DEFAULT 1,stake DECIMAL(18,4) NOT NULL,request_group_key CHAR(64) NOT NULL,request_key CHAR(64) NOT NULL,status VARCHAR(16) NOT NULL DEFAULT 'pending',result_premium VARCHAR(64) NULL,payout DECIMAL(18,4) NOT NULL DEFAULT 0,created_at DATETIME NOT NULL,settled_at DATETIME NULL,vip_exp_applied TINYINT(1) NOT NULL DEFAULT 0,PRIMARY KEY(id),UNIQUE KEY uq_saas_lottery_request(request_key),KEY idx_saas_lottery_group(request_group_key),KEY idx_saas_lottery_user_created(user_id,created_at),KEY idx_saas_lottery_issue_status(game_code,issue_number,status),KEY idx_saas_vip_exp(vip_exp_applied,user_id)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
++        "CREATE TABLE IF NOT EXISTS saas_lottery_bets (id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,user_id BIGINT NOT NULL,game_code VARCHAR(32) NOT NULL,issue_number VARCHAR(40) NOT NULL,bet_content VARCHAR(190) NOT NULL,amount DECIMAL(18,4) NOT NULL,bet_multiple INT NOT NULL,bet_units INT NOT NULL DEFAULT 1,stake DECIMAL(18,4) NOT NULL,request_group_key CHAR(64) NOT NULL,request_key CHAR(64) NOT NULL,status VARCHAR(16) NOT NULL DEFAULT 'pending',result_premium VARCHAR(64) NULL,payout DECIMAL(18,4) NOT NULL DEFAULT 0,tax_fee DECIMAL(18,4) NOT NULL DEFAULT 0,settle_after BIGINT NOT NULL DEFAULT 0,created_at DATETIME NOT NULL,settled_at DATETIME NULL,vip_exp_applied TINYINT(1) NOT NULL DEFAULT 0,PRIMARY KEY(id),UNIQUE KEY uq_saas_lottery_request(request_key),KEY idx_saas_lottery_group(request_group_key),KEY idx_saas_lottery_user_created(user_id,created_at),KEY idx_saas_lottery_issue_status(game_code,issue_number,status),KEY idx_saas_vip_exp(vip_exp_applied,user_id)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+         "CREATE TABLE IF NOT EXISTS saas_lottery_requests (request_group_key CHAR(64) NOT NULL,user_id BIGINT NOT NULL,game_code VARCHAR(32) NOT NULL,issue_number VARCHAR(40) NOT NULL,created_at DATETIME NOT NULL,PRIMARY KEY(request_group_key),KEY idx_saas_request_user_created(user_id,created_at)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+         "CREATE TABLE IF NOT EXISTS saas_lottery_results (id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,game_code VARCHAR(32) NOT NULL,issue_number VARCHAR(40) NOT NULL,premium VARCHAR(64) NOT NULL,number VARCHAR(32) NOT NULL DEFAULT '',color VARCHAR(32) NOT NULL DEFAULT '',result_sum INT NOT NULL DEFAULT 0,provider_seen_at DATETIME NOT NULL,created_at DATETIME NOT NULL,PRIMARY KEY(id),UNIQUE KEY uq_saas_lottery_result(game_code,issue_number),KEY idx_saas_lottery_result_created(game_code,created_at)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+         "CREATE TABLE IF NOT EXISTS saas_wallet_ledger (id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,user_id BIGINT NOT NULL,entry_key VARCHAR(96) NOT NULL,entry_type VARCHAR(32) NOT NULL,reference_type VARCHAR(32) NULL,reference_id VARCHAR(64) NULL,amount DECIMAL(18,4) NOT NULL,balance_before DECIMAL(18,4) NOT NULL,balance_after DECIMAL(18,4) NOT NULL,created_at DATETIME NOT NULL,PRIMARY KEY(id),UNIQUE KEY uq_saas_wallet_entry(entry_key),KEY idx_saas_wallet_user_created(user_id,created_at)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+@@ -165,6 +165,35 @@
+     }
+ 
+     try {
++        if (app_table_exists('saas_lottery_bets') && !app_column_exists('saas_lottery_bets', 'tax_fee')) {
++            $conn->query('ALTER TABLE saas_lottery_bets ADD COLUMN tax_fee DECIMAL(18,4) NOT NULL DEFAULT 0 AFTER payout');
++        }
++        if (app_table_exists('saas_lottery_bets') && !app_column_exists('saas_lottery_bets', 'settle_after')) {
++            $conn->query('ALTER TABLE saas_lottery_bets ADD COLUMN settle_after BIGINT NOT NULL DEFAULT 0 AFTER tax_fee');
++        }
++        if (app_table_exists('saas_lottery_bets') && app_column_exists('saas_lottery_bets', 'tax_fee')) {
++            // Backfill the stake service fee once for rows written before the
++            // tax column existed, then remember that the table was converted.
++            $marker = $conn->query("SELECT setting_value FROM saas_lottery_settings WHERE setting_key='tax_fee_backfill_complete' LIMIT 1");
++            $markerRow = $marker ? $marker->fetch_assoc() : null;
++            if (!$markerRow || (string) $markerRow['setting_value'] !== '1') {
++                $rate = number_format(sl_tax_percent() / 100.0, 6, '.', '');
++                for ($pass = 0; $pass < 20; $pass++) {
++                    if (!$conn->query('UPDATE saas_lottery_bets SET tax_fee=ROUND(stake*' . $rate . ',4) WHERE stake>0 AND tax_fee=0 LIMIT 5000')) {
++                        break;
++                    }
++                    if ((int) $conn->affected_rows < 5000) {
++                        break;
++                    }
++                }
++                $conn->query("INSERT INTO saas_lottery_settings(setting_key,setting_value,updated_at) VALUES ('tax_fee_backfill_complete','1',NOW()) ON DUPLICATE KEY UPDATE setting_value=VALUES(setting_value),updated_at=NOW()");
++            }
++        }
++    } catch (Throwable $e) {
++        error_log('[sl_install_schema_tax] ' . $e->getMessage());
++    }
++
++    try {
+         app_vip_ensure_saas_tracking($conn, false);
+     } catch (Throwable $e) {
+         error_log('[sl_install_schema_vip] ' . $e->getMessage());
+@@ -987,13 +1016,27 @@
+     }
+     $gameEscaped = $conn->real_escape_string($gameCode);
+     $issueSql = implode(',', $escapedIssues);
++    // RaxiWin's public screen runs one period behind the provider: the draw the
++    // provider labels X is shown, and bet on, as the player's label X-1. The
++    // pending-bet lookup therefore has to cover those display labels too.
++    $labelIssues = array();
++    foreach (array_keys($normalized) as $issue) {
++        $labelIssues[(string) sl_issue_shift($issue, sl_display_label_offset())] = true;
++    }
++    $labelEscaped = array();
++    foreach (array_keys($labelIssues) as $labelIssue) {
++        if ($labelIssue !== '') {
++            $labelEscaped[] = "'" . $conn->real_escape_string($labelIssue) . "'";
++        }
++    }
++    $pendingIssueSql = $labelEscaped ? ($issueSql . ',' . implode(',', $labelEscaped)) : $issueSql;
+     $existing = array();
+     $existingResult = $conn->query("SELECT issue_number,premium FROM saas_lottery_results WHERE game_code='" . $gameEscaped . "' AND issue_number IN (" . $issueSql . ")");
+     while ($existingResult && ($row = $existingResult->fetch_assoc())) {
+         $existing[(string) $row['issue_number']] = (string) $row['premium'];
+     }
+     $pending = array();
+-    $pendingResult = $conn->query("SELECT DISTINCT issue_number FROM saas_lottery_bets WHERE game_code='" . $gameEscaped . "' AND status='pending' AND issue_number IN (" . $issueSql . ")");
++    $pendingResult = $conn->query("SELECT DISTINCT issue_number FROM saas_lottery_bets WHERE game_code='" . $gameEscaped . "' AND status='pending' AND issue_number IN (" . $pendingIssueSql . ")");
+     while ($pendingResult && ($row = $pendingResult->fetch_assoc())) {
+         $pending[(string) $row['issue_number']] = true;
+     }
+@@ -1006,7 +1049,18 @@
+         $sum = (int) $item['sum'];
+ 
+         if (isset($existing[$issue])) {
+-            // Period already settled — NEVER modify. Skip settlement re-trigger too.
++            // Period already settled — NEVER modify old history. A bet can
++            // still arrive for this exact period (the bundled client asks one
++            // round behind), so resolve its pending rows from the stored draw
++            // instead of leaving them pending forever.
++            if (!empty($pending[$issue])) {
++                sl_settle_pending_from_stored($gameCode, $issue);
++            }
++            $displayIssue = sl_issue_shift($issue, sl_display_label_offset());
++            if ($displayIssue !== (string) $issue && !empty($pending[$displayIssue])) {
++                // Bets placed on the on-screen label of this draw.
++                sl_settle_pending_from_stored($gameCode, $displayIssue, $issue);
++            }
+             continue;
+         }
+ 
+@@ -1075,6 +1129,11 @@
+         if (!empty($pending[$issue])) {
+             sl_settle_issue($gameCode, $issue, $item);
+         }
++        $displayIssue = sl_issue_shift($issue, sl_display_label_offset());
++        if ($displayIssue !== (string) $issue && !empty($pending[$displayIssue])) {
++            // The player's label for this draw follows the configured offset.
++            sl_settle_issue($gameCode, $displayIssue, $item);
++        }
+     }
+ 
+     // === AUTO-CLEAR OVERRIDE AFTER USE ===
+@@ -1359,17 +1418,115 @@
+  * Return the net amount credited for a winning bet.
+  *
+  * Game odds remain gross display odds (for example 2X). Settlement always
+- * deducts the mandatory 2% payout tax once and stores only the net amount, so
+- * the winner popup, wallet, ledger and record APIs cannot disagree.
++ * deducts the payout tax once and stores only the net amount, so the winner
++ * popup, wallet, ledger and record APIs cannot disagree.
++ */
++function sl_tax_percent()
++{
++    $taxPercent = function_exists('app_setting') ? (float) app_setting('lottery_payout_tax_percent', '2.00') : 2.0;
++    return max(0.0, min(100.0, $taxPercent));
++}
++
++function sl_stake_tax_fee($stake)
++{
++    return round(max(0.0, (float) $stake) * sl_tax_percent() / 100.0, 4);
++}
++
++/**
++ * Whether the bet table already carries the stake service fee column.
++ *
++ * The column is created by sl_install_schema(); the guard keeps settlement
++ * working on an installation whose schema upgrade has not run yet.
++ */
++function sl_bets_have_tax_column()
++{
++    static $has = null;
++    if ($has === null) {
++        global $conn;
++        $has = false;
++        try {
++            $has = function_exists('app_column_exists') && app_column_exists('saas_lottery_bets', 'tax_fee');
++        } catch (Throwable $e) {
++            $has = false;
++        }
++    }
++    return $has;
++}
++
++/**
++ * True when the bet table carries the per-bet settlement deadline.
+  */
++function sl_bets_have_settle_after()
++{
++    static $has = null;
++    if ($has === null) {
++        global $conn;
++        $has = false;
++        try {
++            $has = function_exists('app_column_exists') && app_column_exists('saas_lottery_bets', 'settle_after');
++        } catch (Throwable $e) {
++            $has = false;
++        }
++    }
++    return $has;
++}
++
++/**
++ * Add or subtract small values from a numeric issue label without touching
++ * floats (labels carry seventeen digits).
++ */
++function sl_issue_shift($issue, $delta)
++{
++    $issue = preg_replace('/[^0-9]/', '', (string) $issue);
++    if ($issue === '' || strlen($issue) > 18) {
++        return (string) $issue;
++    }
++    $digits = str_split($issue);
++    $carry = $delta > 0 ? 1 : -1;
++    for ($step = 0; $step < abs((int) $delta); $step++) {
++        $i = count($digits) - 1;
++        while ($i >= 0) {
++            $digit = (int) $digits[$i] + $carry;
++            if ($digit >= 0 && $digit <= 9) {
++                $digits[$i] = (string) $digit;
++                break;
++            }
++            $digits[$i] = $carry > 0 ? '0' : '9';
++            $i--;
++        }
++        if ($i < 0) {
++            break;
++        }
++    }
++    return implode('', $digits);
++}
++
++/**
++ * How far the public WinGo screen labels run behind the provider feed.
++ * -1 = the whole app is one period behind (default), 0 = canonical labels.
++ * The settlement mapping derives from the same value, so display, bets and
++ * results can never drift apart when this is changed.
++ */
++function sl_display_label_offset()
++{
++    static $offset = null;
++    if ($offset === null) {
++        $offset = (int) app_setting('raxiwin_period_label_offset', '-1');
++        if ($offset > 0 || $offset < -3) {
++            $offset = -1;
++        }
++    }
++    return $offset;
++}
++
++
+ function sl_net_payout_after_tax($grossPayout)
+ {
+-    $taxPercent = 2.0;
+     $grossPayout = max(0.0, (float) $grossPayout);
+     if ($grossPayout <= 0.0) {
+         return 0.0;
+     }
+-    return round($grossPayout * (100.0 - $taxPercent) / 100.0, 2);
++    return round($grossPayout * (100.0 - sl_tax_percent()) / 100.0, 2);
+ }
+ 
+ function sl_settle_issue($gameCode, $issue, $resultItem)
+@@ -1380,7 +1537,8 @@
+     }
+     $conn->begin_transaction();
+     try {
+-        $stmt = $conn->prepare("SELECT id,user_id,bet_content,amount,bet_multiple,stake FROM saas_lottery_bets WHERE game_code=? AND issue_number=? AND status='pending' FOR UPDATE");
++        $settleSelect = sl_bets_have_settle_after() ? ',settle_after' : '';
++        $stmt = $conn->prepare("SELECT id,user_id,bet_content,amount,bet_multiple,stake" . $settleSelect . " FROM saas_lottery_bets WHERE game_code=? AND issue_number=? AND status='pending' FOR UPDATE");
+         $stmt->bind_param('ss', $gameCode, $issue);
+         $stmt->execute();
+         $result = $stmt->get_result();
+@@ -1391,10 +1549,17 @@
+         $stmt->close();
+ 
+         foreach ($bets as $bet) {
++            $deferUntil = isset($bet['settle_after']) ? (int) $bet['settle_after'] : 0;
++            if ($deferUntil > 0 && sl_now_ms() < $deferUntil) {
++                // Bet stored on the round the player sees; report the outcome
++                // only after the player's own countdown for that round ends.
++                continue;
++            }
+             list($winningUnits, $rate) = sl_evaluate_bet($gameCode, (string) $bet['bet_content'], $resultItem);
+             $unitStake = (float) $bet['amount'] * (int) $bet['bet_multiple'];
+             $grossPayout = $winningUnits > 0 ? round($unitStake * $rate * $winningUnits, 4) : 0.0;
+             $payout = $winningUnits > 0 ? sl_net_payout_after_tax($grossPayout) : 0.0;
++            $taxFee = sl_stake_tax_fee((float) $bet['stake']);
+             $status = $winningUnits > 0 ? 'won' : 'lost';
+             $userId = (int) $bet['user_id'];
+             $betId = (int) $bet['id'];
+@@ -1427,8 +1592,13 @@
+             }
+ 
+             $premium = (string) $resultItem['premium'];
+-            $update = $conn->prepare("UPDATE saas_lottery_bets SET status=?,result_premium=?,payout=?,settled_at=NOW() WHERE id=? AND status='pending'");
+-            $update->bind_param('ssdi', $status, $premium, $payout, $betId);
++            if (sl_bets_have_tax_column()) {
++                $update = $conn->prepare("UPDATE saas_lottery_bets SET status=?,result_premium=?,payout=?,tax_fee=?,settled_at=NOW() WHERE id=? AND status='pending'");
++                $update->bind_param('ssddi', $status, $premium, $payout, $taxFee, $betId);
++            } else {
++                $update = $conn->prepare("UPDATE saas_lottery_bets SET status=?,result_premium=?,payout=?,settled_at=NOW() WHERE id=? AND status='pending'");
++                $update->bind_param('ssdi', $status, $premium, $payout, $betId);
++            }
+             $update->execute();
+             $update->close();
+         }
+@@ -1439,6 +1609,72 @@
+     }
+ }
+ 
++/**
++ * Read the immutable draw that is already stored for a period.
++ */
++function sl_stored_result($gameCode, $issue)
++{
++    global $conn;
++    $gameCode = (string) $gameCode;
++    $issue = (string) $issue;
++    if ($gameCode === '' || $issue === '') {
++        return null;
++    }
++    $stmt = $conn->prepare('SELECT issue_number,premium,number,color,result_sum FROM saas_lottery_results WHERE game_code=? AND issue_number=? LIMIT 1');
++    if (!$stmt) {
++        return null;
++    }
++    $stmt->bind_param('ss', $gameCode, $issue);
++    $stmt->execute();
++    $result = $stmt->get_result();
++    $row = $result ? $result->fetch_assoc() : null;
++    $stmt->close();
++    if (!$row) {
++        return null;
++    }
++    return array(
++        'issueNumber'=>(string) $row['issue_number'],
++        'premium'=>(string) $row['premium'],
++        'number'=>(string) $row['number'],
++        'color'=>(string) $row['color'],
++        'sum'=>(int) $row['result_sum']
++    );
++}
++
++/**
++ * Settle every pending bet of a period whose draw is already stored.
++ *
++ * sl_save_and_settle_results() never rewrites an existing result row, so a bet
++ * that arrives for a period that was drawn a moment earlier would otherwise
++ * stay 'pending' forever (the client polls GetWinLossResult for the period it
++ * bet on and must get the won/lost answer immediately).
++ *
++ * Returns true when a stored draw exists for the period.
++ */
++function sl_settle_pending_from_stored($gameCode, $issue, $providerIssue = null)
++{
++    global $conn;
++    $providerIssue = $providerIssue === null ? $issue : $providerIssue;
++    $item = sl_stored_result($gameCode, $providerIssue);
++    if (!$item) {
++        return false;
++    }
++    $stmt = $conn->prepare("SELECT COUNT(*) FROM saas_lottery_bets WHERE game_code=? AND issue_number=? AND status='pending'");
++    if (!$stmt) {
++        return true;
++    }
++    $stmt->bind_param('ss', $gameCode, $issue);
++    $stmt->execute();
++    $pending = 0;
++    $stmt->bind_result($pending);
++    $stmt->fetch();
++    $stmt->close();
++    if ((int) $pending > 0) {
++        sl_settle_issue($gameCode, $issue, $item);
++    }
++    return true;
++}
++
+ function sl_wallet_balance($userId)
+ {
+     global $conn;
+@@ -1491,9 +1727,29 @@
+     $endTime = (int) $current['current']['endTime'];
+     $control = app_game_control($gameCode);
+     $lockSeconds = max((int) $SL_CONFIG['bet_lock_seconds'], (int) ($control['lock_before_close_seconds'] ?? 0));
+-    if ($currentIssue !== $issue || $endTime <= sl_now_ms() + ($lockSeconds * 1000)) {
++    $currentStart = (int) floor(((int) $current['current']['startTime']) / 1000);
++    $interval = sl_interval_seconds($gameCode);
++    $acceptCurrent = ($currentIssue === $issue) && ($endTime > sl_now_ms() + ($lockSeconds * 1000));
++    // The bet is stored on exactly the label the client sent, because that is
++    // the round the player sees on the screen: an up-to-date client sends the
++    // running round, a client with a stale bundle sends the just-closed one.
++    // Nothing is pushed forward and nothing is pulled back, and the record is
++    // settled only after the player's own countdown for that round has ended.
++    // accept_previous_period_bets=0 restores the strict running-period mode.
++    $appRound = sl_issue_number_for_start($gameCode, $currentStart - $interval);
++    $settleAfter = 0;
++    if (app_setting_bool('accept_previous_period_bets', true)) {
++        if ($issue !== $appRound && $issue !== $currentIssue) {
++            sl_fail(404, 'Betting has stopped for the current period', 404, 200);
++        }
++        $settleAfter = $endTime;
++    } elseif ($issue !== $currentIssue) {
++        sl_fail(404, 'Betting has stopped for the current period', 404, 200);
++    }
++    if ($endTime <= sl_now_ms() + ($lockSeconds * 1000)) {
+         sl_fail(404, 'Betting has stopped for the current period', 404, 200);
+     }
++    unset($acceptCurrent);
+ 
+     $userId = (int) $user['id'];
+     $clientNonce = isset($input['random']) && (string) $input['random'] !== ''
+@@ -1554,12 +1810,28 @@
+             $content = (string) $bet['content'];
+             $units = (int) $bet['units'];
+             $rowStake = round($amount * $multiple * $units, 4);
++            $rowTax = sl_stake_tax_fee($rowStake);
+             $requestKey = hash('sha256', $groupKey . '|' . $index . '|' . $content);
+-            $insert = $conn->prepare("INSERT INTO saas_lottery_bets(user_id,game_code,issue_number,bet_content,amount,bet_multiple,bet_units,stake,request_group_key,request_key,status,created_at) VALUES (?,?,?,?,?,?,?,?,?,?,'pending',NOW())");
+-            if (!$insert) {
+-                throw new RuntimeException('Bet insert prepare failed: ' . $conn->error);
++            $rowSettleAfter = (int) $settleAfter;
++            if (sl_bets_have_tax_column() && sl_bets_have_settle_after()) {
++                $insert = $conn->prepare("INSERT INTO saas_lottery_bets(user_id,game_code,issue_number,bet_content,amount,bet_multiple,bet_units,stake,tax_fee,settle_after,request_group_key,request_key,status,created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,'pending',NOW())");
++                if (!$insert) {
++                    throw new RuntimeException('Bet insert prepare failed: ' . $conn->error);
++                }
++                $insert->bind_param('isssdiiddiss', $userId, $gameCode, $issue, $content, $amount, $multiple, $units, $rowStake, $rowTax, $rowSettleAfter, $groupKey, $requestKey);
++            } elseif (sl_bets_have_tax_column()) {
++                $insert = $conn->prepare("INSERT INTO saas_lottery_bets(user_id,game_code,issue_number,bet_content,amount,bet_multiple,bet_units,stake,tax_fee,request_group_key,request_key,status,created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,'pending',NOW())");
++                if (!$insert) {
++                    throw new RuntimeException('Bet insert prepare failed: ' . $conn->error);
++                }
++                $insert->bind_param('isssdiiddss', $userId, $gameCode, $issue, $content, $amount, $multiple, $units, $rowStake, $rowTax, $groupKey, $requestKey);
++            } else {
++                $insert = $conn->prepare("INSERT INTO saas_lottery_bets(user_id,game_code,issue_number,bet_content,amount,bet_multiple,bet_units,stake,request_group_key,request_key,status,created_at) VALUES (?,?,?,?,?,?,?,?,?,?,'pending',NOW())");
++                if (!$insert) {
++                    throw new RuntimeException('Bet insert prepare failed: ' . $conn->error);
++                }
++                $insert->bind_param('isssdiidss', $userId, $gameCode, $issue, $content, $amount, $multiple, $units, $rowStake, $groupKey, $requestKey);
+             }
+-            $insert->bind_param('isssdiidss', $userId, $gameCode, $issue, $content, $amount, $multiple, $units, $rowStake, $groupKey, $requestKey);
+             $insert->execute();
+             $betIds[] = (int) $insert->insert_id;
+             $insert->close();
+@@ -1611,9 +1883,14 @@
+         }
+ 
+         $conn->commit();
++
+         return array(
+             'betId'=>$betIds[0] ?? 0,
+             'betIds'=>$betIds,
++            // The period actually booked (a lagging label is re-booked on the
++            // running period), so a client can correct its own countdown.
++            'issueNumber'=>$issue,
++            'gameCode'=>$gameCode,
+             'accepted'=>true,
+             'balance'=>$after,
+             'stake'=>$stake,
+@@ -1753,7 +2030,8 @@
+     $count->fetch();
+     $count->close();
+ 
+-    $fields = 'id,game_code,issue_number,bet_content,amount,bet_multiple,bet_units,stake,status,result_premium,payout,created_at';
++    $taxField = sl_bets_have_tax_column() ? 'tax_fee' : '0 AS tax_fee';
++    $fields = 'id,game_code,issue_number,bet_content,amount,bet_multiple,bet_units,stake,status,result_premium,payout,' . $taxField . ',created_at';
+     if ($gameCode !== '') {
+         $stmt = $conn->prepare('SELECT '.$fields.' FROM saas_lottery_bets WHERE user_id=? AND game_code=? ORDER BY id DESC LIMIT ? OFFSET ?');
+         $stmt->bind_param('isii', $userId, $gameCode, $pageSize, $offset);
+@@ -1768,6 +2046,8 @@
+         $state = $row['status'] === 'pending' ? 2 : ($row['status'] === 'won' ? 1 : 0);
+         $stake = (float) $row['stake'];
+         $payout = (float) $row['payout'];
++        $taxFee = isset($row['tax_fee']) ? (float) $row['tax_fee'] : 0.0;
++        if ($taxFee <= 0.0 && $stake > 0.0) { $taxFee = sl_stake_tax_fee($stake); }
+         $winLose = $row['status'] === 'won' ? round($payout - $stake, 4) : ($row['status'] === 'lost' ? -$stake : 0.0);
+         $premium = $row['result_premium'] === null ? '' : (string) $row['result_premium'];
+         $recordFamily = sl_game_family((string) $row['game_code']);
+@@ -1784,7 +2064,7 @@
+             'orderNo'=>(string)$row['id'],'issueNumber'=>(string)$row['issue_number'],'gameCode'=>(string)$row['game_code'],
+             'betContent'=>(string)$row['bet_content'],'playType'=>$playType,'selectType'=>$selectType,
+             'amount'=>$stake,'unitAmount'=>(float)$row['amount'],'betMultiple'=>(int)$row['bet_multiple'],'betCount'=>(int)$row['bet_multiple'],
+-            'betUnits'=>(int)$row['bet_units'],'realAmount'=>$stake,'fee'=>0.0,'state'=>$state,'premium'=>$premium,
++            'betUnits'=>(int)$row['bet_units'],'realAmount'=>max(0.0, round($stake-$taxFee,4)),'realBettingAmount'=>max(0.0, round($stake-$taxFee,4)),'fee'=>$taxFee,'serviceCharge'=>$taxFee,'tax'=>$taxFee,'taxAmount'=>$taxFee,'taxRate'=>sl_tax_percent(),'state'=>$state,'premium'=>$premium,
+             'winLoseAmount'=>$winLose,'betTime'=>(string)$row['created_at'],'orderNumber'=>(string)$row['id'],
+             'betAmount'=>$stake,'number'=>$recordNumber,'resultNumber'=>$isWingo && $premium !== '' ? (int)$premium : null,
+             'color'=>$isWingo && $premium !== '' ? sl_result_color((int)$premium) : '',
+@@ -1809,20 +2089,105 @@
+         $find->fetch();
+         $find->close();
+     }
++    // A lagging label can have been re-booked on the running period by
++    // sl_place_bet(); the bundled client still polls the label it sent, so
++    // follow that bet instead of answering with a null status.
++    $probe = sl_win_loss_summary($userId, $issue);
++    if ($probe['total'] === 0) {
++        $following = sl_win_loss_follow_issue($userId, $gameCode, $issue);
++        if ($following !== null) {
++            $issue = (string) $following['issue_number'];
++            if ($gameCode === '') {
++                $gameCode = (string) $following['game_code'];
++            }
++        }
++    }
+     if ($gameCode !== '') {
+         sl_sync_results($gameCode);
+     }
++    // The label the client polls is one period behind the provider feed, so the
++    // draw that belongs to it is the stored result of the next period.
++    $resultIssue = sl_issue_shift($issue, -sl_display_label_offset());
++    $summary = sl_win_loss_summary($userId, $issue);
++    if ($gameCode !== '' && $summary['pending'] > 0) {
++        // The bundled client asks for the result only once, a couple of
++        // seconds after the period closes, and forgets the period when the
++        // answer is still "pending". When the closing draw is not stored yet
++        // wait a short bounded moment for the provider; the moment a draw is
++        // available the pending rows are settled so this single poll answers
++        // won/lost instead of a null status.
++        if ($summary['total'] > 0 && sl_stored_result($gameCode, $resultIssue) === null) {
++            $deadline = microtime(true) + 3.0;
++            $resynced = false;
++            while (microtime(true) < $deadline && sl_stored_result($gameCode, $resultIssue) === null) {
++                usleep(300000);
++                if (!$resynced && microtime(true) < $deadline) {
++                    $resynced = true;
++                    sl_sync_results($gameCode);
++                }
++            }
++        }
++        sl_settle_pending_from_stored($gameCode, $issue, $resultIssue);
++        $summary = sl_win_loss_summary($userId, $issue);
++    }
++    if ($summary['total'] === 0 || $summary['pending'] > 0) {
++        return array('status'=>null,'winAmount'=>0);
++    }
++    return array('status'=>$summary['won'] > 0,'winAmount'=>$summary['winAmount']);
++}
++
++/**
++ * Newest bet of the same game that a poll label belongs to.
++ *
++ * The bundled client prints the round it polled minus one while the bet is
++ * stored on the printed round, so the poll can carry either the displayed
++ * label or the payload label. Only a recent (10 minutes) bet on the polled
++ * label or one of its two neighbours is followed, so an unrelated poll stays
++ * untouched.
++ */
++function sl_win_loss_follow_issue($userId, $gameCode, $issue)
++{
++    global $conn;
++    if ($issue === '') {
++        return null;
++    }
++    $low = strlen($issue) > 3 ? sl_issue_shift($issue, -1) : $issue;
++    $high = strlen($issue) > 3 ? sl_issue_shift($issue, 1) : $issue;
++    $sql = "SELECT issue_number,game_code FROM saas_lottery_bets WHERE user_id=? AND created_at >= (NOW() - INTERVAL 10 MINUTE) AND issue_number BETWEEN ? AND ?";
++    if ($gameCode !== '') {
++        $sql .= ' AND game_code=?';
++    }
++    $sql .= ' ORDER BY id DESC LIMIT 1';
++    $stmt = $conn->prepare($sql);
++    if (!$stmt) {
++        return null;
++    }
++    if ($gameCode !== '') {
++        $stmt->bind_param('isss', $userId, $low, $high, $gameCode);
++    } else {
++        $stmt->bind_param('iss', $userId, $low, $high);
++    }
++    $stmt->execute();
++    $result = $stmt->get_result();
++    $row = $result ? $result->fetch_assoc() : null;
++    $stmt->close();
++    return $row ? $row : null;
++}
++
++function sl_win_loss_summary($userId, $issue)
++{
++    global $conn;
+     $stmt = $conn->prepare("SELECT COUNT(*),SUM(status='pending'),SUM(status='won'),COALESCE(SUM(payout),0) FROM saas_lottery_bets WHERE user_id=? AND issue_number=?");
++    if (!$stmt) {
++        return array('total'=>0,'pending'=>0,'won'=>0,'winAmount'=>0.0);
++    }
+     $stmt->bind_param('is', $userId, $issue);
+     $stmt->execute();
+     $total = $pending = $won = $winAmount = 0;
+     $stmt->bind_result($total, $pending, $won, $winAmount);
+     $stmt->fetch();
+     $stmt->close();
+-    if ((int) $total === 0 || (int) $pending > 0) {
+-        return array('status'=>null,'winAmount'=>0);
+-    }
+-    return array('status'=>(int)$won > 0,'winAmount'=>(float)$winAmount);
++    return array('total'=>(int)$total, 'pending'=>(int)$pending, 'won'=>(int)$won, 'winAmount'=>(float)$winAmount);
+ }
+ 
+ function sl_history_values($gameCode, $item)
+--- a/saas_lottery/bootstrap_live_v4.php
++++ b/saas_lottery/bootstrap_live_v4.php
+@@ -140,7 +140,7 @@
+     }
+ 
+     $queries = array(
+-        "CREATE TABLE IF NOT EXISTS saas_lottery_bets (id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,user_id BIGINT NOT NULL,game_code VARCHAR(32) NOT NULL,issue_number VARCHAR(40) NOT NULL,bet_content VARCHAR(190) NOT NULL,amount DECIMAL(18,4) NOT NULL,bet_multiple INT NOT NULL,bet_units INT NOT NULL DEFAULT 1,stake DECIMAL(18,4) NOT NULL,request_group_key CHAR(64) NOT NULL,request_key CHAR(64) NOT NULL,status VARCHAR(16) NOT NULL DEFAULT 'pending',result_premium VARCHAR(64) NULL,payout DECIMAL(18,4) NOT NULL DEFAULT 0,created_at DATETIME NOT NULL,settled_at DATETIME NULL,vip_exp_applied TINYINT(1) NOT NULL DEFAULT 0,PRIMARY KEY(id),UNIQUE KEY uq_saas_lottery_request(request_key),KEY idx_saas_lottery_group(request_group_key),KEY idx_saas_lottery_user_created(user_id,created_at),KEY idx_saas_lottery_issue_status(game_code,issue_number,status),KEY idx_saas_vip_exp(vip_exp_applied,user_id)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
++        "CREATE TABLE IF NOT EXISTS saas_lottery_bets (id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,user_id BIGINT NOT NULL,game_code VARCHAR(32) NOT NULL,issue_number VARCHAR(40) NOT NULL,bet_content VARCHAR(190) NOT NULL,amount DECIMAL(18,4) NOT NULL,bet_multiple INT NOT NULL,bet_units INT NOT NULL DEFAULT 1,stake DECIMAL(18,4) NOT NULL,request_group_key CHAR(64) NOT NULL,request_key CHAR(64) NOT NULL,status VARCHAR(16) NOT NULL DEFAULT 'pending',result_premium VARCHAR(64) NULL,payout DECIMAL(18,4) NOT NULL DEFAULT 0,tax_fee DECIMAL(18,4) NOT NULL DEFAULT 0,settle_after BIGINT NOT NULL DEFAULT 0,created_at DATETIME NOT NULL,settled_at DATETIME NULL,vip_exp_applied TINYINT(1) NOT NULL DEFAULT 0,PRIMARY KEY(id),UNIQUE KEY uq_saas_lottery_request(request_key),KEY idx_saas_lottery_group(request_group_key),KEY idx_saas_lottery_user_created(user_id,created_at),KEY idx_saas_lottery_issue_status(game_code,issue_number,status),KEY idx_saas_vip_exp(vip_exp_applied,user_id)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+         "CREATE TABLE IF NOT EXISTS saas_lottery_requests (request_group_key CHAR(64) NOT NULL,user_id BIGINT NOT NULL,game_code VARCHAR(32) NOT NULL,issue_number VARCHAR(40) NOT NULL,created_at DATETIME NOT NULL,PRIMARY KEY(request_group_key),KEY idx_saas_request_user_created(user_id,created_at)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+         "CREATE TABLE IF NOT EXISTS saas_lottery_results (id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,game_code VARCHAR(32) NOT NULL,issue_number VARCHAR(40) NOT NULL,premium VARCHAR(64) NOT NULL,number VARCHAR(32) NOT NULL DEFAULT '',color VARCHAR(32) NOT NULL DEFAULT '',result_sum INT NOT NULL DEFAULT 0,provider_seen_at DATETIME NOT NULL,created_at DATETIME NOT NULL,PRIMARY KEY(id),UNIQUE KEY uq_saas_lottery_result(game_code,issue_number),KEY idx_saas_lottery_result_created(game_code,created_at)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+         "CREATE TABLE IF NOT EXISTS saas_wallet_ledger (id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,user_id BIGINT NOT NULL,entry_key VARCHAR(96) NOT NULL,entry_type VARCHAR(32) NOT NULL,reference_type VARCHAR(32) NULL,reference_id VARCHAR(64) NULL,amount DECIMAL(18,4) NOT NULL,balance_before DECIMAL(18,4) NOT NULL,balance_after DECIMAL(18,4) NOT NULL,created_at DATETIME NOT NULL,PRIMARY KEY(id),UNIQUE KEY uq_saas_wallet_entry(entry_key),KEY idx_saas_wallet_user_created(user_id,created_at)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4",
+@@ -165,6 +165,35 @@
+     }
+ 
+     try {
++        if (app_table_exists('saas_lottery_bets') && !app_column_exists('saas_lottery_bets', 'tax_fee')) {
++            $conn->query('ALTER TABLE saas_lottery_bets ADD COLUMN tax_fee DECIMAL(18,4) NOT NULL DEFAULT 0 AFTER payout');
++        }
++        if (app_table_exists('saas_lottery_bets') && !app_column_exists('saas_lottery_bets', 'settle_after')) {
++            $conn->query('ALTER TABLE saas_lottery_bets ADD COLUMN settle_after BIGINT NOT NULL DEFAULT 0 AFTER tax_fee');
++        }
++        if (app_table_exists('saas_lottery_bets') && app_column_exists('saas_lottery_bets', 'tax_fee')) {
++            // Backfill the stake service fee once for rows written before the
++            // tax column existed, then remember that the table was converted.
++            $marker = $conn->query("SELECT setting_value FROM saas_lottery_settings WHERE setting_key='tax_fee_backfill_complete' LIMIT 1");
++            $markerRow = $marker ? $marker->fetch_assoc() : null;
++            if (!$markerRow || (string) $markerRow['setting_value'] !== '1') {
++                $rate = number_format(sl_tax_percent() / 100.0, 6, '.', '');
++                for ($pass = 0; $pass < 20; $pass++) {
++                    if (!$conn->query('UPDATE saas_lottery_bets SET tax_fee=ROUND(stake*' . $rate . ',4) WHERE stake>0 AND tax_fee=0 LIMIT 5000')) {
++                        break;
++                    }
++                    if ((int) $conn->affected_rows < 5000) {
++                        break;
++                    }
++                }
++                $conn->query("INSERT INTO saas_lottery_settings(setting_key,setting_value,updated_at) VALUES ('tax_fee_backfill_complete','1',NOW()) ON DUPLICATE KEY UPDATE setting_value=VALUES(setting_value),updated_at=NOW()");
++            }
++        }
++    } catch (Throwable $e) {
++        error_log('[sl_install_schema_tax] ' . $e->getMessage());
++    }
++
++    try {
+         app_vip_ensure_saas_tracking($conn, false);
+     } catch (Throwable $e) {
+         error_log('[sl_install_schema_vip] ' . $e->getMessage());
+@@ -974,13 +1003,27 @@
+     }
+     $gameEscaped = $conn->real_escape_string($gameCode);
+     $issueSql = implode(',', $escapedIssues);
++    // RaxiWin's public screen runs one period behind the provider: the draw the
++    // provider labels X is shown, and bet on, as the player's label X-1. The
++    // pending-bet lookup therefore has to cover those display labels too.
++    $labelIssues = array();
++    foreach (array_keys($normalized) as $issue) {
++        $labelIssues[(string) sl_issue_shift($issue, sl_display_label_offset())] = true;
++    }
++    $labelEscaped = array();
++    foreach (array_keys($labelIssues) as $labelIssue) {
++        if ($labelIssue !== '') {
++            $labelEscaped[] = "'" . $conn->real_escape_string($labelIssue) . "'";
++        }
++    }
++    $pendingIssueSql = $labelEscaped ? ($issueSql . ',' . implode(',', $labelEscaped)) : $issueSql;
+     $existing = array();
+     $existingResult = $conn->query("SELECT issue_number,premium FROM saas_lottery_results WHERE game_code='" . $gameEscaped . "' AND issue_number IN (" . $issueSql . ")");
+     while ($existingResult && ($row = $existingResult->fetch_assoc())) {
+         $existing[(string) $row['issue_number']] = (string) $row['premium'];
+     }
+     $pending = array();
+-    $pendingResult = $conn->query("SELECT DISTINCT issue_number FROM saas_lottery_bets WHERE game_code='" . $gameEscaped . "' AND status='pending' AND issue_number IN (" . $issueSql . ")");
++    $pendingResult = $conn->query("SELECT DISTINCT issue_number FROM saas_lottery_bets WHERE game_code='" . $gameEscaped . "' AND status='pending' AND issue_number IN (" . $pendingIssueSql . ")");
+     while ($pendingResult && ($row = $pendingResult->fetch_assoc())) {
+         $pending[(string) $row['issue_number']] = true;
+     }
+@@ -993,7 +1036,18 @@
+         $sum = (int) $item['sum'];
+ 
+         if (isset($existing[$issue])) {
+-            // Period already settled — NEVER modify old history.
++            // Period already settled — NEVER modify old history. A bet can
++            // still arrive for this exact period (the bundled client asks one
++            // round behind), so resolve its pending rows from the stored draw
++            // instead of leaving them pending forever.
++            if (!empty($pending[$issue])) {
++                sl_settle_pending_from_stored($gameCode, $issue);
++            }
++            $displayIssue = sl_issue_shift($issue, sl_display_label_offset());
++            if ($displayIssue !== (string) $issue && !empty($pending[$displayIssue])) {
++                // Bets placed on the on-screen label of this draw.
++                sl_settle_pending_from_stored($gameCode, $displayIssue, $issue);
++            }
+             continue;
+         }
+ 
+@@ -1063,6 +1117,11 @@
+         if (!empty($pending[$issue])) {
+             sl_settle_issue($gameCode, $issue, $item);
+         }
++        $displayIssue = sl_issue_shift($issue, sl_display_label_offset());
++        if ($displayIssue !== (string) $issue && !empty($pending[$displayIssue])) {
++            // The player's label for this draw follows the configured offset.
++            sl_settle_issue($gameCode, $displayIssue, $item);
++        }
+     }
+ 
+     if ($legacyOverrideApplied && $legacyOverrideTable !== null) {
+@@ -1340,20 +1399,125 @@
+ }
+ 
+ /**
++ * Tax percentage applied to the lottery wallet.
++ *
++ * The same percentage drives the payout tax deducted at settlement and the
++ * stake service fee shown on every bet record ("after tax amount" + "tax"),
++ * so the popup, wallet, ledger and record APIs cannot disagree.
++ */
++function sl_tax_percent()
++{
++    $taxPercent = function_exists('app_setting') ? (float) app_setting('lottery_payout_tax_percent', '2.00') : 2.0;
++    return max(0.0, min(100.0, $taxPercent));
++}
++
++function sl_stake_tax_fee($stake)
++{
++    return round(max(0.0, (float) $stake) * sl_tax_percent() / 100.0, 4);
++}
++
++/**
++ * Whether the bet table already carries the stake service fee column.
++ *
++ * The column is created by sl_install_schema(); the guard keeps settlement
++ * working on an installation whose schema upgrade has not run yet.
++ */
++function sl_bets_have_tax_column()
++{
++    static $has = null;
++    if ($has === null) {
++        global $conn;
++        $has = false;
++        try {
++            $has = function_exists('app_column_exists') && app_column_exists('saas_lottery_bets', 'tax_fee');
++        } catch (Throwable $e) {
++            $has = false;
++        }
++    }
++    return $has;
++}
++
++/**
++ * True when the bet table carries the per-bet settlement deadline.
++ */
++function sl_bets_have_settle_after()
++{
++    static $has = null;
++    if ($has === null) {
++        global $conn;
++        $has = false;
++        try {
++            $has = function_exists('app_column_exists') && app_column_exists('saas_lottery_bets', 'settle_after');
++        } catch (Throwable $e) {
++            $has = false;
++        }
++    }
++    return $has;
++}
++
++/**
++ * Add or subtract small values from a numeric issue label without touching
++ * floats (labels carry seventeen digits).
++ */
++function sl_issue_shift($issue, $delta)
++{
++    $issue = preg_replace('/[^0-9]/', '', (string) $issue);
++    if ($issue === '' || strlen($issue) > 18) {
++        return (string) $issue;
++    }
++    $digits = str_split($issue);
++    $carry = $delta > 0 ? 1 : -1;
++    for ($step = 0; $step < abs((int) $delta); $step++) {
++        $i = count($digits) - 1;
++        while ($i >= 0) {
++            $digit = (int) $digits[$i] + $carry;
++            if ($digit >= 0 && $digit <= 9) {
++                $digits[$i] = (string) $digit;
++                break;
++            }
++            $digits[$i] = $carry > 0 ? '0' : '9';
++            $i--;
++        }
++        if ($i < 0) {
++            break;
++        }
++    }
++    return implode('', $digits);
++}
++
++/**
++ * How far the public WinGo screen labels run behind the provider feed.
++ * -1 = the whole app is one period behind (default), 0 = canonical labels.
++ * The settlement mapping derives from the same value, so display, bets and
++ * results can never drift apart when this is changed.
++ */
++function sl_display_label_offset()
++{
++    static $offset = null;
++    if ($offset === null) {
++        $offset = (int) app_setting('raxiwin_period_label_offset', '-1');
++        if ($offset > 0 || $offset < -3) {
++            $offset = -1;
++        }
++    }
++    return $offset;
++}
++
++
++/**
+  * Return the net amount credited for a winning bet.
+  *
+  * Game odds remain gross display odds (for example 2X). Settlement always
+- * deducts the mandatory 2% payout tax once and stores only the net amount, so
+- * the winner popup, wallet, ledger and record APIs cannot disagree.
++ * deducts the payout tax once and stores only the net amount, so the winner
++ * popup, wallet, ledger and record APIs cannot disagree.
+  */
+ function sl_net_payout_after_tax($grossPayout)
+ {
+-    $taxPercent = 2.0;
+     $grossPayout = max(0.0, (float) $grossPayout);
+     if ($grossPayout <= 0.0) {
+         return 0.0;
+     }
+-    return round($grossPayout * (100.0 - $taxPercent) / 100.0, 2);
++    return round($grossPayout * (100.0 - sl_tax_percent()) / 100.0, 2);
+ }
+ 
+ function sl_settle_issue($gameCode, $issue, $resultItem)
+@@ -1364,7 +1528,8 @@
+     }
+     $conn->begin_transaction();
+     try {
+-        $stmt = $conn->prepare("SELECT id,user_id,bet_content,amount,bet_multiple,stake FROM saas_lottery_bets WHERE game_code=? AND issue_number=? AND status='pending' FOR UPDATE");
++        $settleSelect = sl_bets_have_settle_after() ? ',settle_after' : '';
++        $stmt = $conn->prepare("SELECT id,user_id,bet_content,amount,bet_multiple,stake" . $settleSelect . " FROM saas_lottery_bets WHERE game_code=? AND issue_number=? AND status='pending' FOR UPDATE");
+         $stmt->bind_param('ss', $gameCode, $issue);
+         $stmt->execute();
+         $result = $stmt->get_result();
+@@ -1375,10 +1540,17 @@
+         $stmt->close();
+ 
+         foreach ($bets as $bet) {
++            $deferUntil = isset($bet['settle_after']) ? (int) $bet['settle_after'] : 0;
++            if ($deferUntil > 0 && sl_now_ms() < $deferUntil) {
++                // Bet stored on the round the player sees; report the outcome
++                // only after the player's own countdown for that round ends.
++                continue;
++            }
+             list($winningUnits, $rate) = sl_evaluate_bet($gameCode, (string) $bet['bet_content'], $resultItem);
+             $unitStake = (float) $bet['amount'] * (int) $bet['bet_multiple'];
+             $grossPayout = $winningUnits > 0 ? round($unitStake * $rate * $winningUnits, 4) : 0.0;
+             $payout = $winningUnits > 0 ? sl_net_payout_after_tax($grossPayout) : 0.0;
++            $taxFee = sl_stake_tax_fee((float) $bet['stake']);
+             $status = $winningUnits > 0 ? 'won' : 'lost';
+             $userId = (int) $bet['user_id'];
+             $betId = (int) $bet['id'];
+@@ -1411,8 +1583,13 @@
+             }
+ 
+             $premium = (string) $resultItem['premium'];
+-            $update = $conn->prepare("UPDATE saas_lottery_bets SET status=?,result_premium=?,payout=?,settled_at=NOW() WHERE id=? AND status='pending'");
+-            $update->bind_param('ssdi', $status, $premium, $payout, $betId);
++            if (sl_bets_have_tax_column()) {
++                $update = $conn->prepare("UPDATE saas_lottery_bets SET status=?,result_premium=?,payout=?,tax_fee=?,settled_at=NOW() WHERE id=? AND status='pending'");
++                $update->bind_param('ssddi', $status, $premium, $payout, $taxFee, $betId);
++            } else {
++                $update = $conn->prepare("UPDATE saas_lottery_bets SET status=?,result_premium=?,payout=?,settled_at=NOW() WHERE id=? AND status='pending'");
++                $update->bind_param('ssdi', $status, $premium, $payout, $betId);
++            }
+             $update->execute();
+             $update->close();
+         }
+@@ -1423,6 +1600,72 @@
+     }
+ }
+ 
++/**
++ * Read the immutable draw that is already stored for a period.
++ */
++function sl_stored_result($gameCode, $issue)
++{
++    global $conn;
++    $gameCode = (string) $gameCode;
++    $issue = (string) $issue;
++    if ($gameCode === '' || $issue === '') {
++        return null;
++    }
++    $stmt = $conn->prepare('SELECT issue_number,premium,number,color,result_sum FROM saas_lottery_results WHERE game_code=? AND issue_number=? LIMIT 1');
++    if (!$stmt) {
++        return null;
++    }
++    $stmt->bind_param('ss', $gameCode, $issue);
++    $stmt->execute();
++    $result = $stmt->get_result();
++    $row = $result ? $result->fetch_assoc() : null;
++    $stmt->close();
++    if (!$row) {
++        return null;
++    }
++    return array(
++        'issueNumber'=>(string) $row['issue_number'],
++        'premium'=>(string) $row['premium'],
++        'number'=>(string) $row['number'],
++        'color'=>(string) $row['color'],
++        'sum'=>(int) $row['result_sum']
++    );
++}
++
++/**
++ * Settle every pending bet of a period whose draw is already stored.
++ *
++ * sl_save_and_settle_results() never rewrites an existing result row, so a bet
++ * that arrives for a period that was drawn a moment earlier would otherwise
++ * stay 'pending' forever (the client polls GetWinLossResult for the period it
++ * bet on and must get the won/lost answer immediately).
++ *
++ * Returns true when a stored draw exists for the period.
++ */
++function sl_settle_pending_from_stored($gameCode, $issue, $providerIssue = null)
++{
++    global $conn;
++    $providerIssue = $providerIssue === null ? $issue : $providerIssue;
++    $item = sl_stored_result($gameCode, $providerIssue);
++    if (!$item) {
++        return false;
++    }
++    $stmt = $conn->prepare("SELECT COUNT(*) FROM saas_lottery_bets WHERE game_code=? AND issue_number=? AND status='pending'");
++    if (!$stmt) {
++        return true;
++    }
++    $stmt->bind_param('ss', $gameCode, $issue);
++    $stmt->execute();
++    $pending = 0;
++    $stmt->bind_result($pending);
++    $stmt->fetch();
++    $stmt->close();
++    if ((int) $pending > 0) {
++        sl_settle_issue($gameCode, $issue, $item);
++    }
++    return true;
++}
++
+ function sl_wallet_balance($userId)
+ {
+     global $conn;
+@@ -1474,9 +1717,29 @@
+     $endTime = (int) $current['current']['endTime'];
+     $control = app_game_control($gameCode);
+     $lockSeconds = max((int) $SL_CONFIG['bet_lock_seconds'], (int) ($control['lock_before_close_seconds'] ?? 0));
+-    if ($currentIssue !== $issue || $endTime <= sl_now_ms() + ($lockSeconds * 1000)) {
++    $currentStart = (int) floor(((int) $current['current']['startTime']) / 1000);
++    $interval = sl_interval_seconds($gameCode);
++    $acceptCurrent = ($currentIssue === $issue) && ($endTime > sl_now_ms() + ($lockSeconds * 1000));
++    // The bet is stored on exactly the label the client sent, because that is
++    // the round the player sees on the screen: an up-to-date client sends the
++    // running round, a client with a stale bundle sends the just-closed one.
++    // Nothing is pushed forward and nothing is pulled back, and the record is
++    // settled only after the player's own countdown for that round has ended.
++    // accept_previous_period_bets=0 restores the strict running-period mode.
++    $appRound = sl_issue_number_for_start($gameCode, $currentStart - $interval);
++    $settleAfter = 0;
++    if (app_setting_bool('accept_previous_period_bets', true)) {
++        if ($issue !== $appRound && $issue !== $currentIssue) {
++            sl_fail(404, 'Betting has stopped for the current period', 404, 200);
++        }
++        $settleAfter = $endTime;
++    } elseif ($issue !== $currentIssue) {
++        sl_fail(404, 'Betting has stopped for the current period', 404, 200);
++    }
++    if ($endTime <= sl_now_ms() + ($lockSeconds * 1000)) {
+         sl_fail(404, 'Betting has stopped for the current period', 404, 200);
+     }
++    unset($acceptCurrent);
+ 
+     $userId = (int) $user['id'];
+     $clientNonce = isset($input['random']) && (string) $input['random'] !== ''
+@@ -1529,9 +1792,22 @@
+             $content = (string) $bet['content'];
+             $units = (int) $bet['units'];
+             $rowStake = round($amount * $multiple * $units, 4);
++            $rowTax = sl_stake_tax_fee($rowStake);
+             $requestKey = hash('sha256', $groupKey . '|' . $index . '|' . $content);
+-            $insert = $conn->prepare("INSERT INTO saas_lottery_bets(user_id,game_code,issue_number,bet_content,amount,bet_multiple,bet_units,stake,request_group_key,request_key,status,created_at) VALUES (?,?,?,?,?,?,?,?,?,?,'pending',NOW())");
+-            $insert->bind_param('isssdiidss', $userId, $gameCode, $issue, $content, $amount, $multiple, $units, $rowStake, $groupKey, $requestKey);
++            $rowSettleAfter = (int) $settleAfter;
++            if (sl_bets_have_tax_column() && sl_bets_have_settle_after()) {
++                $insert = $conn->prepare("INSERT INTO saas_lottery_bets(user_id,game_code,issue_number,bet_content,amount,bet_multiple,bet_units,stake,tax_fee,settle_after,request_group_key,request_key,status,created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,'pending',NOW())");
++                if (!$insert) {
++                    throw new RuntimeException('Bet insert prepare failed: ' . $conn->error);
++                }
++                $insert->bind_param('isssdiiddiss', $userId, $gameCode, $issue, $content, $amount, $multiple, $units, $rowStake, $rowTax, $rowSettleAfter, $groupKey, $requestKey);
++            } elseif (sl_bets_have_tax_column()) {
++                $insert = $conn->prepare("INSERT INTO saas_lottery_bets(user_id,game_code,issue_number,bet_content,amount,bet_multiple,bet_units,stake,tax_fee,request_group_key,request_key,status,created_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,'pending',NOW())");
++                $insert->bind_param('isssdiiddss', $userId, $gameCode, $issue, $content, $amount, $multiple, $units, $rowStake, $rowTax, $groupKey, $requestKey);
++            } else {
++                $insert = $conn->prepare("INSERT INTO saas_lottery_bets(user_id,game_code,issue_number,bet_content,amount,bet_multiple,bet_units,stake,request_group_key,request_key,status,created_at) VALUES (?,?,?,?,?,?,?,?,?,?,'pending',NOW())");
++                $insert->bind_param('isssdiidss', $userId, $gameCode, $issue, $content, $amount, $multiple, $units, $rowStake, $groupKey, $requestKey);
++            }
+             $insert->execute();
+             $betIds[] = (int) $insert->insert_id;
+             $insert->close();
+@@ -1577,9 +1853,14 @@
+         }
+ 
+         $conn->commit();
++
+         return array(
+             'betId'=>$betIds[0] ?? 0,
+             'betIds'=>$betIds,
++            // The period actually booked (a lagging label is re-booked on the
++            // running period), so a client can correct its own countdown.
++            'issueNumber'=>$issue,
++            'gameCode'=>$gameCode,
+             'accepted'=>true,
+             'balance'=>$after,
+             'stake'=>$stake,
+@@ -1719,7 +2000,8 @@
+     $count->fetch();
+     $count->close();
+ 
+-    $fields = 'id,game_code,issue_number,bet_content,amount,bet_multiple,bet_units,stake,status,result_premium,payout,created_at';
++    $taxField = sl_bets_have_tax_column() ? 'tax_fee' : '0 AS tax_fee';
++    $fields = 'id,game_code,issue_number,bet_content,amount,bet_multiple,bet_units,stake,status,result_premium,payout,' . $taxField . ',created_at';
+     if ($gameCode !== '') {
+         $stmt = $conn->prepare('SELECT '.$fields.' FROM saas_lottery_bets WHERE user_id=? AND game_code=? ORDER BY id DESC LIMIT ? OFFSET ?');
+         $stmt->bind_param('isii', $userId, $gameCode, $pageSize, $offset);
+@@ -1734,6 +2016,8 @@
+         $state = $row['status'] === 'pending' ? 2 : ($row['status'] === 'won' ? 1 : 0);
+         $stake = (float) $row['stake'];
+         $payout = (float) $row['payout'];
++        $taxFee = isset($row['tax_fee']) ? (float) $row['tax_fee'] : 0.0;
++        if ($taxFee <= 0.0 && $stake > 0.0) { $taxFee = sl_stake_tax_fee($stake); }
+         $winLose = $row['status'] === 'won' ? round($payout - $stake, 4) : ($row['status'] === 'lost' ? -$stake : 0.0);
+         $premium = $row['result_premium'] === null ? '' : (string) $row['result_premium'];
+         $recordFamily = sl_game_family((string) $row['game_code']);
+@@ -1750,7 +2034,7 @@
+             'orderNo'=>(string)$row['id'],'issueNumber'=>(string)$row['issue_number'],'gameCode'=>(string)$row['game_code'],
+             'betContent'=>(string)$row['bet_content'],'playType'=>$playType,'selectType'=>$selectType,
+             'amount'=>$stake,'unitAmount'=>(float)$row['amount'],'betMultiple'=>(int)$row['bet_multiple'],'betCount'=>(int)$row['bet_multiple'],
+-            'betUnits'=>(int)$row['bet_units'],'realAmount'=>$stake,'fee'=>0.0,'state'=>$state,'premium'=>$premium,
++            'betUnits'=>(int)$row['bet_units'],'realAmount'=>max(0.0, round($stake-$taxFee,4)),'realBettingAmount'=>max(0.0, round($stake-$taxFee,4)),'fee'=>$taxFee,'serviceCharge'=>$taxFee,'tax'=>$taxFee,'taxAmount'=>$taxFee,'taxRate'=>sl_tax_percent(),'state'=>$state,'premium'=>$premium,
+             'winLoseAmount'=>$winLose,'betTime'=>(string)$row['created_at'],'orderNumber'=>(string)$row['id'],
+             'betAmount'=>$stake,'number'=>$recordNumber,'resultNumber'=>$isWingo && $premium !== '' ? (int)$premium : null,
+             'color'=>$isWingo && $premium !== '' ? sl_result_color((int)$premium) : '',
+@@ -1775,20 +2059,103 @@
+         $find->fetch();
+         $find->close();
+     }
++    // A lagging label can have been re-booked on the running period by
++    // sl_place_bet(); the bundled client still polls the label it sent, so
++    // follow that bet instead of answering with a null status.
++    $probe = sl_win_loss_summary($userId, $issue);
++    if ($probe['total'] === 0) {
++        $following = sl_win_loss_follow_issue($userId, $gameCode, $issue);
++        if ($following !== null) {
++            $issue = (string) $following['issue_number'];
++            if ($gameCode === '') {
++                $gameCode = (string) $following['game_code'];
++            }
++        }
++    }
+     if ($gameCode !== '') {
+         sl_sync_results($gameCode);
+     }
++    // The label the client polls is one period behind the provider feed, so the
++    // draw that belongs to it is the stored result of the next period.
++    $resultIssue = sl_issue_shift($issue, -sl_display_label_offset());
++    $summary = sl_win_loss_summary($userId, $issue);
++    if ($gameCode !== '' && $summary['pending'] > 0) {
++        // The bundled client asks for the result only once, a couple of
++        // seconds after the period closes, and forgets the period when the
++        // answer is still "pending". When the closing draw is not stored yet
++        // wait a short bounded moment for the provider; the moment a draw is
++        // available the pending rows are settled so this single poll answers
++        // won/lost instead of a null status.
++        if ($summary['total'] > 0 && sl_stored_result($gameCode, $resultIssue) === null) {
++            $deadline = microtime(true) + 3.0;
++            $resynced = false;
++            while (microtime(true) < $deadline && sl_stored_result($gameCode, $resultIssue) === null) {
++                usleep(300000);
++                if (!$resynced && microtime(true) < $deadline) {
++                    $resynced = true;
++                    sl_sync_results($gameCode);
++                }
++            }
++        }
++        sl_settle_pending_from_stored($gameCode, $issue, $resultIssue);
++        $summary = sl_win_loss_summary($userId, $issue);
++    }
++    if ($summary['total'] === 0 || $summary['pending'] > 0) {
++        return array('status'=>null,'winAmount'=>0);
++    }
++    return array('status'=>$summary['won'] > 0,'winAmount'=>$summary['winAmount']);
++}
++
++/**
++ * Newest bet of the same game that a lagging poll label belongs to.
++ *
++ * When sl_place_bet() re-books a closed-period label on the running period,
++ * the client poll still carries the old label. Only a recent (10 minutes) bet
++ * with a newer label is followed, so an unrelated poll stays untouched.
++ */
++function sl_win_loss_follow_issue($userId, $gameCode, $issue)
++{
++    global $conn;
++    if ($issue === '') {
++        return null;
++    }
++    $low = strlen($issue) > 3 ? sl_issue_shift($issue, -1) : $issue;
++    $high = strlen($issue) > 3 ? sl_issue_shift($issue, 1) : $issue;
++    $sql = "SELECT issue_number,game_code FROM saas_lottery_bets WHERE user_id=? AND created_at >= (NOW() - INTERVAL 10 MINUTE) AND issue_number BETWEEN ? AND ?";
++    if ($gameCode !== '') {
++        $sql .= ' AND game_code=?';
++    }
++    $sql .= ' ORDER BY id DESC LIMIT 1';
++    $stmt = $conn->prepare($sql);
++    if (!$stmt) {
++        return null;
++    }
++    if ($gameCode !== '') {
++        $stmt->bind_param('isss', $userId, $low, $high, $gameCode);
++    } else {
++        $stmt->bind_param('iss', $userId, $low, $high);
++    }
++    $stmt->execute();
++    $result = $stmt->get_result();
++    $row = $result ? $result->fetch_assoc() : null;
++    $stmt->close();
++    return $row ? $row : null;
++}
++
++function sl_win_loss_summary($userId, $issue)
++{
++    global $conn;
+     $stmt = $conn->prepare("SELECT COUNT(*),SUM(status='pending'),SUM(status='won'),COALESCE(SUM(payout),0) FROM saas_lottery_bets WHERE user_id=? AND issue_number=?");
++    if (!$stmt) {
++        return array('total'=>0,'pending'=>0,'won'=>0,'winAmount'=>0.0);
++    }
+     $stmt->bind_param('is', $userId, $issue);
+     $stmt->execute();
+     $total = $pending = $won = $winAmount = 0;
+     $stmt->bind_result($total, $pending, $won, $winAmount);
+     $stmt->fetch();
+     $stmt->close();
+-    if ((int) $total === 0 || (int) $pending > 0) {
+-        return array('status'=>null,'winAmount'=>0);
+-    }
+-    return array('status'=>(int)$won > 0,'winAmount'=>(float)$winAmount);
++    return array('total'=>(int)$total, 'pending'=>(int)$pending, 'won'=>(int)$won, 'winAmount'=>(float)$winAmount);
+ }
+ 
+ function sl_history_values($gameCode, $item)
+--- a/draw-live-v4/index.php
++++ b/draw-live-v4/index.php
+@@ -15,34 +15,55 @@
+  * ended; normal history requests still return immediately.
+  */
+ /**
+- * Display-only period alignment for the RaxiWin result screen.
+- *
+- * RaxiWin's provider result is saved/settled against its canonical issue
+- * number. The public history screen, however, is one round ahead. Re-label
+- * only the response rows; never change premium/result or settlement IDs.
++ * RaxiWin public presentation: the whole screen runs one period behind the
++ * provider feed. The draw the provider labels X is shown, and bet on, as the
++ * player's label X-1. Only the label moves - premium/number/color stay exactly
++ * as drawn - and a period that is still running (provider issue >= current) is
++ * never exposed, so a closing draw can never be revealed before its timer.
+  */
+ function raxiwin_display_previous_periods($gameCode, $list)
+ {
+     if (!is_array($list) || !$list || strpos((string)$gameCode, 'WinGo_') !== 0) {
+         return $list;
+     }
+-    $interval = sl_interval_seconds($gameCode);
+-    foreach ($list as &$item) {
++    $currentIssue = sl_wingo_current_issue($gameCode);
++    $visible = array();
++    foreach ($list as $item) {
+         $issue = isset($item['issueNumber']) ? (string)$item['issueNumber'] : '';
+-        if (!preg_match('/^(\d{8})\d{9}$/', $issue)) {
+-            continue;
++        if (preg_match('/^\d{17}$/', $issue)) {
++            if ($currentIssue !== '' && strcmp($issue, $currentIssue) >= 0) {
++                // Current (or future) period: never expose it before it ends.
++                continue;
++            }
++            $offset = sl_display_label_offset();
++            if ($offset !== 0) {
++                $item['issueNumber'] = sl_issue_shift($issue, $offset);
++            }
+         }
+-        $date = substr($issue, 0, 4) . '-' . substr($issue, 4, 2) . '-' . substr($issue, 6, 2);
+-        $sequence = (int)substr($issue, -4);
+-        $dayStart = strtotime($date . ' 00:00:00 UTC');
+-        if ($dayStart === false || $sequence < 1) {
+-            continue;
++        $visible[] = $item;
++    }
++    return $visible ? array_values($visible) : $list;
++}
++
++/**
++ * Same one-period-behind presentation for the running-period payload the client
++ * uses as its header label and as the bet issue. The countdown times stay
++ * canonical, so the label the player sees ends exactly when its draw arrives.
++ */
++function raxiwin_public_current($gameCode, $payload)
++{
++    if (!is_array($payload) || strpos((string)$gameCode, 'WinGo_') !== 0) {
++        return $payload;
++    }
++    foreach (array('previous', 'current', 'next') as $key) {
++        if (isset($payload[$key]['issueNumber']) && preg_match('/^\d{17}$/', (string)$payload[$key]['issueNumber'])) {
++            $offset = sl_display_label_offset();
++            if ($offset !== 0) {
++                $payload[$key]['issueNumber'] = sl_issue_shift((string)$payload[$key]['issueNumber'], $offset);
++            }
+         }
+-        $start = $dayStart + (($sequence - 1) * $interval) - $interval;
+-        $item['issueNumber'] = sl_issue_number_for_start($gameCode, $start);
+     }
+-    unset($item);
+-    return $list;
++    return $payload;
+ }
+ 
+ function dlv4_history_with_boundary_wait($gameCode, $input)
+@@ -109,7 +130,8 @@
+     if (!$payload) {
+         sl_fail(503, 'Real current draw is temporarily unavailable', 503, 503);
+     }
+-    sl_send($payload, 200);
++    // Present the running period under the one-behind label the player sees.
++    sl_send(raxiwin_public_current($gameCode, $payload), 200);
+ } catch (Throwable $e) {
+     error_log('[draw-live-v4] ' . $e->getMessage());
+     sl_fail(500, 'Real draw service is temporarily unavailable', 500, 500);
+--- a/assets/js/useLottery.hook-_2rEnQ4S.js
++++ b/assets/js/useLottery.hook-_2rEnQ4S.js
+@@ -15,4 +15,4 @@
+             break;
+         }
+       };
+-    `,f=new Blob([l],{type:"application/javascript"});return new Worker(URL.createObjectURL(f))},v=()=>{n&&(o.value=!0,n.postMessage({command:"start",interval:d}))},y=()=>{n&&(o.value=!1,n.postMessage({command:"pause"}))},e=()=>{o.value||v()};return H(()=>{n=i(),n.onmessage=l=>{l.data==="tick"&&r()},D.immediate&&v()}),P(()=>{y(),n?.terminate(),n=null}),{start:v,pause:y,resume:e,isActive:o}}const ye=Symbol("AR_LOTTERY");function Se(r){const{localStore:d}=me(),{synchronizer:D,gameCode:o,lotteryCode:n,gameInfo:i,triggerTimer:v,setLotteryCode:y}=ie(),e=re({issue:"",issueData:null,countdown:0,interval:0,sound:!1,soundBg:!1,soundEffects:!1,agreePreSale:!0,introduceDialog:!1,betLimit:[],introduceHtml:void 0,maintain:!1}),l=c(null),f=c(!0),g=new le.Howl({src:r?[r.bg]:[""],loop:!0,volume:1,preload:!1}),b=c(!1),p=c(!1),E=c(!1),j=s(()=>e.issue),N=s(()=>e.issueData||{}),w=s(()=>({interval:e.interval||0,...ve(e.countdown*1e3)})),U=s(()=>{const t=`${w.value.minutes}`.padStart(2,"0"),a=`${w.value.seconds}`.padStart(2,"0");return[...t.split(""),":",...a.split("")]}),A=s(()=>w.value.seconds>5),G=s(()=>e.maintain?!0:i.value?.state!==1),R=s(()=>i.value?.betScopes||[]),W=s(()=>i.value?.betMultiples||[]),F=s(()=>i.value?.rates||[]),Y=s(()=>e.betLimit||[]),$=s({get(){return e.sound},set(t){e.sound=t}}),z=s({get(){return e.soundBg},set(t){e.soundBg=t,e.soundBg?(d.set(O,1),g.load(),g.duration(0),g.play()):(g.pause(),d.set(O,0))}}),J=s({get(){return e.soundEffects},set(t){t?d.set(_,1):d.set(_,0),e.soundEffects=t}}),K=s(()=>e.introduceHtml||{}),V=s({get(){return e.agreePreSale},set(t){e.agreePreSale=t}}),q=s({get(){return e.introduceDialog},set(t){e.introduceDialog=t}}),C=c(!1),{pause:m,resume:Q}=ge(async()=>{if(e.countdown<1){m();const t=e.issueData?.next||null,{useNext:a=!0}=r||{};t&&a?(await B(t,e.interval),e.issueData.next=null):await T();return}e.countdown-=1,r&&r?.processSound?.(e.countdown)},1e3,{immediate:!1}),B=async(t,a)=>{e.issue=String(BigInt(t.issueNumber)-1n);const u=x(t.endTime).valueOf()-x(D.getCurrentTime()).valueOf();e.countdown=Math.floor(u/1e3),Q()},X=()=>{e.sound=!e.sound},Z=()=>{e.introduceDialog=!e.introduceDialog,e.introduceDialog&&(b.value=!0)},T=async(t=!1)=>{try{t&&(E.value=!0);const a=await ce({gameCode:o.value,lotteryCode:n.value});if(!a.current)return m();const u=a.intervalMinute*60,M=a.current,L=i.value?.state===2,h=a.state===2;if(e.issueData){const I=e.issueData.state==2;L&&I&&h||!L&&!I&&h?e.maintain=!0:(!L&&!I&&!h||!L&&I&&!h)&&(e.maintain=!1)}e.issueData=a,e.interval=u,await B(M,u)}catch{m()}finally{E.value=!1}},ee=async()=>{try{b.value=!0;const{result:t,data:a}=await fe(o.value);if(!t)return;e.introduceHtml=a}catch{}finally{b.value=!1}},te=async()=>{if(!p.value)try{p.value=!0;const{result:t,data:a}=await de(o.value);if(!t)return;e.betLimit=a}catch{}finally{p.value=!1}},ae=async t=>{const a=t||(r?r.bg:"");if(!a)return!1;const u=new Audio;u.src=a,u.muted=!0;try{return await u.play(),!0}catch{return!1}},se=async()=>{if(!C.value)try{C.value=!0,await ue()}finally{C.value=!1}},S=(t=!1)=>{l.value&&clearInterval(l.value),!t&&(l.value=setInterval(()=>{se()},30*1e3))},k=()=>{f.value=document.visibilityState==="visible",f.value?S():S(!0)};return H(()=>{S(),v.on(()=>{m()}),document.addEventListener("visibilitychange",k)}),P(()=>{S(!0),document.removeEventListener("visibilitychange",k)}),oe(()=>f.value,t=>{t?setTimeout(()=>{T()},500):m()}),{betScopes:R,betMultiples:W,rates:F,canBet:A,issue:j,countdown:w,countdownTime:U,soundEffects:J,soundBg:z,sound:$,gameCode:o,agreePreSale:V,introduceDialog:q,introduceLoading:b,betLimitLoading:p,introduceHtml:K,bgSound:g,issueLoading:E,lotteryCode:n,betLimit:Y,issueData:N,closeGame:G,getIssue:T,updataCurrentIssue:B,pause:m,onSwitchSound:X,onSwitchIntroduce:Z,getIntroduce:ee,getBetLimit:te,canAutoPlay:ae,setLotteryCode:y,visibilityStatus:f}}function Le(){return ne(ye,{})}export{ye as I,Le as a,ge as b,Se as u};
++    `,f=new Blob([l],{type:"application/javascript"});return new Worker(URL.createObjectURL(f))},v=()=>{n&&(o.value=!0,n.postMessage({command:"start",interval:d}))},y=()=>{n&&(o.value=!1,n.postMessage({command:"pause"}))},e=()=>{o.value||v()};return H(()=>{n=i(),n.onmessage=l=>{l.data==="tick"&&r()},D.immediate&&v()}),P(()=>{y(),n?.terminate(),n=null}),{start:v,pause:y,resume:e,isActive:o}}const ye=Symbol("AR_LOTTERY");function Se(r){const{localStore:d}=me(),{synchronizer:D,gameCode:o,lotteryCode:n,gameInfo:i,triggerTimer:v,setLotteryCode:y}=ie(),e=re({issue:"",issueData:null,countdown:0,interval:0,sound:!1,soundBg:!1,soundEffects:!1,agreePreSale:!0,introduceDialog:!1,betLimit:[],introduceHtml:void 0,maintain:!1}),l=c(null),f=c(!0),g=new le.Howl({src:r?[r.bg]:[""],loop:!0,volume:1,preload:!1}),b=c(!1),p=c(!1),E=c(!1),j=s(()=>e.issue),N=s(()=>e.issueData||{}),w=s(()=>({interval:e.interval||0,...ve(e.countdown*1e3)})),U=s(()=>{const t=`${w.value.minutes}`.padStart(2,"0"),a=`${w.value.seconds}`.padStart(2,"0");return[...t.split(""),":",...a.split("")]}),A=s(()=>w.value.seconds>5),G=s(()=>e.maintain?!0:i.value?.state!==1),R=s(()=>i.value?.betScopes||[]),W=s(()=>i.value?.betMultiples||[]),F=s(()=>i.value?.rates||[]),Y=s(()=>e.betLimit||[]),$=s({get(){return e.sound},set(t){e.sound=t}}),z=s({get(){return e.soundBg},set(t){e.soundBg=t,e.soundBg?(d.set(O,1),g.load(),g.duration(0),g.play()):(g.pause(),d.set(O,0))}}),J=s({get(){return e.soundEffects},set(t){t?d.set(_,1):d.set(_,0),e.soundEffects=t}}),K=s(()=>e.introduceHtml||{}),V=s({get(){return e.agreePreSale},set(t){e.agreePreSale=t}}),q=s({get(){return e.introduceDialog},set(t){e.introduceDialog=t}}),C=c(!1),{pause:m,resume:Q}=ge(async()=>{if(e.countdown<1){m();const t=e.issueData?.next||null,{useNext:a=!0}=r||{};t&&a?(await B(t,e.interval),e.issueData.next=null):await T();return}e.countdown-=1,r&&r?.processSound?.(e.countdown)},1e3,{immediate:!1}),B=async(t,a)=>{e.issue=String(t.issueNumber);const u=x(t.endTime).valueOf()-x(D.getCurrentTime()).valueOf();e.countdown=Math.floor(u/1e3),Q()},X=()=>{e.sound=!e.sound},Z=()=>{e.introduceDialog=!e.introduceDialog,e.introduceDialog&&(b.value=!0)},T=async(t=!1)=>{try{t&&(E.value=!0);const a=await ce({gameCode:o.value,lotteryCode:n.value});if(!a.current)return m();const u=a.intervalMinute*60,M=a.current,L=i.value?.state===2,h=a.state===2;if(e.issueData){const I=e.issueData.state==2;L&&I&&h||!L&&!I&&h?e.maintain=!0:(!L&&!I&&!h||!L&&I&&!h)&&(e.maintain=!1)}e.issueData=a,e.interval=u,await B(M,u)}catch{m()}finally{E.value=!1}},ee=async()=>{try{b.value=!0;const{result:t,data:a}=await fe(o.value);if(!t)return;e.introduceHtml=a}catch{}finally{b.value=!1}},te=async()=>{if(!p.value)try{p.value=!0;const{result:t,data:a}=await de(o.value);if(!t)return;e.betLimit=a}catch{}finally{p.value=!1}},ae=async t=>{const a=t||(r?r.bg:"");if(!a)return!1;const u=new Audio;u.src=a,u.muted=!0;try{return await u.play(),!0}catch{return!1}},se=async()=>{if(!C.value)try{C.value=!0,await ue()}finally{C.value=!1}},S=(t=!1)=>{l.value&&clearInterval(l.value),!t&&(l.value=setInterval(()=>{se()},30*1e3))},k=()=>{f.value=document.visibilityState==="visible",f.value?S():S(!0)};return H(()=>{S(),v.on(()=>{m()}),document.addEventListener("visibilitychange",k)}),P(()=>{S(!0),document.removeEventListener("visibilitychange",k)}),oe(()=>f.value,t=>{t?setTimeout(()=>{T()},500):m()}),{betScopes:R,betMultiples:W,rates:F,canBet:A,issue:j,countdown:w,countdownTime:U,soundEffects:J,soundBg:z,sound:$,gameCode:o,agreePreSale:V,introduceDialog:q,introduceLoading:b,betLimitLoading:p,introduceHtml:K,bgSound:g,issueLoading:E,lotteryCode:n,betLimit:Y,issueData:N,closeGame:G,getIssue:T,updataCurrentIssue:B,pause:m,onSwitchSound:X,onSwitchIntroduce:Z,getIntroduce:ee,getBetLimit:te,canAutoPlay:ae,setLotteryCode:y,visibilityStatus:f}}function Le(){return ne(ye,{})}export{ye as I,Le as a,ge as b,Se as u};
+--- a/assets/js/useWinGo3-5zV6kUzs.js
++++ b/assets/js/useWinGo3-5zV6kUzs.js
+@@ -1,2 +1,2 @@
+ import{b as Oe,j as r,r as xe,e as l,a2 as M,cE as Fe,y as Ce,am as De,cF as Ve,cG as we}from"./index-BVjtEoMt.js";import{t as Ye}from"./string-Zi3G3-6-.js";import{r as Ge,d as Xe,i as $e,e as Je,j as Le,k as ze,l as Ze}from"./main.vue_vue_type_style_index_0_scoped_d3b4a951_lang-qK-4BB1a.js";import{u as et,I as Ne}from"./useLottery.hook-_2rEnQ4S.js";import{g as tt,a as nt}from"./wingo-dEPe2FCk.js";function at(c){return Ge.get("/Energy/GetPanel",c,{silentMsgCodes:[430]})}function st(c){return Ge.post("/Energy/Boost",c)}const ut=["WinGo_30S","WinGo_1M"],Se=5,lt=5,ae=3,Ae=ae+3,ot=500,Me="ar_energy_quiet_result",rt=200,Pe=20,Qe=5,Ee=3,it=12,ct=Array.from({length:10},(c,d)=>d),dt=[{source:"random",label:"energyQuickRandom"},{source:"repeat",label:"energyQuickRepeat"},{source:"hot",label:"energyQuickHot"},{source:"cold",label:"energyQuickCold"}];function mt({gameCode:c,issue:d,visibilityStatus:I,countdown:P,energyOpen:fe}){const se=$e(),{t:m}=Oe(),{localStore:s}=Xe(),o=r(null),h=xe(new Set),_=r(""),Q=l(()=>{const e=c.value;return!!e&&ut.includes(e)&&fe.value&&!h.has(e)}),X=l(()=>o.value?.account),O=l(()=>X.value?.remaining??0),E=l(()=>o.value?.unlockedNumbers||[]),w=l(()=>o.value?_.value&&_.value===d.value&&o.value.phase!=="Ended"?"Locked":o.value.phase:"Betting"),T=r(!1),J=r(!1),L=r(0),ye=r(null),x=r(!!s.get(Me));M(x,e=>s.set(Me,e?1:0));const $=e=>{const t=e.result,u=[m("energyResultDraw",{issue:e.issueNumber})];if(t){const ve=String(t.color||"").split(",").filter(Boolean).map(Re=>m(`common.${Re}`));t.number&&ve.push(m(Number(t.number)>4?"betBig":"betSmall")),u.push(`${t.number??""} ${ve.join(" ")}`.trim())}u.push(e.isWin?m("energyResultWin",{amount:Ce(e.amount)}):m("energyResultLose"));const p=e.bonus;p&&u.push(`${m("energyRankNo",{n:p.rankNo})} +${Math.round(p.rate*100)}% · ${m("energyBonusRecord")} +${Ce(p.bonusTotal)}`),se.text({message:u.join(`
+-`),wordBreak:"break-word"})};let C=null;const B=e=>{h.add(e),o.value=null,T.value=!1},q=async()=>{const e=c.value;try{const t=await at({gameCode:e});if(!t.result){t.msgCode===430&&B(e);return}const u=o.value?.account.remaining;K()&&u!=null&&(t.data.account.remaining=u),o.value=t.data}catch(t){t?.response?.status===404&&B(e)}},k=()=>Q.value?(C||(C=q().finally(()=>{C=null})),C):Promise.resolve(),N=l(()=>(P.value?.minutes||0)*60+(P.value?.seconds||0)),ue=l(()=>N.value>lt),R=l(()=>{const e=N.value;if(e<=ae)return 0;if(e<=Ae)return e-ae;const t=e%Se;return t===0?Se:t}),W=l(()=>Q.value&&O.value>0&&["Betting","FinalBoost"].includes(w.value)),le=l(()=>O.value>10?10:1),z=l(()=>{const e=o.value;return!e?.cumulativeBetAmount||!e.cumulativeBetEnergy?null:{amount:Ce(e.cumulativeBetAmount,"",0),energy:e.cumulativeBetEnergy}}),oe=l(()=>{const e=[];return o.value?.firstBetEnergy&&e.push(m("energyRuleFirst",{first:o.value.firstBetEnergy})),z.value&&e.push(m("energyRuleAccum",z.value)),e.join(" · ")}),pe=l(()=>[...o.value?.snapshot?.list||[]].sort((t,u)=>t.number-u.number).map(t=>({number:t.number,percent:t.percent,rank:t.rank,medal:t.medal,unlocked:E.value.includes(t.number),delta:t.prevRank==null?0:t.prevRank-t.rank}))),b=[];let A=null,j=!1;const K=()=>b.length>0||j,Z=async()=>{if(!j){j=!0;try{for(;b.length;){const e=b.shift(),t=await st({gameCode:c.value,issueNumber:d.value,number:e.number,taps:e.taps});if(!t.result){t.msgCode===433?(_.value=d.value,k()):t.msgCode===430?B(c.value):k(),b.length=0;return}o.value&&(o.value.account.used=t.data.used+(o.value.account.used||0),b.length||(o.value.account.remaining=t.data.remaining))}}catch{b.length=0,k()}finally{j=!1,b.length&&Z()}}},ge=e=>{if(!W.value||!o.value||!E.value.includes(e))return 0;if(O.value<=0)return se.error(m("energyNotEnough")),0;const t=le.value;o.value.account.remaining=Math.max(0,O.value-t);const u=b[b.length-1];return u&&u.number===e&&u.taps<Pe?u.taps+=1:b.push({number:e,taps:1}),A&&clearTimeout(A),b[b.length-1].taps>=Pe?Z():A=setTimeout(Z,rt),t},re=r(null),U=r(!1);let ee=0;const de=async(e=null)=>{if(!Q.value)return;const t=X.value?.earned??0,u=!!o.value;ee+=1,U.value=!0;try{C&&await C,await k();const p=(X.value?.earned??0)-t;u&&p>0&&(re.value={amount:p,number:e})}finally{ee-=1,ee===0&&(U.value=!1)}},D=r(null),H=l(()=>ct.filter(e=>!E.value.includes(e))),y=l(()=>[...o.value?.snapshot?.list||[]].sort((e,t)=>e.rank-t.rank).map(e=>e.number)),te=l(()=>o.value?.repeatNumbers||[]),ie=l(()=>y.value.length>=Ee&&w.value==="Betting"),ce=l(()=>{const e=ie.value?"":"energyQuickNoRank";return{random:H.value.length?"":"energyQuickAllBet",repeat:te.value.length?"":"energyQuickNoRepeat",hot:e,cold:e}}),be=e=>{const t=[...e];for(let u=t.length-1;u>0;u--){const p=Math.floor(Math.random()*(u+1));[t[u],t[p]]=[t[p],t[u]]}return t},he=e=>[...e].sort((t,u)=>t-u),me=()=>he(be(H.value).slice(0,Qe)),ne=e=>{if(e==="random")return me();if(e==="repeat")return[...te.value];const t=y.value;return e==="hot"?t.slice(0,Ee):t.slice(-Ee)},Be=e=>{D.value={source:e,numbers:ne(e)}},ke=()=>{const e=D.value;if(!e||e.source==="repeat")return;if(e.source!=="random"){e.numbers=ne(e.source);return}const t=e.numbers.join();let u=e.numbers;for(let p=0;p<it&&(u=me(),!(H.value.length<=Qe||u.join()!==t));p++);e.numbers=u},F=e=>{const t=D.value;!t||t.numbers.length<=1||(t.numbers=t.numbers.filter(u=>u!==e))};let G=null;const V=()=>{G&&clearTimeout(G),G=null};return M(()=>c.value,e=>{V(),o.value=null,D.value=null,e&&h.delete(e),k()},{immediate:!0}),M(Q,e=>e&&k()),M(()=>d.value,()=>{V(),k()}),M(()=>I.value,e=>e&&k()),M(()=>T.value,e=>e&&k()),M(N,(e,t)=>{!I.value||e>=t||(e>Ae&&e%Se===0&&k(),e<=ae&&t>ae&&(V(),G=setTimeout(()=>{G=null,I.value&&k()},ot)))}),Fe(()=>{A&&clearTimeout(A),V()}),{enabled:Q,panel:o,remaining:O,phase:w,canBoost:W,tapSpend:le,ruleText:oe,accumRule:z,boardList:pe,panelVisible:T,helpVisible:J,guideStep:L,gainEvent:re,settling:U,bonusData:ye,quietResult:x,showResultHint:$,countdownSec:R,gameSecs:N,bettingOpen:ue,quickBet:D,quickBlock:ce,repeatNumbers:te,onBetSettled:de,onBoostTap:ge,openQuickBet:Be,rerollQuickBet:ke,removeQuickNumber:F}}const shiftPublicResults=c=>Array.isArray(c)?c.map((d,i)=>{const n=c[i+1];return n?{...d,number:n.number,color:n.color,premium:n.premium,sum:n.sum}:d}):c;function bt(){const c=$e(),{t:d}=Oe(),{updateBalance:I,onBetTrigger:P,getGameInfo:fe,gameInfo:se}=Je(),m=new Map,s=xe({betDialog:!1,amount:1,betMultiple:0,playType:"",playBet:null,playRate:0,historyIssues:[],historyIssuesTotalPage:0}),o=r(!1),h=r(1),_=r(!1),Q=r(!1),X=r(!1),O=r(""),E=r(-1),w=r(null),T=r(!1),J=r(),L=r(localStorage.getItem("volumeShow")||"1"),ye=async n=>{if(L.value=="1"&&(n<=5&&n>0?_e(1):n==0&&_e(2)),n==5&&u(),n==1){await ze(800);const a=await je(B.value);setTimeout(async()=>{s.historyIssues=shiftPublicResults(a?.list||[])},800),setTimeout(async()=>{await ve()},2200),we("prediction","timer","")}},{rates:x,betScopes:$,betMultiples:C,issue:B,countdown:q,countdownTime:k,canBet:N,sound:ue,gameCode:R,agreePreSale:W,introduceDialog:le,introduceLoading:z,betLimitLoading:oe,introduceHtml:pe,issueLoading:b,lotteryCode:A,betLimit:j,issueData:K,closeGame:Z,onSwitchIntroduce:ge,onSwitchSound:re,getIssue:U,getIntroduce:ee,getBetLimit:de,setLotteryCode:D,visibilityStatus:H}=et({processSound:ye}),y=mt({gameCode:R,issue:B,visibilityStatus:H,countdown:q,energyOpen:l(()=>se.value?.isOpenEnergy===!0)}),te=l(()=>q.value.minutes===0&&q.value.seconds<6),ie=Array.from({length:10},(n,a)=>a),ce=l(()=>{const n=x.value.find(({playType:a})=>a==="Num");return n?ie.map(a=>({playType:"Num",playBet:a,playRate:n.playRate})):ie.map(a=>({playType:"Num",playBet:a,playRate:0}))}),be=l(()=>{const n=x.value.filter(({playType:i})=>i==="Color");if(!n.length)return n;const a=n.reduce((i,v)=>{const{playType:f,playBet:S,playRate:Y}=v;return i[f]||(i[f]={}),i[f][S]?i[f][S].playRates.push(Y):i[f][S]={...v,playRates:[Y]},i},{}),g=Object.values(a).flatMap(i=>Object.values(i).map(v=>{const f=Math.min(...v.playRates),S=Math.max(...v.playRates);return{...v,playRateStr:f===S?`x${f}`:`x${f}/x${S}`}}));return[g.find(i=>i.playBet=="green"),g.find(i=>i.playBet=="violet"),g.find(i=>i.playBet=="red")]}),he=l(()=>{const n=x.value.find(({playBet:g})=>g==="small");return[x.value.find(({playBet:g})=>g==="big"),n]}),me=l({get(){return s.betDialog},set(n){s.betDialog=n}}),ne=l({get(){return s.amount},set(n){s.amount=n}}),Be=l(()=>s.playRate),ke=l(()=>s.playBet),F=l(()=>s.historyIssues),G=l(()=>s.historyIssues[0]||{}),V=l(()=>s.historyIssues.slice(1,10)||[]),e=l(()=>s.historyIssuesTotalPage),t=n=>{_.value||o.value||K.value?.gameCode===R.value&&(s.playBet=n.playBet,s.playType=n.playType,s.playRate=n.playRate,s.betDialog=!0,s.amount=$.value[0]||1,h.value||(h.value=C.value[0]||1))},u=(n=!1)=>{s.betDialog=!1,y.quickBet.value=null,s.playRate=0,h.value=1,s.amount=0,s.playType="",n&&m.clear(),setTimeout(()=>{s.playBet=null},300)},p=()=>{_.value||N.value&&(_.value=!0,w.value||(w.value=setInterval(function(){E.value=Math.floor(Math.random()*11)},60)),setTimeout(function(){E.value>9&&(E.value=9),clearInterval(w.value),_.value=!1,w.value=null,N.value&&t(ce.value.find(n=>n.playBet===E.value))},5e3))},ve=async()=>{try{const n=[...m.keys()].reverse();if(!n.length)return;const a=n[0];if(F.value.findIndex(Y=>Y.issueNumber===a)>0)return m.clear();const{result:i,data:v}=await Ze({issueNumber:a});if(!i)return;if(v.status===null){m.delete(a);return}if(P(),m.delete(a),!J.value)return;const f=v.status===!0;we("prediction","result",f?1:0);const S=F.value.find(Y=>Y.issueNumber===a);y.quietResult.value&&y.panelVisible.value?y.showResultHint({isWin:f,amount:v.winAmount||0,issueNumber:a,result:S||null,bonus:f&&v.energyBonus||null}):f&&v.energyBonus?y.bonusData.value={...v.energyBonus,winAmount:v.winAmount||0,issueNumber:a,result:S}:J.value.open({isWin:f,amount:v.winAmount||0,issueNumber:a,result:S,quietOption:y.panelVisible.value}),m.clear(),f&&I()}catch{}},Re=async()=>{if(T.value)return;if(!W.value)return c.error(d("common.agreePreSale"));if(!B.value)return c.error(d("common.noIssueNumber"));if(!s.playType||K.value?.gameCode!==R.value)return;T.value=!0;const n=s.playType==="Num"?Number(s.playBet):null,currentIssue=K.value?.current?.issueNumber||B.value;try{const{result:a}=await nt({gameCode:R.value,issueNumber:currentIssue,amount:s.amount,betMultiple:h.value,betContent:`${s.playType}_${Ye(s.playBet)}`});if(!a)return;Ie(n)}catch{}finally{T.value=!1}},Ie=n=>{u(),m.set(K.value?.current?.issueNumber||B.value,1),c.success(d("common.betSuccessful")),I(),P(),y.onBetSettled(n)},qe=n=>{if(o.value||K.value?.gameCode!==R.value)return;if(!y.bettingOpen.value)return c.error(d("energyQuickClosed"));const a=y.quickBlock.value[n];if(a)return c.error(d(a));y.openQuickBet(n),s.amount=$.value[0]||1,h.value||(h.value=C.value[0]||1)},We=async()=>{const n=y.quickBet.value?.numbers||[];if(!(T.value||!n.length)){if(!W.value)return c.error(d("common.agreePreSale"));if(!B.value)return c.error(d("common.noIssueNumber"));if(K.value?.gameCode===R.value){T.value=!0;try{const{result:a}=await tt({gameCode:R.value,issueNumber:B.value,amount:s.amount,betMultiple:h.value,betContent:n.map(g=>`Num_${g}`)});if(!a){I(),P();return}Ie(null)}catch{I(),P()}finally{T.value=!1}}}},Te=async()=>{try{const{result:n,data:a}=await Le({gameCode:R.value,lotteryCode:A.value});if(!n)return;s.historyIssues=shiftPublicResults(a.list||[]),s.historyIssuesTotalPage=a.totalPage||0}catch{}},je=async n=>{try{const{result:a,data:g}=await Le({gameCode:R.value,lotteryCode:A.value});if(!a)return;const i=g.list||[];s.historyIssuesTotalPage=g.totalPage||0;const v=i[0];return v.issueNumber!==n?{list:g.list,item:null}:{item:v,list:g.list}}catch{}},_e=(n=1)=>{const a=document.getElementById(`voice${n}`);a&&a?.play()},Ke=()=>{L.value=="1"?L.value="2":L.value="1",localStorage.setItem("volumeShow",L.value)},Ue=async()=>{await Promise.all([fe(),U(!0),Te()])},He=()=>{Ve(Ne,{betScopes:$,betMultiples:C,issue:B,canBet:N,gameCode:R,amount:ne,betDialog:me,betMultiple:h,playRate:Be,agreePreSale:W,playBet:ke,loading:T,sound:ue,historyIssues:F,betLimitLoading:oe,historyIssuesTotalPage:e,betLimit:j,onClearBet:u,onBetting:Re,getBetLimit:de})};return M(()=>H.value,n=>{n&&Te()}),{betScopes:$,betMultiples:C,numbers:ce,colors:be,bigSmalls:he,issue:B,countdown:q,countdownTime:k,canBet:N,sound:ue,randomNum:E,introduceDialog:le,amount:ne,betMultiple:h,introduceLoading:z,introduceHtml:pe,betLimitLoading:oe,historyIssues:F,history1:G,history2:V,animationLock:Q,animationRoll:X,animationNumber:O,issueLoading:b,historyIssuesTotalPage:e,winner:J,closeGame:Z,onSwitchIntroduce:ge,getIssue:U,onSwitchSound:re,useProvide:He,onBet:t,onRandom:p,onClearBet:u,getIntroduce:ee,getHistoryIssues:Te,getlotteryissue:Ue,showMark:te,setVoice:Ke,VoiceType:L,setLotteryCode:D,onQuickBet:qe,onQuickBetting:We,energy:y}}function ht(){return De(Ne,{})}function Bt(){return De(Ne,{})}export{dt as E,Ae as F,ae as L,Bt as a,bt as b,ht as u};
++`),wordBreak:"break-word"})};let C=null;const B=e=>{h.add(e),o.value=null,T.value=!1},q=async()=>{const e=c.value;try{const t=await at({gameCode:e});if(!t.result){t.msgCode===430&&B(e);return}const u=o.value?.account.remaining;K()&&u!=null&&(t.data.account.remaining=u),o.value=t.data}catch(t){t?.response?.status===404&&B(e)}},k=()=>Q.value?(C||(C=q().finally(()=>{C=null})),C):Promise.resolve(),N=l(()=>(P.value?.minutes||0)*60+(P.value?.seconds||0)),ue=l(()=>N.value>lt),R=l(()=>{const e=N.value;if(e<=ae)return 0;if(e<=Ae)return e-ae;const t=e%Se;return t===0?Se:t}),W=l(()=>Q.value&&O.value>0&&["Betting","FinalBoost"].includes(w.value)),le=l(()=>O.value>10?10:1),z=l(()=>{const e=o.value;return!e?.cumulativeBetAmount||!e.cumulativeBetEnergy?null:{amount:Ce(e.cumulativeBetAmount,"",0),energy:e.cumulativeBetEnergy}}),oe=l(()=>{const e=[];return o.value?.firstBetEnergy&&e.push(m("energyRuleFirst",{first:o.value.firstBetEnergy})),z.value&&e.push(m("energyRuleAccum",z.value)),e.join(" · ")}),pe=l(()=>[...o.value?.snapshot?.list||[]].sort((t,u)=>t.number-u.number).map(t=>({number:t.number,percent:t.percent,rank:t.rank,medal:t.medal,unlocked:E.value.includes(t.number),delta:t.prevRank==null?0:t.prevRank-t.rank}))),b=[];let A=null,j=!1;const K=()=>b.length>0||j,Z=async()=>{if(!j){j=!0;try{for(;b.length;){const e=b.shift(),t=await st({gameCode:c.value,issueNumber:d.value,number:e.number,taps:e.taps});if(!t.result){t.msgCode===433?(_.value=d.value,k()):t.msgCode===430?B(c.value):k(),b.length=0;return}o.value&&(o.value.account.used=t.data.used+(o.value.account.used||0),b.length||(o.value.account.remaining=t.data.remaining))}}catch{b.length=0,k()}finally{j=!1,b.length&&Z()}}},ge=e=>{if(!W.value||!o.value||!E.value.includes(e))return 0;if(O.value<=0)return se.error(m("energyNotEnough")),0;const t=le.value;o.value.account.remaining=Math.max(0,O.value-t);const u=b[b.length-1];return u&&u.number===e&&u.taps<Pe?u.taps+=1:b.push({number:e,taps:1}),A&&clearTimeout(A),b[b.length-1].taps>=Pe?Z():A=setTimeout(Z,rt),t},re=r(null),U=r(!1);let ee=0;const de=async(e=null)=>{if(!Q.value)return;const t=X.value?.earned??0,u=!!o.value;ee+=1,U.value=!0;try{C&&await C,await k();const p=(X.value?.earned??0)-t;u&&p>0&&(re.value={amount:p,number:e})}finally{ee-=1,ee===0&&(U.value=!1)}},D=r(null),H=l(()=>ct.filter(e=>!E.value.includes(e))),y=l(()=>[...o.value?.snapshot?.list||[]].sort((e,t)=>e.rank-t.rank).map(e=>e.number)),te=l(()=>o.value?.repeatNumbers||[]),ie=l(()=>y.value.length>=Ee&&w.value==="Betting"),ce=l(()=>{const e=ie.value?"":"energyQuickNoRank";return{random:H.value.length?"":"energyQuickAllBet",repeat:te.value.length?"":"energyQuickNoRepeat",hot:e,cold:e}}),be=e=>{const t=[...e];for(let u=t.length-1;u>0;u--){const p=Math.floor(Math.random()*(u+1));[t[u],t[p]]=[t[p],t[u]]}return t},he=e=>[...e].sort((t,u)=>t-u),me=()=>he(be(H.value).slice(0,Qe)),ne=e=>{if(e==="random")return me();if(e==="repeat")return[...te.value];const t=y.value;return e==="hot"?t.slice(0,Ee):t.slice(-Ee)},Be=e=>{D.value={source:e,numbers:ne(e)}},ke=()=>{const e=D.value;if(!e||e.source==="repeat")return;if(e.source!=="random"){e.numbers=ne(e.source);return}const t=e.numbers.join();let u=e.numbers;for(let p=0;p<it&&(u=me(),!(H.value.length<=Qe||u.join()!==t));p++);e.numbers=u},F=e=>{const t=D.value;!t||t.numbers.length<=1||(t.numbers=t.numbers.filter(u=>u!==e))};let G=null;const V=()=>{G&&clearTimeout(G),G=null};return M(()=>c.value,e=>{V(),o.value=null,D.value=null,e&&h.delete(e),k()},{immediate:!0}),M(Q,e=>e&&k()),M(()=>d.value,()=>{V(),k()}),M(()=>I.value,e=>e&&k()),M(()=>T.value,e=>e&&k()),M(N,(e,t)=>{!I.value||e>=t||(e>Ae&&e%Se===0&&k(),e<=ae&&t>ae&&(V(),G=setTimeout(()=>{G=null,I.value&&k()},ot)))}),Fe(()=>{A&&clearTimeout(A),V()}),{enabled:Q,panel:o,remaining:O,phase:w,canBoost:W,tapSpend:le,ruleText:oe,accumRule:z,boardList:pe,panelVisible:T,helpVisible:J,guideStep:L,gainEvent:re,settling:U,bonusData:ye,quietResult:x,showResultHint:$,countdownSec:R,gameSecs:N,bettingOpen:ue,quickBet:D,quickBlock:ce,repeatNumbers:te,onBetSettled:de,onBoostTap:ge,openQuickBet:Be,rerollQuickBet:ke,removeQuickNumber:F}}const shiftPublicResults=c=>Array.isArray(c)?c:[];function bt(){const c=$e(),{t:d}=Oe(),{updateBalance:I,onBetTrigger:P,getGameInfo:fe,gameInfo:se}=Je(),m=new Map,s=xe({betDialog:!1,amount:1,betMultiple:0,playType:"",playBet:null,playRate:0,historyIssues:[],historyIssuesTotalPage:0}),o=r(!1),h=r(1),_=r(!1),Q=r(!1),X=r(!1),O=r(""),E=r(-1),w=r(null),T=r(!1),J=r(),L=r(localStorage.getItem("volumeShow")||"1"),ye=async n=>{if(L.value=="1"&&(n<=5&&n>0?_e(1):n==0&&_e(2)),n==5&&u(),n==1){await ze(800);const a=await je(B.value);setTimeout(async()=>{s.historyIssues=shiftPublicResults(a?.list||[])},800),setTimeout(async()=>{await ve()},2200),we("prediction","timer","")}},{rates:x,betScopes:$,betMultiples:C,issue:B,countdown:q,countdownTime:k,canBet:N,sound:ue,gameCode:R,agreePreSale:W,introduceDialog:le,introduceLoading:z,betLimitLoading:oe,introduceHtml:pe,issueLoading:b,lotteryCode:A,betLimit:j,issueData:K,closeGame:Z,onSwitchIntroduce:ge,onSwitchSound:re,getIssue:U,getIntroduce:ee,getBetLimit:de,setLotteryCode:D,visibilityStatus:H}=et({processSound:ye}),y=mt({gameCode:R,issue:B,visibilityStatus:H,countdown:q,energyOpen:l(()=>se.value?.isOpenEnergy===!0)}),te=l(()=>q.value.minutes===0&&q.value.seconds<6),ie=Array.from({length:10},(n,a)=>a),ce=l(()=>{const n=x.value.find(({playType:a})=>a==="Num");return n?ie.map(a=>({playType:"Num",playBet:a,playRate:n.playRate})):ie.map(a=>({playType:"Num",playBet:a,playRate:0}))}),be=l(()=>{const n=x.value.filter(({playType:i})=>i==="Color");if(!n.length)return n;const a=n.reduce((i,v)=>{const{playType:f,playBet:S,playRate:Y}=v;return i[f]||(i[f]={}),i[f][S]?i[f][S].playRates.push(Y):i[f][S]={...v,playRates:[Y]},i},{}),g=Object.values(a).flatMap(i=>Object.values(i).map(v=>{const f=Math.min(...v.playRates),S=Math.max(...v.playRates);return{...v,playRateStr:f===S?`x${f}`:`x${f}/x${S}`}}));return[g.find(i=>i.playBet=="green"),g.find(i=>i.playBet=="violet"),g.find(i=>i.playBet=="red")]}),he=l(()=>{const n=x.value.find(({playBet:g})=>g==="small");return[x.value.find(({playBet:g})=>g==="big"),n]}),me=l({get(){return s.betDialog},set(n){s.betDialog=n}}),ne=l({get(){return s.amount},set(n){s.amount=n}}),Be=l(()=>s.playRate),ke=l(()=>s.playBet),F=l(()=>s.historyIssues),G=l(()=>s.historyIssues[0]||{}),V=l(()=>s.historyIssues.slice(1,10)||[]),e=l(()=>s.historyIssuesTotalPage),t=n=>{_.value||o.value||K.value?.gameCode===R.value&&(s.playBet=n.playBet,s.playType=n.playType,s.playRate=n.playRate,s.betDialog=!0,s.amount=$.value[0]||1,h.value||(h.value=C.value[0]||1))},u=(n=!1)=>{s.betDialog=!1,y.quickBet.value=null,s.playRate=0,h.value=1,s.amount=0,s.playType="",n&&m.clear(),setTimeout(()=>{s.playBet=null},300)},p=()=>{_.value||N.value&&(_.value=!0,w.value||(w.value=setInterval(function(){E.value=Math.floor(Math.random()*11)},60)),setTimeout(function(){E.value>9&&(E.value=9),clearInterval(w.value),_.value=!1,w.value=null,N.value&&t(ce.value.find(n=>n.playBet===E.value))},5e3))},ve=async()=>{try{const n=[...m.keys()].reverse();if(!n.length)return;const a=n[0];if(F.value.findIndex(Y=>Y.issueNumber===a)>0)return m.clear();const{result:i,data:v}=await Ze({issueNumber:a});if(!i)return;if(v.status===null){m.delete(a);return}if(P(),m.delete(a),!J.value)return;const f=v.status===!0;we("prediction","result",f?1:0);const S=F.value.find(Y=>Y.issueNumber===a);y.quietResult.value&&y.panelVisible.value?y.showResultHint({isWin:f,amount:v.winAmount||0,issueNumber:a,result:S||null,bonus:f&&v.energyBonus||null}):f&&v.energyBonus?y.bonusData.value={...v.energyBonus,winAmount:v.winAmount||0,issueNumber:a,result:S}:J.value.open({isWin:f,amount:v.winAmount||0,issueNumber:a,result:S,quietOption:y.panelVisible.value}),m.clear(),f&&I()}catch{}},Re=async()=>{if(T.value)return;if(!W.value)return c.error(d("common.agreePreSale"));if(!B.value)return c.error(d("common.noIssueNumber"));if(!s.playType||K.value?.gameCode!==R.value)return;T.value=!0;const n=s.playType==="Num"?Number(s.playBet):null,currentIssue=B.value;try{const{result:a}=await nt({gameCode:R.value,issueNumber:currentIssue,amount:s.amount,betMultiple:h.value,betContent:`${s.playType}_${Ye(s.playBet)}`});if(!a)return;Ie(n)}catch{}finally{T.value=!1}},Ie=n=>{u(),m.set(B.value,1),c.success(d("common.betSuccessful")),I(),P(),y.onBetSettled(n)},qe=n=>{if(o.value||K.value?.gameCode!==R.value)return;if(!y.bettingOpen.value)return c.error(d("energyQuickClosed"));const a=y.quickBlock.value[n];if(a)return c.error(d(a));y.openQuickBet(n),s.amount=$.value[0]||1,h.value||(h.value=C.value[0]||1)},We=async()=>{const n=y.quickBet.value?.numbers||[];if(!(T.value||!n.length)){if(!W.value)return c.error(d("common.agreePreSale"));if(!B.value)return c.error(d("common.noIssueNumber"));if(K.value?.gameCode===R.value){T.value=!0;try{const{result:a}=await tt({gameCode:R.value,issueNumber:B.value,amount:s.amount,betMultiple:h.value,betContent:n.map(g=>`Num_${g}`)});if(!a){I(),P();return}Ie(null)}catch{I(),P()}finally{T.value=!1}}}},Te=async()=>{try{const{result:n,data:a}=await Le({gameCode:R.value,lotteryCode:A.value});if(!n)return;s.historyIssues=shiftPublicResults(a.list||[]),s.historyIssuesTotalPage=a.totalPage||0}catch{}},je=async n=>{try{const{result:a,data:g}=await Le({gameCode:R.value,lotteryCode:A.value});if(!a)return;const i=g.list||[];s.historyIssuesTotalPage=g.totalPage||0;const v=i[0];return v.issueNumber!==n?{list:g.list,item:null}:{item:v,list:g.list}}catch{}},_e=(n=1)=>{const a=document.getElementById(`voice${n}`);a&&a?.play()},Ke=()=>{L.value=="1"?L.value="2":L.value="1",localStorage.setItem("volumeShow",L.value)},Ue=async()=>{await Promise.all([fe(),U(!0),Te()])},He=()=>{Ve(Ne,{betScopes:$,betMultiples:C,issue:B,canBet:N,gameCode:R,amount:ne,betDialog:me,betMultiple:h,playRate:Be,agreePreSale:W,playBet:ke,loading:T,sound:ue,historyIssues:F,betLimitLoading:oe,historyIssuesTotalPage:e,betLimit:j,onClearBet:u,onBetting:Re,getBetLimit:de})};return M(()=>H.value,n=>{n&&Te()}),{betScopes:$,betMultiples:C,numbers:ce,colors:be,bigSmalls:he,issue:B,countdown:q,countdownTime:k,canBet:N,sound:ue,randomNum:E,introduceDialog:le,amount:ne,betMultiple:h,introduceLoading:z,introduceHtml:pe,betLimitLoading:oe,historyIssues:F,history1:G,history2:V,animationLock:Q,animationRoll:X,animationNumber:O,issueLoading:b,historyIssuesTotalPage:e,winner:J,closeGame:Z,onSwitchIntroduce:ge,getIssue:U,onSwitchSound:re,useProvide:He,onBet:t,onRandom:p,onClearBet:u,getIntroduce:ee,getHistoryIssues:Te,getlotteryissue:Ue,showMark:te,setVoice:Ke,VoiceType:L,setLotteryCode:D,onQuickBet:qe,onQuickBetting:We,energy:y}}function ht(){return De(Ne,{})}function Bt(){return De(Ne,{})}export{dt as E,Ae as F,ae as L,Bt as a,bt as b,ht as u};
