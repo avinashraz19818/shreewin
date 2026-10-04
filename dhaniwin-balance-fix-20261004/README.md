@@ -123,3 +123,13 @@ win rate 9× (−2 % fee = 8.82) pehle jaisa hi nikla).
 Purane accounts me agar free ₹4.45 (jo registration par mila tha) hataana ho,
 to bolo — ek chhoti script bana dunga (sirf un accounts se jinka balance
 exactly 4.45 ho, jinhone recharge/bet nahi kiya).
+
+## Download / delivery links
+
+- GitHub (repo `shreewin`, branch `arena/01a09f38-shreewin`, tag `dhaniwin-balance-fix-20261004`):
+  `https://github.com/avinashraz19818/shreewin/blob/arena/01a09f38-shreewin/dhaniwin-balance-fix-20261004/dhaniwin-balance-fix-20261004.zip`
+- Direct raw: `https://github.com/avinashraz19818/shreewin/raw/arena/01a09f38-shreewin/dhaniwin-balance-fix-20261004/dhaniwin-balance-fix-20261004.zip`
+- Live download page (sandbox preview): `https://8080-ilsl464ttnng96hhkr3iq.e2b.app/`
+- Note: `dhaniwin` repo par push 403 (read-only token) — isliye patch `shreewin` repo me publish hui hai.
+
+Package: `dhaniwin-balance-fix-20261004.zip` (PHP files + README + PADHO notes + changes.diff).
