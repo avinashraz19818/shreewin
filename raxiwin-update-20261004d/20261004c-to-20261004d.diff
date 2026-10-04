@@ -1,0 +1,110 @@
+--- a/saas_lottery/bootstrap.php
++++ b/saas_lottery/bootstrap.php
+@@ -1496,6 +1496,23 @@
+ }
+ 
+ /**
++ * Seconds the public record times run behind the true placement time, so the
++ * timestamp shown for a bet matches the period label shown for it (the whole
++ * WinGo presentation carries the same label offset).
++ */
++function sl_display_time_shift_seconds($gameCode)
++{
++    if (strpos((string) $gameCode, 'WinGo_') !== 0) {
++        return 0;
++    }
++    $offset = sl_display_label_offset();
++    if ($offset === 0) {
++        return 0;
++    }
++    return $offset * sl_interval_seconds($gameCode);
++}
++
++/**
+  * Earliest settlement deadline among the pending bets of one label. 0 when the
+  * table has no settle_after column or nothing is pending.
+  */
+@@ -2048,6 +2065,14 @@
+         $winLose = $row['status'] === 'won' ? round($payout - $stake, 4) : ($row['status'] === 'lost' ? -$stake : 0.0);
+         $premium = $row['result_premium'] === null ? '' : (string) $row['result_premium'];
+         $recordFamily = sl_game_family((string) $row['game_code']);
++        $rowTime = (string) $row['created_at'];
++        $timeShift = sl_display_time_shift_seconds((string) $row['game_code']);
++        if ($timeShift !== 0 && $rowTime !== '') {
++            $stamp = strtotime($rowTime);
++            if ($stamp !== false) {
++                $rowTime = date('Y-m-d H:i:s', $stamp + $timeShift);
++            }
++        }
+         $isWingo = $recordFamily === 'WinGo' || $recordFamily === 'TrxWinGo';
+         $contentParts = explode('_', (string) $row['bet_content'], 2);
+         $playType = (string) ($contentParts[0] ?? '');
+@@ -2062,11 +2087,11 @@
+             'betContent'=>(string)$row['bet_content'],'playType'=>$playType,'selectType'=>$selectType,
+             'amount'=>$stake,'unitAmount'=>(float)$row['amount'],'betMultiple'=>(int)$row['bet_multiple'],'betCount'=>(int)$row['bet_multiple'],
+             'betUnits'=>(int)$row['bet_units'],'realAmount'=>max(0.0, round($stake-$taxFee,4)),'realBettingAmount'=>max(0.0, round($stake-$taxFee,4)),'fee'=>$taxFee,'serviceCharge'=>$taxFee,'tax'=>$taxFee,'taxAmount'=>$taxFee,'taxRate'=>sl_tax_percent(),'state'=>$state,'premium'=>$premium,
+-            'winLoseAmount'=>$winLose,'betTime'=>(string)$row['created_at'],'orderNumber'=>(string)$row['id'],
++            'winLoseAmount'=>$winLose,'betTime'=>$rowTime,'orderNumber'=>(string)$row['id'],
+             'betAmount'=>$stake,'number'=>$recordNumber,'resultNumber'=>$isWingo && $premium !== '' ? (int)$premium : null,
+             'color'=>$isWingo && $premium !== '' ? sl_result_color((int)$premium) : '',
+             'winAmount'=>$payout,'profitAmount'=>$state === 2 ? 0.0 : abs($winLose),
+-            'createTime'=>(string)$row['created_at'],'addTime'=>(string)$row['created_at']
++            'createTime'=>$rowTime,'addTime'=>$rowTime
+         );
+     }
+     $stmt->close();
+--- a/saas_lottery/bootstrap_live_v4.php
++++ b/saas_lottery/bootstrap_live_v4.php
+@@ -1480,6 +1480,23 @@
+ }
+ 
+ /**
++ * Seconds the public record times run behind the true placement time, so the
++ * timestamp shown for a bet matches the period label shown for it (the whole
++ * WinGo presentation carries the same label offset).
++ */
++function sl_display_time_shift_seconds($gameCode)
++{
++    if (strpos((string) $gameCode, 'WinGo_') !== 0) {
++        return 0;
++    }
++    $offset = sl_display_label_offset();
++    if ($offset === 0) {
++        return 0;
++    }
++    return $offset * sl_interval_seconds($gameCode);
++}
++
++/**
+  * Earliest settlement deadline among the pending bets of one label. 0 when the
+  * table has no settle_after column or nothing is pending.
+  */
+@@ -2018,6 +2035,14 @@
+         $winLose = $row['status'] === 'won' ? round($payout - $stake, 4) : ($row['status'] === 'lost' ? -$stake : 0.0);
+         $premium = $row['result_premium'] === null ? '' : (string) $row['result_premium'];
+         $recordFamily = sl_game_family((string) $row['game_code']);
++        $rowTime = (string) $row['created_at'];
++        $timeShift = sl_display_time_shift_seconds((string) $row['game_code']);
++        if ($timeShift !== 0 && $rowTime !== '') {
++            $stamp = strtotime($rowTime);
++            if ($stamp !== false) {
++                $rowTime = date('Y-m-d H:i:s', $stamp + $timeShift);
++            }
++        }
+         $isWingo = $recordFamily === 'WinGo' || $recordFamily === 'TrxWinGo';
+         $contentParts = explode('_', (string) $row['bet_content'], 2);
+         $playType = (string) ($contentParts[0] ?? '');
+@@ -2032,11 +2057,11 @@
+             'betContent'=>(string)$row['bet_content'],'playType'=>$playType,'selectType'=>$selectType,
+             'amount'=>$stake,'unitAmount'=>(float)$row['amount'],'betMultiple'=>(int)$row['bet_multiple'],'betCount'=>(int)$row['bet_multiple'],
+             'betUnits'=>(int)$row['bet_units'],'realAmount'=>max(0.0, round($stake-$taxFee,4)),'realBettingAmount'=>max(0.0, round($stake-$taxFee,4)),'fee'=>$taxFee,'serviceCharge'=>$taxFee,'tax'=>$taxFee,'taxAmount'=>$taxFee,'taxRate'=>sl_tax_percent(),'state'=>$state,'premium'=>$premium,
+-            'winLoseAmount'=>$winLose,'betTime'=>(string)$row['created_at'],'orderNumber'=>(string)$row['id'],
++            'winLoseAmount'=>$winLose,'betTime'=>$rowTime,'orderNumber'=>(string)$row['id'],
+             'betAmount'=>$stake,'number'=>$recordNumber,'resultNumber'=>$isWingo && $premium !== '' ? (int)$premium : null,
+             'color'=>$isWingo && $premium !== '' ? sl_result_color((int)$premium) : '',
+             'winAmount'=>$payout,'profitAmount'=>$state === 2 ? 0.0 : abs($winLose),
+-            'createTime'=>(string)$row['created_at'],'addTime'=>(string)$row['created_at']
++            'createTime'=>$rowTime,'addTime'=>$rowTime
+         );
+     }
+     $stmt->close();

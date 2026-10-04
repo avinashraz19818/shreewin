@@ -1,0 +1,82 @@
+RAXIWIN UPDATE - 04-10-2026  (build 20261004d)
+==============================================
+
+AB BET RECORD KA TIME BHI 1 PERIOD PICHE
+-----------------------------------------
+
+Screenshot me dikh raha tha: period label 1 piche hai (jaise 385), lekin uske
+saamne wala time asli placement time hai (11:55:15) - jo provider ke period ka
+waqt hai. Ab wo time bhi 1 period piche ho jayega:
+
+      period 385  ->  pehle 2026-10-04 11:55:15 dikhta tha
+                  ->  ab   2026-10-04 11:54:15 dikhega
+
+Yahi 30sec / 3min / 5min games me bhi hoga (30s ka 30 second piche, 3M ka 3
+minute piche, 5M ka 5 minute piche) - yani poora record period ke sath match
+karega.
+
+Isse pehle jo bana tha (wahi is build me bhi hai):
+  * header / bet / record ka period label 1 piche
+  * history me har row apne hi number ka result, aur sabse naya result 1 period
+    baad (jab uska countdown app me khatam ho)
+  * bet ke period ka timer khatam hone se pehle win/loss nahi
+  * bet par tax / service charge (stake ka 2%)
+
+KAHAN-KAHAN LAGTA HAI
+---------------------
+
+  My Record list (betTime / createTime / addTime) - yani record row me jo date
+  time dikhta hai, aur usi row ka Detail popup bhi.
+
+  Sirf WinGo_* games par (K3 / D5 / MotoRace wagair par kuch nahi badalta,
+  kyunki unka label offset bhi 0 hai).
+
+SWITCH (zarurat pade to)
+------------------------
+
+  table: saas_lottery_settings
+     raxiwin_period_label_offset = -1  -> default: 1 period piche
+                                          (display + result + record time, sab)
+     raxiwin_period_label_offset =  0  -> live/current (time bhi asli rehta hai)
+
+FILES
+-----
+
+  saas_lottery/bootstrap.php            (engine: /api/Lottery/*, draw/)
+  saas_lottery/bootstrap_live_v4.php    (engine: /api-live-v4/*, /draw-live-v4/*)
+  draw-live-v4/index.php                (public feed: running period + history)
+  assets/js/useLottery.hook-_2rEnQ4S.js (client: issue label + countdown)
+  assets/js/useWinGo3-5zV6kUzs.js       (client: bet + win/loss + history)
+
+UPLOAD (cPanel)
+---------------
+
+1. File Manager > site root (jahan index.html aur saas_lottery folder hai).
+2. ZIP upload > right click > Extract > Overwrite/Replace.
+3. Page Ctrl+F5 (mobile/PWA me cache clear).
+   (Pichhla build laga tha to iske upar hi extract kar dein.)
+
+TEST
+----
+
+  - My Record khol kar dekhein: period label aur uske saamne ka time dono 1
+    period piche hone chahiye (jaise 385 -> 11:54:15).
+  - Ek bet lagayein: label usi number par, time bhi 1 piche, aur result us
+    period ke timer 0 hone ke baad hi.
+
+DATABASE
+--------
+
+Koi naya column nahi. Koi SQL chalane ki zarurat nahi.
+
+ROLLBACK
+--------
+
+  saas_lottery/bootstrap.php
+  saas_lottery/bootstrap_live_v4.php
+  draw-live-v4/index.php
+  assets/js/useLottery.hook-_2rEnQ4S.js
+  assets/js/useWinGo3-5zV6kUzs.js
+
+(Setting 0 karne se display + time dono live ho jaate hain; ya pichhla build
+ dobara extract kar lein.)
