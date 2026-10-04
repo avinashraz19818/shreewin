@@ -1968,6 +1968,7 @@ function api_set_default_settings(PDO $pdo): void
         'recharge_enabled' => '1',
         'withdraw_enabled' => '1',
         'settlement_mode' => 'auto',
+        'instant_result' => '1',
         'use_snapshot_history' => '0',
         'force_local_api' => '1',
         'block_enabled' => '1',
@@ -3845,6 +3846,7 @@ function api_lottery_place_bet(string $endpoint, array $input): array
         }
         $stmt = $pdo->prepare("INSERT INTO lottery_bets (order_no, user_id, game_code, lottery_code, issue_number, amount, bet_multiple, bet_count, stake_amount, bet_content, status, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', CURRENT_TIMESTAMP)");
         $stmt->execute([$orderNo, $user['id'], $gameCode, api_lottery_code_from_game($gameCode), $issue, $amount, $multiple, count($contents), $stake, api_json_value($contents)]);
+        $betId = (int) $pdo->lastInsertId();
         $pdo->commit();
     } catch (Throwable $e) {
         if ($pdo->inTransaction()) {
@@ -3854,7 +3856,25 @@ function api_lottery_place_bet(string $endpoint, array $input): array
     }
 
     api_audit('lottery_bet', $orderNo, ['gameCode' => $gameCode, 'issueNumber' => $issue, 'stake' => $stake, 'content' => $contents]);
-    return api_lottery_success([
+
+    // The round the client shows is already finished upstream (the issue list runs
+    // one period behind), so its result is known the moment the bet is placed.
+    // Declare win / loss right away instead of making the player wait a period.
+    $settled = null;
+    if (!empty($betId) && api_setting_bool('instant_result', true)) {
+        try {
+            $stmt = $pdo->prepare("SELECT * FROM lottery_bets WHERE id = ? LIMIT 1");
+            $stmt->execute([$betId]);
+            $row = $stmt->fetch();
+            if (is_array($row)) {
+                $settled = api_lottery_settle_bet($row, true);
+            }
+        } catch (Throwable $e) {
+            $settled = null;
+        }
+    }
+
+    $payload = [
         'orderNo' => $orderNo,
         'balance' => api_lottery_current_balance((int) $user['id']),
         'issueNumber' => $issue,
@@ -3863,7 +3883,17 @@ function api_lottery_place_bet(string $endpoint, array $input): array
         'betMultiple' => $multiple,
         'betAmount' => $stake,
         'state' => 1,
-    ]);
+    ];
+    if (is_array($settled)) {
+        $status = (string) ($settled['status'] ?? 'pending');
+        $payload['resultStatus'] = $status;
+        $payload['isPending'] = $status === 'pending';
+        $payload['isWin'] = $status === 'won';
+        $payload['winAmount'] = (float) ($settled['win_amount'] ?? 0);
+        $payload['profitAmount'] = (float) ($settled['profit_amount'] ?? 0);
+        $payload['result'] = (string) ($settled['result_premium'] ?? '');
+    }
+    return api_lottery_success($payload);
 }
 
 function api_lottery_game_from_issue(string $issueNumber): ?string
@@ -3906,7 +3936,7 @@ function api_lottery_issue_closed(string $gameCode, string $issueNumber): bool
     return strcmp($issueNumber, $current) < 0;
 }
 
-function api_lottery_settle_bet(array $bet): array
+function api_lottery_settle_bet(array $bet, bool $force = false): array
 {
     if (($bet['status'] ?? '') !== 'pending') {
         return $bet;
@@ -3917,7 +3947,7 @@ function api_lottery_settle_bet(array $bet): array
     }
 
     $gameCode = (string) $bet['game_code'];
-    if (!api_lottery_issue_closed($gameCode, (string) $bet['issue_number'])) {
+    if (!$force && !api_lottery_issue_closed($gameCode, (string) $bet['issue_number'])) {
         $bet['status'] = 'pending';
         $bet['win_amount'] = (float) ($bet['win_amount'] ?? 0);
         $bet['profit_amount'] = 0.0;
@@ -4107,7 +4137,8 @@ function api_lottery_win_loss_payload(array $input): array
         return api_lottery_success(['status' => false, 'isPending' => false, 'state' => 'none', 'winAmount' => 0.0]);
     }
 
-    if (($bet['status'] ?? '') === 'pending' && !api_lottery_issue_closed((string) $bet['game_code'], (string) $bet['issue_number'])) {
+    $instant = api_setting_bool('instant_result', true);
+    if (($bet['status'] ?? '') === 'pending' && !$instant && !api_lottery_issue_closed((string) $bet['game_code'], (string) $bet['issue_number'])) {
         return api_lottery_success([
             'status' => false,
             'isPending' => true,
@@ -4121,7 +4152,7 @@ function api_lottery_win_loss_payload(array $input): array
         ]);
     }
 
-    $bet = api_lottery_settle_bet($bet);
+    $bet = api_lottery_settle_bet($bet, $instant);
 
     return api_lottery_success([
         'status' => ((string) $bet['status']) === 'won',

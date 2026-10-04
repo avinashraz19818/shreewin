@@ -78,10 +78,29 @@ IS EK ZIP ME SHURU SE ABHI TAK KE SAARE FIX (round-wise)
     credit sahi lagega
 
 
+■ ROUND 13 (NAYA — isi zip me add): BET LAGATE HI WIN / LOSS RESULT
+  * Ab bet lagte hi turant result declare ho jaata hai — jeeta ya haara,
+    dono ka popup foran aa jaata hai. 1 period ka wait khatam.
+  * Kyun sahi hai: site ki period list upstream se 1 period piche chalti
+    hai, matlab tum jis round par bet laga rahe ho uska result pehle hi
+    nikal chuka hota hai — isliye intezaar karne ka koi matlab nahi tha.
+  * Paisa ab bet lagte hi theek ho jaata hai: jeetne par winning amount
+    turant balance me add, haarne par sirf bet ki amount kat-ti hai.
+  * "My Records" me koi bet "Pending" nahi atak-ta — sab settled dikhte
+    hain (state 0 = haara, 1 = jeeta).
+  * Admin ke settlement modes (Force Win / Force Loss / Auto Hedge) jaise
+    the waise hi kaam karte hain — bas result ab foran milta hai.
+  * Chahe to purana behaviour wapas pa sakte ho: database ki
+    `api_settings` table me `instant_result` = 0 kar do.
+  * WinGo, TrxWinGo, K3, 5D, MotoRace — sabhi games par ye kaam karta
+    hai (sab ek hi shared code use karte hain).
+
+
 ====================================================================
 IS ZIP ME KYA HAI
 ====================================================================
-* 53 changed + 1 naya file (admin panel, api engine, WinGo chunk)
+* 54 changed + 1 naya file (admin panel, api engine, WinGo chunk,
+  shared game code)
 * README.md — round-wise poori technical detail + test list
 * changes.diff — poori diff (is zip ke saath verify kiya gaya hai)
 * Koi database file ZIP me NAHI hai — tumhara data 100% safe rehta hai.
@@ -101,7 +120,10 @@ EXTRACT KE BAAD 3 MINUTE KA FINAL CHECK
 6. Admin -> Recharges: ek deposit Approve karo -> user ke balance me turant
    add ho jaye (aur reject karne par withdraw ka paisa wapas aaye).
 7. Admin -> Agents -> kisi agent ko kholo: Total + Today's commission dikhe.
-8. Game / period / wager / result / record — pehle jaise hi chalte rahen
-   (inmein koi change nahi kiya gaya).
+8. Koi bhi game kholo (WinGo / K3 / 5D / MotoRace) aur ek bet lagao:
+   foran jeet/haar ka popup aaye, balance turant update ho, aur
+   My Records me wo bet settled (Pending nahi) dikhe.
+9. Period / countdown / result history / wager — pehle jaise hi chalte
+   rahenge (inmein koi change nahi kiya gaya).
 
 Koi dikkat ho to screenshot bhej dena — turant dekh lenge.

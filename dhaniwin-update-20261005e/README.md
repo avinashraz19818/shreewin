@@ -28,6 +28,8 @@ uploading.
 | 14 | ARB wallet balance always 0 | `Withdraw/GetArbWalletInfo.php` had lost its earlier fix (snapshot override + `balance => 0`) | live balance from the DB; still refused for snapshots |
 | 15 | Risk: an unrecognised status spelling (e.g. `1`) marked a deposit approved **without** crediting | status string compared literally | statuses normalised (`1`→Approved, `2`→Rejected, …) for deposits and withdrawals; refund on reject is verified too |
 | 16 | Risk: legacy order rows storing the public `user_id` could not be credited | lookup used the row id only | `api_wallet_find_user()` resolves either id |
+| 17 | **Bet placed → win/loss declared immediately** | settlement waited for `api_lottery_issue_closed()` even though the issue list deliberately runs one period behind upstream, so the round being bet on has *already* been drawn | `api_lottery_settle_bet()` gained a `force` flag; `api_lottery_place_bet()` settles the new bet right away and returns `resultStatus` / `isWin` / `winAmount` / `result`; `Lottery/GetWinLossResult` answers a decided result instead of "pending". The shared game composable now reacts to `mapBet.set(issue)` (what every game chunk does the instant a bet is accepted) by refreshing history and opening the win/loss popup — no waiting for the countdown |
+| 18 | Old "wait for the period" behaviour still reachable | — | set `instant_result = 0` in `api_settings` |
 
 Games, periods, wagers, results and records were not touched.
 
@@ -44,16 +46,37 @@ Games, periods, wagers, results and records were not touched.
 | `r11_interceptor_test.cjs` — WinGo chunk token | **4/4** |
 | `r13_agent_test.mjs` — agent today/total commission | pass |
 | `r12_probe.mjs` — money endpoints, snapshots `enabled=0` | pass |
+| `r15_instant_result.mjs` — bet → declared result, balance maths, records, force_win, legacy switch, 20 bets | **23/23** |
+| `r15_frontend_instant.mjs` — real shipped chunk in a VM: `mapBet.set()` → history → `GetWinLossResult` → popup | **12/12** (pristine build opens nothing, shipped build opens win and loss popups) |
 
 ## Files
 
-53 modified + 1 new (`admin/views/support-chat-modal.php`) = 54 source files:
+54 modified + 1 new (`admin/views/support-chat-modal.php`) = 55 source files:
 `admin/api.php`, `admin/index.php`, `admin/assets/js/admin-ajax.js`,
 `admin/views/sidebar.php`, `admin/views/support-chat-modal.php`,
 `admin/controllers/*` (9), `api/_bootstrap.php`, `api/_router.php`,
-`api/**` endpoints (37), `js/WingoSkeleton…CZJCWYiN.js`.
+`api/**` endpoints (37), `js/WingoSkeleton…CZJCWYiN.js`,
+`js/BetRule-DyIqbhnc.js` (the shared WinGo/K3/5D/MotoRace game composable).
 `changes.diff` applies cleanly to the fresh clone `a33a6d8`
 (`git apply -R changes.diff` reverts).
+
+## Instant result — how it works
+
+The issue list is deliberately one period behind upstream
+(`api_lottery_issue_data()` subtracts one interval), so the round the player is
+betting on has already been drawn. `api_lottery_place_bet()` therefore calls
+`api_lottery_settle_bet($row, true)` right after the insert: the result is
+fetched from `lottery_results` / the admin queue / the deterministic fallback,
+the bet is marked won or lost, the win is credited, agent commissions run, and
+the response carries `resultStatus`, `isWin`, `isPending`, `winAmount`,
+`profitAmount` and `result` next to the refreshed `balance`.
+
+On the client, every game chunk calls `mapBet.set(issueNumber, 1)` the moment a
+bet is accepted. The patched shared composable hooks that call: it refreshes the
+result history (so the popup has the drawn row) and then asks
+`Lottery/GetWinLossResult`, which now answers a decided result, so the win/loss
+popup opens straight away — WinGo, TrxWinGo, K3, 5D and MotoRace all share this
+one code path.
 
 ## Deploy notes
 
