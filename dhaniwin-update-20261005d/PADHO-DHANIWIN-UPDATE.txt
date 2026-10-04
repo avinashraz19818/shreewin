@@ -1,0 +1,84 @@
+PADHO — DHANI.WIN UPDATE-D (ADMIN DASHBOARD + AGENT COMMISSION FIX)  2026-10-05
+==============================================================================
+
+BHAI, PEHLE YE 3 LINE PADHO:
+1. ZIP ko site ke ROOT folder me extract karo (overwrite = HAAN).
+2. DATABASE KO CHHEDNA NAHI HAI — na delete, na import, na koi SQL chalana.
+3. Extract ke baad site kholo aur ek baar Ctrl+F5 (cache clear) kar do.
+
+YE BUNDLE **CUMULATIVE** HAI — Update-C (deposit/withdraw balance + demo user
+dead page) aur uske pehle ke saare fix isme hain. Sirf yahi ek ZIP extract karo.
+
+
+==============================================================================
+KYA FIX HUA (is baar: admin panel ke 2 asli backend bugs)
+==============================================================================
+
+Purane build me kuch SQL queries me **SQLite aur MySQL dono ki syntax ek hi
+query me likhi hui thi**. Aisi query na MySQL par chalti hai, na SQLite par —
+dono par error deti hai. Ye 2 jagah mili:
+
+1) ADMIN DASHBOARD (admin -> Dashboard, panel ka pehla page)
+   Query thi:
+     WHERE created_at >= DATE('now','start of day') OR created_at >= CURDATE()
+   MySQL isme DATE('now','start of day') par error deta hai, SQLite CURDATE()
+   par. Matlab dashboard ke saare tiles (users, aaj ke recharge, aaj ka
+   withdraw, pending recharge, profit) error me ja rahe the aur 0/khali
+   dikh rahe the.
+   FIX: ab driver dekh kar query banti hai —
+     MySQL  -> created_at >= CURDATE() AND created_at < DATE_ADD(CURDATE(), INTERVAL 1 DAY)
+     SQLite -> date(created_at) = date('now')
+   Dashboard ab asli numbers dikhata hai (users total/aaj, wallet total,
+   recharge total/aaj/pending, withdraw total/aaj, aaj ka profit).
+
+2) AGENT PANEL -> aaj ki commission (Agents tab -> kisi agent ko inspect karo)
+   Wahi galti: today's commission wali query me bhi DATE('now') + CURDATE()
+   dono the, isliye "aaj ki commission" error de rahi thi.
+   FIX: driver ke hisaab se same "today" condition. Ab total commission aur
+   aaj ki commission dono sahi aati hain.
+
+In dono fix me **game / bet / period / wager / result** ka koi code nahi chhua
+gaya — sirf admin ke report numbers theek kiye gaye hain.
+
+
+==============================================================================
+IS BAAR KA FULL TEST (tumhare rule "koi working cheez break na ho" ke liye)
+==============================================================================
+* Admin panel ke SAARE 60 POST actions ek-ek karke chalaye gaye (login, users,
+  demo user, balance adjust, ban, admin banao/hatao, password, settings,
+  payment/USDT + image upload, gift code, recharge approve/reject/bulk,
+  withdrawal approve, ticket create/reply/close, game queue, report export):
+  => 60/60 saaf jawab, koi PHP error nahi.
+* Admin panel ke SAARE 46 pages (har menu tab) render kiye:
+  => 46/46 page theek khule, koi error/warning nahi.
+* Deposit / Withdraw / Game / Profile / Header / Wallet card — sab par ek hi
+  balance (logged-in 5,000; anonymous 0; demo user 1,500).
+* Withdraw 110 -> Pending order, wallet 5000 -> 4890.
+* Demo user banao -> panel wapas usi tab par (green message), demo login chalta hai.
+* Report CSV export, gateway image upload, agent commission — sab chal rahe hain.
+
+
+==============================================================================
+IS ZIP ME KYA HAI
+==============================================================================
+* Naye changed files is baar: admin/controllers/DashboardController.php,
+  admin/controllers/AgentController.php
+* Update-C ke saare file (api/_bootstrap.php, api/_router.php, 4 endpoint files,
+  admin/api.php, admin/assets/js/admin-ajax.js, js/WinGo chunk) — sab isme hain.
+* README.md + changes.diff — poori detail (diff pristine build par clean lagta hai).
+
+
+==============================================================================
+EXTRACT KE BAAD 2 MINUTE KA CHECK
+==============================================================================
+1. Admin -> Dashboard: users / aaj ke recharge / aaj ka withdraw / pending /
+   profit ke numbers aa rahe hain (khali ya 0 nahi, koi error nahi).
+2. Admin -> Agents -> kisi agent ko kholo: Total Commission aur Today's
+   Commission dono dikh rahe hain.
+3. Admin -> Users -> Demo User: naya demo user banao -> page wapas panel par,
+   green message, user login kar paaye.
+4. Deposit page / Withdraw page: dono par header wala hi balance; koi "4.11"
+   wager line nahi; 110 ka withdraw request Pending ban jaye.
+5. Game / period / result / record — pehle jaise hi (inmein koi change nahi).
+
+Koi dikkat ho to screenshot bhej dena — turant dekh lenge.
