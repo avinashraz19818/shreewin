@@ -1,0 +1,63 @@
+PADHO — DHANIWIN BALANCE FIX (build 20261004)
+=============================================
+
+Kya fix hua (aapke 4 issue):
+  1) Admin panel se balance add karne par balance show nahi hota tha  -> FIX
+  2) Deposit accept karne ke baad balance add nahi hota tha           -> FIX
+  3) Registration par milne wala free Rs 4.45                          -> HATA DIYA
+  4) Wallet me dikh raha tha par game (WinGo) me nahi dikhta tha      -> FIX
+  + Wallet aur game dono me HAMESHA same balance (har jagah sync).
+  + Ab refresh / dobara login karne ki zarurat nahi - server live value deta hai.
+
+ASLI PROBLEM KYA THA (chhota summary):
+  * Purane database me `wallet_logs` table hi nahi thi, lekin har balance
+    change (admin add / deposit approve / withdraw refund) usi table me
+    entry likhne ki koshish karta tha. Entry fail -> poora transaction
+    rollback -> balance update bhi cancel. ISLIYE add karne par kuch nahi
+    hota tha.
+  * Balance 2 jagah rakha tha - `wallet_balance` (site wallet) aur
+    `game_balance` (WinGo). Dono kabhi sync nahi hote the.
+  * Wallet/balance endpoints purane "saved snapshot" (api_responses) se
+    jawab de rahe the - isliye site par hamesha wahi purana number (4.45 /
+    0.00) dikhta tha, chahe database me kuch bhi ho.
+  * Registration me `game_balance = 4.45` hardcoded tha.
+
+INSTALL (2 minute):
+  1) `dhaniwin-balance-fix-20261004.zip` download karo.
+  2) cPanel File Manager -> public_html me jao -> Upload -> zip upload karo
+     -> Extract. (Same folder structure hai, purani files overwrite ho
+     jayengi - bas yahi karna hai.)
+  3) ZIP me koi database file NAHI hai - aapka data 100% safe rahega.
+     Code pehli request par khud hi missing table/columns bana leta hai
+     (wallet_logs, agent_commissions, user_control, referrer_id, status…).
+  4) Test:
+     - Admin panel -> Users -> kisi user par "Adjust Balance" -> 100 add karo
+       -> wallet aur game dono me 100 badh jayega.
+     - Recharge list -> kisi deposit par Approve karo -> balance turant add
+       ho jayega (first deposit par 10% bonus bhi pehle jaisa).
+     - Naya user register karo -> balance 0/0 aayega (free Rs 4 nahi).
+
+ZAROORI BAAT:
+  * Purane accounts me jo Rs 4.45 free pada hai wo KAM NAHI hoga - kyunki
+    jis account me wallet aur game alag-alag the, unme dono ka JOD kar same
+    kar diya gaya hai (koi paisa nahi katta). Agar purane free Rs 4.45
+    hatana ho to batao, script bana dunga.
+  * Game / period / wager / issue / result / settlement ki logic bilkul
+    nahi chhedi - wo pehle jaisa hi chal raha hai.
+  * Agar aapki site MySQL use kar rahi hai to bhi yahi files kaafi hain -
+    wallet_logs table auto create ho jayegi.
+  * Agar site sqlite file use kar rahi hai to bhi safe hai - code usi file
+    me missing cheezein add kar deta hai, aapka data overwrite nahi hota.
+
+TEST REPORT (php-wasm + real SQLite par chalaya gaya):
+  - Admin wallet +100 .......: pehle FAIL (no such table: wallet_logs)
+                               ab SUCCESS, wallet=game=102.25
+  - Admin game +100 .........: pehle FAIL, ab SUCCESS (dono 102.25)
+  - Deposit Rs 500 Approve ..: pehle FAIL (order Pending reh gaya)
+                               ab SUCCESS, wallet=game=552.25 (+ Rs 50 bonus)
+  - Register .................: pehle game_balance 4.45, ab 0/0
+  - Bet Rs 1 -> 1.25 dono me, Settle (win 8.82) -> 11.07 dono me
+  - Naya DB / purana adhoora DB: dono par saari tables auto-create
+LINK aur poora detail README.md me hai.
+
+Koi bhi issue mile to screenshot ke saath batao - ek-ek karke theek kar dunga.
