@@ -78,7 +78,7 @@ function ut(a) {
         loop: !0,
         volume: 1,
         preload: !1
-    }) : null, I = L(!1), C = L(!1), b = L(!1), _ = L(), d = (function (m) { var s = m.set.bind(m); m.set = function (k, v) { var r = s(k, v); setTimeout(function () { var done = function () { try { Ae(); } catch (e) {} }; try { var p = B(); if (p && p.then) { p.then(done, done); } else { done(); } } catch (e) { done(); } }, 0); return r; }; return m; })(new Map), q = n(() => t.issue), j = n(() => t.issueData || {}), A = n(() => ({
+    }) : null, I = L(!1), C = L(!1), b = L(!1), _ = L(), d = new Map, q = n(() => t.issue), j = n(() => t.issueData || {}), A = n(() => ({
         interval: t.interval || 0,
         ...xe(t.countdown * 1e3)
     })), z = n(() => {
@@ -259,7 +259,7 @@ function ut(a) {
             const e = [...d.keys()].reverse();
             if (!e.length) return;
             const s = e[0];
-            if (E.value.findIndex(N => N.issueNumber === s) > 0) return d.clear();
+            if (E.value.length && E.value.findIndex(N => N.issueNumber === s) < 0) return d.clear();
             const {
                 result: i,
                 data: r

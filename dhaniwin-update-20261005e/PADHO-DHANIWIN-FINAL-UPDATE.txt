@@ -78,22 +78,28 @@ IS EK ZIP ME SHURU SE ABHI TAK KE SAARE FIX (round-wise)
     credit sahi lagega
 
 
-■ ROUND 13 (NAYA — isi zip me add): BET LAGATE HI WIN / LOSS RESULT
-  * Ab bet lagte hi turant result declare ho jaata hai — jeeta ya haara,
-    dono ka popup foran aa jaata hai. 1 period ka wait khatam.
+■ ROUND 13 (NAYA — isi zip me add): RESULT FORAN TAY, POPUP TIMER END PAR
+  * Result ab bet lagte hi **tay (declare)** ho jaata hai — par
+    **jeet/haar wala popup timer khatam hone ke baad hi aata hai**, bilkul
+    pehle jaisa. Popup ka timing ek second bhi nahi badla.
+  * Iska matlab: bet lagte hi haath me result aa gaya (aur paisa bhi turant
+    theek), bas dikhane wali animation/popup apne waqt par aati hai.
   * Kyun sahi hai: site ki period list upstream se 1 period piche chalti
     hai, matlab tum jis round par bet laga rahe ho uska result pehle hi
-    nikal chuka hota hai — isliye intezaar karne ka koi matlab nahi tha.
+    nikal chuka hota hai — isliye "pending" rakhne ka koi matlab nahi tha.
   * Paisa ab bet lagte hi theek ho jaata hai: jeetne par winning amount
     turant balance me add, haarne par sirf bet ki amount kat-ti hai.
   * "My Records" me koi bet "Pending" nahi atak-ta — sab settled dikhte
     hain (state 0 = haara, 1 = jeeta).
   * Admin ke settlement modes (Force Win / Force Loss / Auto Hedge) jaise
-    the waise hi kaam karte hain — bas result ab foran milta hai.
-  * Chahe to purana behaviour wapas pa sakte ho: database ki
-    `api_settings` table me `instant_result` = 0 kar do.
+    the waise hi kaam karte hain.
+  * Ek aur sudhar: agar bet period ke aakhri second me laga ho (jab popup
+    ka waqt nikal chuka ho), to wo popup agle period ke end par zaroor
+    aata hai — pehle wo kabhi nahi aata tha.
   * WinGo, TrxWinGo, K3, 5D, MotoRace — sabhi games par ye kaam karta
     hai (sab ek hi shared code use karte hain).
+  * Chahe to purana behaviour wapas pa sakte ho: database ki
+    `api_settings` table me `instant_result` = 0 kar do.
 
 
 ====================================================================
@@ -121,8 +127,9 @@ EXTRACT KE BAAD 3 MINUTE KA FINAL CHECK
    add ho jaye (aur reject karne par withdraw ka paisa wapas aaye).
 7. Admin -> Agents -> kisi agent ko kholo: Total + Today's commission dikhe.
 8. Koi bhi game kholo (WinGo / K3 / 5D / MotoRace) aur ek bet lagao:
-   foran jeet/haar ka popup aaye, balance turant update ho, aur
-   My Records me wo bet settled (Pending nahi) dikhe.
+   timer khatam hote hi jeet/haar ka popup aaye (pehle jaisa timing),
+   balance sahi update ho, aur My Records me wo bet settled
+   (Pending nahi) dikhe.
 9. Period / countdown / result history / wager — pehle jaise hi chalte
    rahenge (inmein koi change nahi kiya gaya).
 
