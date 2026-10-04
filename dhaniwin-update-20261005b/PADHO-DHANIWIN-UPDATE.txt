@@ -1,0 +1,65 @@
+PADHO — DHANI.WIN UPDATE-B (WINGO / GAME PAGE BALANCE FIX)  2026-10-05
+======================================================================
+
+BHAI, PEHLE YE 3 LINE PADHO:
+1. ZIP ko site ke ROOT folder me extract karo (overwrite = HAAN).
+2. DATABASE KO CHHEDNA NAHI HAI — na delete karna, na import karna.
+   (Purana DB pehli request par khud repair ho jaata hai.)
+3. Extract ke baad site kholo aur ek baar Ctrl+F5 (cache clear) kar do.
+
+======================================================================
+KYA FIX HUA (tumne screenshot bheja)
+======================================================================
+
+TUMNE DIKHAYA:
+  Profile par 5,200.00 sahi, home header par 5,200 sahi…
+  par WINGO / game page ke Wallet card par 0.00.
+
+ASLI PROBLEM:
+
+  Game page (WinGo, D5, TrxWinGo, Record, Trend) ka apna alag API client hai.
+  Woh apna token "ar_g_token" naam ki storage key me dhoondhta tha.
+  Is build me "ar_g_token" KABHI likha hi nahi jaata — poori site me ye naam
+  sirf ek baar aata hai (us key ke naam ki definition me, kisi write me nahi).
+
+  Isliye game page ki har request aisi jaati thi:
+
+        Authorization: Bearer null
+
+  Server ke liye "Bearer null" = koi login nahi = balance 0.00.
+  (Isi wajah se pehle game page par 33,46,295.47 jaisa GALAT number bhi
+  dikh raha tha — tab server bina token wali request ko chupke database ka
+  pehla user maan leta tha. Wo fallback round-10 me hata diya gaya tha,
+  isliye ab wahi request 0.00 dikha rahi thi. Galti token ki thi, isliye
+  fix bhi wahi kiya gaya — strictness wapas nahi laayi gayi.)
+
+AB KYA HOGA:
+
+* Game page par WAHI balance jo home header / profile / deposit / withdraw
+  par hai — sab jagah EK number.
+* Baki app ka client pehle se sahi `ar_token` use karta tha, isliye usme
+  koi change nahi kiya gaya — sirf game client ko wahi token dena sikhaya
+  gaya (1 file, 3 line).
+* Game / period / wager / result / record — SAB PEHLE JAISA.
+  Inme koi change nahi.
+
+======================================================================
+IS ZIP ME KYA HAI
+======================================================================
+* 1 naya file : js/WingoSkeleton.vue_vue_type_style_index_0_scoped_cd4f34e3_lang-CZJCWYiN.js
+                (WinGo balance fix)
+* Round-10 ke 48 files (purane balance + admin panel fixes) — ye bundle
+  CUMULATIVE hai, isliye agar pichhla bundle install nahi kiya ho to bhi
+  sab theek ho jayega.
+* README.md, changes.diff — detail ke liye.
+
+======================================================================
+EXTRACT KE BAAD CHECK KARNE WALI CHEEZEIN (2 minute)
+======================================================================
+1. Login -> WinGo page -> Wallet card par wahi balance jo header me hai.
+2. Ek chhota bet (10) lagao -> balance turant update ho, bet record me aaye.
+3. Home header, profile, deposit page, withdraw page — sab par same number.
+4. Admin -> Users -> Adjust Balance +1000 -> chaaron jagah +1000 dikhe.
+5. Game ke period / result / record — pehle jaise chalte rahen.
+
+Koi dikkat ho to screenshot bhej dena — turant dekh lenge.
