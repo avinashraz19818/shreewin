@@ -1,0 +1,92 @@
+PADHO — DHANI.WIN ADMIN PANEL FIX (2026-10-05)
+================================================
+
+BHAI, PEHLE YE 3 LINE PADHO:
+1. ZIP ko site ke ROOT folder me extract karo (overwrite = haan).
+2. DATABASE KO CHHEDNA NAHI HAI — na delete karna, na import karna.
+   (Purana DB khud repair ho jaata hai, pehli request par.)
+3. Extract ke baad /admin/ kholo aur login karo. Bas.
+
+------------------------------------------------
+KYA-KYA FIX HUA (jo tumne bola tha)
+------------------------------------------------
+
+1) "Bahut options par click karne se galat jagah (Settings) chale jaate hain"
+   FIX: Ab har option ka apna page hai. Ye sab tabs pehle khaali/placeholder the,
+   ab pura kaam karte hain:
+     - Add UPI, USDT Rate, Add USDT
+     - Add UPI Image, Add USDT Image
+     - UPI Withdraw, Withdraw Sent, Withdraw Reject
+     - Support: Deposit / Withdraw / IFSC / Bank / Game tickets
+     - Bonus Manage, Admin Password, Banned Users
+     - Demo User, Agent User
+   Menu me "System & API Settings" ek hi baar aata hai (duplicate hata diya).
+
+2) "Demo user create aasan hona chahiye"
+   FIX: Left menu me "Demo User" tab. Waha se:
+     - Username + password + demo balance daalo -> Create Demo User
+     - Neeche list me Reset Balance / Delete button
+   Ye user site par normal login kar sakta hai (demo paisa).
+
+3) "Gift Code generate se lekar user ke claim tak sab chalna chahiye"
+   FIX: Gift Code tab se code banao (code + amount + kitni baar).
+   - User site par redeem code daale -> paisa turant wallet + game dono me.
+   - Ek hi code dobara use nahi hoga, galat code reject hoga.
+   - Gift Code tab me "Redemption Log" bhi hai: kaun sa code kis user ne kab
+     redeem kiya, kitna mila — sab dikhega.
+
+4) "User management aur baaki sab features"
+   FIX:
+   - Users tab: balance adjust, target control, Ban / Unban button.
+   - Ban kiya hua user site par login nahi kar payega (pehle kar leta tha).
+   - Banned Users tab: block kiye hue users ki list + Unban.
+   - Deposit Update: approve karne par balance credit + first deposit bonus.
+   - Withdraw: Approve / Reject (reject par paisa user ko wapas).
+   - Add UPI / Add USDT: naya payment method + edit + delete.
+   - Add UPI Image / Add USDT Image: QR/logo upload (ya URL daalo) — wahi image
+     deposit page par dikhti hai.
+   - Support: 5 category ke ticket queue, chat me reply, ticket close.
+   - Admin Password: apna password + username/email change.
+   - Bonus Manage: first deposit bonus % / max, agent commission on-off.
+
+5) "Sirf UI nahi, backend bhi theek hona chahiye"
+   FIX + TEST: har action ka backend check kiya gaya aur test bhi kiya gaya:
+   - Purane database par naye tables/columns khud ban jaate hain
+     (pehle "no such column" error aata tha).
+   - USDT wallet add karte waqt SQL error aata tha -> fix.
+   - Plain HTML form submit karne par pehle kaccha JSON page par dikhta tha ->
+     ab wapas usi page par flash message ke saath aata hai.
+   - Site se aane wale ticket/message aur admin ke reply dono sync rehte hain.
+   - Game / period / wager ka code bilkul nahi chhua (jaisa tha waisa hai).
+
+------------------------------------------------
+INSTALL (cPanel) — 4 STEP
+------------------------------------------------
+1. ZIP download karo.
+2. cPanel File Manager -> site ke ROOT folder me Upload -> Extract (overwrite).
+3. /uploads folder ka permission 755/777 rakho (image upload ke liye).
+   (Agar permission nahi de sakte to "Or Image URL" wala box use karo.)
+4. /admin/ kholo -> login karo -> har tab check karo.
+
+NOTE: Database file / MySQL ko replace/import NAHI karna. Sirf files replace
+karni hain. Pehli request par code khud schema repair kar leta hai.
+
+------------------------------------------------
+TEST CHECKLIST (khud verify karo)
+------------------------------------------------
+[ ] Demo User banana -> site par login -> balance dikhna chahiye
+[ ] Users me Ban -> us user ka login block -> Unban
+[ ] Gift code banao -> site par redeem -> balance + Redemption Log entry
+[ ] Deposit Update -> Approve -> balance credit (+ bonus)
+[ ] UPI Withdraw -> Reject -> paisa wapas
+[ ] Add UPI / Add USDT -> site ke deposit page par method dikhe
+[ ] Add UPI Image -> deposit page par QR dikhe
+[ ] Support Deposit -> Chat -> reply -> user ko site par dikhe
+[ ] Admin Password change -> naye password se login
+[ ] Purana order/member data same dikhe (kuch delete nahi hota)
+
+------------------------------------------------
+SUPPORT
+------------------------------------------------
+Agar koi tab phir bhi khaali dikhe to page ko Ctrl+F5 se refresh karo
+(browser purani JS cache kar leta hai) — ya site ka cache clear karo.
