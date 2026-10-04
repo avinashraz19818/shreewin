@@ -1,0 +1,101 @@
+PADHO — DHANI.WIN UPDATE (ADMIN PANEL + BALANCE FIX)  2026-10-05
+================================================================
+
+BHAI, PEHLE YE 3 LINE PADHO:
+1. ZIP ko site ke ROOT folder me extract karo (overwrite = HAAN).
+2. DATABASE KO CHHEDNA NAHI HAI — na delete karna, na import karna.
+   (Purana DB pehli request par khud repair ho jaata hai.)
+3. Extract ke baad /admin/ kholo aur ek baar Ctrl+F5 (cache clear) kar do.
+
+================================================================
+PART 1 — BALANCE ISSUE (jo tumne abhi bataya)
+================================================================
+
+TUMNE KAHA:
+ "Naya ID banaya, Adjust Balance se 5000 dale, par balance har jagah
+  alag-alag dikh raha hai — home par 10,000, game page par 
+  33,46,295.47, profile par kuch aur."
+
+ASLI PROBLEM YAHI THI (3 alag source + 1 purana bug):
+
+1) Home header dono wallet rows ko JODTA tha
+   -> game wallet 5000 + platform wallet 5000 = 10,000 dikhta tha (double).
+
+2) Profile / wallet wala response me 'balance' key hi nahi bhejta tha
+   -> app 0 le leta tha.
+
+3) Game page alag endpoint se balance uthata tha (game wallet), isliye
+   teesra number dikhta tha.
+
+4) SABSE BADA BUG: jis request ke saath valid token nahi hota, server
+   chupke se DATABASE KA PEHLA USER (id=1) maan leta tha. Isi wajah se
+   purane/bade balance wale account ka paisa (jaise 33,46,295.47)
+   naye user ki screen par dikh raha tha.
+
+AB KYA HOGA:
+
+* Sab jagah EK hi number: game page, home header, profile, wallet,
+  deposit page, withdraw page — sab par wahi balance.
+* Kisi doosre user ka balance kabhi nahi dikhega. Token expired / galat
+  ho to yा 0 dikhega yा "Please login" — dusre ka paisa NAHI.
+* Bet / Withdraw / Deposit / Gift claim bina login refuse honge
+  (pehle ye chupke user id=1 ke account par likh dete the!).
+* Admin panel ka "Adjust Balance" dono column (wallet + game) ek saath
+  update karta hai — dobara mismatch nahi hoga.
+* Purane database ke bikhre hue balance khud merge ho jaate hain.
+
+TEST (kisi bhi naye ID ke saath):
+ 1. Admin -> Users -> naya ID banao / demo user banao.
+ 2. Adjust Balance se 5000 do.
+ 3. Home header, game page, profile, deposit page — sab par
+    exactly 5,000.00 dikhna chahiye.
+
+================================================================
+PART 2 — ADMIN PANEL KE JO ISSUES TUMNE BOLEN THE
+================================================================
+
+1) "Bahut options par click karne se galat jagah (Settings) chale jaate hain"
+   FIX: Ab har option ka apna page hai. Ye sab pehle khaali/placeholder the,
+   ab pura kaam karte hain:
+     - Add UPI, USDT Rate, Add USDT
+     - Add UPI Image, Add USDT Image
+     - UPI Withdraw, Withdraw Sent, Withdraw Reject
+     - Support: Deposit / Withdraw / IFSC / Bank / Game tickets
+     - Bonus Manage, Admin Password, Banned Users
+     - Demo User, Agent User
+   Menu me "System & API Settings" ek hi baar aata hai (duplicate hata diya).
+   Total 46 tabs — koi placeholder nahi bacha.
+
+2) "Demo user create aasan hona chahiye"
+   FIX: Left menu me "Demo User" tab. Waha se:
+     - Username + password + demo balance -> Create Demo User
+     - Neeche list me Reset Balance / Delete button
+   Ye user site par normal login kar sakta hai.
+
+3) "Gift code, claim, user management sab properly chale"
+   FIX:
+     - Gift code create -> user claim (chhote/bade letter dono chalte hain)
+       -> balance credit -> admin me Redemption Log.
+     - Duplicate / expired / galat code reject ho jaata hai.
+     - User management: create, edit, ban/unban, rate change, delete.
+
+4) "Sirf UI nahi, backend bhi fix karo"
+   FIX: Har tab ka backend action add kiya gaya (admin/api.php + controllers):
+     demo user create/list/delete/reset, agent user, banned users, UPI/USDT
+     methods + image upload, gift redemption log, support queue + ticket
+     create, payments list, admin password/profile, staff admin add/delete.
+
+5) "Koi existing kaam na toote"
+   FIX: Game / period / wager / result / record — SAB WAISA HI HAI.
+   Sirf wallet, admin panel aur support/gift flow ko chhua gaya.
+
+================================================================
+EXTRACT KE BAAD CHECK KARNE WALI CHEEZEIN (2 minute)
+================================================================
+1. /admin/ login -> har menu option kholo -> apna page khule.
+2. Demo User tab -> ek demo user banao -> site par login karke dekho.
+3. Users -> Adjust Balance +5000 -> home/game/profile — sab 5,000.
+4. Gift Code tab -> code banao -> site par claim karo -> balance badhe.
+5. Recharge/Withdraw -> approve/reject -> balance sahi update ho.
+
+Koi dikkat ho to screenshot bhej dena — turant dekh lenge.
