@@ -1,0 +1,107 @@
+PADHO — DHANI.WIN FINAL UPDATE (E) — SAB KUCH EK ZIP ME  2026-10-05
+====================================================================
+
+BHAI, YE **FINAL EK HI ZIP** HAI — isme shuru se abhi tak ke SAARE fix hain.
+Isko extract karne ke baad koi purana zip dobara install karne ki zarurat NAHI.
+
+PEHLE YE 3 LINE PADHO:
+1. ZIP ko site ke ROOT folder me extract karo (overwrite = HAAN).
+2. DATABASE KO CHHEDNA NAHI HAI — na delete, na import, na koi SQL chalana.
+   (Pehli request par code khud purana data theek kar leta hai.)
+3. Extract ke baad site kholo aur ek baar Ctrl+F5 (cache clear) kar do.
+
+
+====================================================================
+IS EK ZIP ME SHURU SE ABHI TAK KE SAARE FIX (round-wise)
+====================================================================
+
+■ ROUND 1-3: BALANCE / WALLET / DEPOSIT
+  * Admin panel se balance add karne par balance show nahi hota tha
+  * Deposit accept (Approve) karne ke baad balance add nahi hota tha
+  * Registration ka free ₹4.45 welcome balance hata diya (ab 0)
+  * Wallet aur game (WinGo) me alag-alag balance dikhta tha -> ab EK hi
+    balance, dono column same, aur 4 jagah (header, profile, deposit,
+    withdraw, game page) ek hi number
+  * Balance update ke baad dobara login karne ki zarurat nahi (server
+    ab saved snapshot nahi, seedha database se deta hai)
+  * Purane database me `wallet_logs` table nahi thi, isliye har balance
+    write chupke rollback ho jaata tha -> ab table khud ban jaati hai
+    aur log fail ho to bhi balance change hota hai
+  * Fresh install par PHP fatal (undefined $marker) -> theek
+
+■ ROUND 4-5: ADMIN PANEL
+  * Panel ke saare menu / button / page kaam karte hain
+  * Demo user banana + demo balance reset + demo login
+  * Gift code banao -> user claim kare (poora flow)
+  * Support ticket / chat view, sidebar, finance approve-reject
+
+■ ROUND 6-7: WINGO / GAME PAGE
+  * Game page ka Wallet card ₹0.00 dikhata tha (game client apna
+    `ar_g_token` dhoondta tha jo is build me kabhi likha hi nahi jaata
+    -> request `Bearer null` jaati thi). Ab game client wahi session
+    token (`ar_token`) use karta hai jo poori site use karti hai.
+  * Home header ka game balance bhi isi fix se sahi
+
+■ ROUND 8-9: DEPOSIT / WITHDRAW SCREEN KE ₹4 / ₹0 (tumhare screenshot)
+  * Deposit page par "Cash Balance ₹4" aa raha tha kyunki purane build
+    me money screens ka jawab database se nahi, ek SAVED snapshot
+    (`api_responses`) se aa raha tha jisme PlatForm = 4.45 likha tha.
+  * Withdraw page par "Withdrawable ₹0" + "Wager Required to Withdraw
+    ₹4.11" — wahi 4.11 gate button block kar raha tha.
+  * AB: recharge / withdraw / user-info / wallet / history / gift-code /
+    support / work-order — in SAARE endpoints ka jawab sirf database se
+    aata hai, aur unke purane saved snapshot hamesha ke liye OFF kar
+    diye gaye hain. Wager requirement 0 hai, isliye withdraw button
+    chalta hai aur Withdrawable me asli balance aata hai.
+
+■ ROUND 10: DEMO USER CREATE -> "This site can't be reached"
+  * Admin me demo user banate hi browser `/admin/api.php` par chala
+    jaata tha (jekar "This site can't be reached"). Ab panel ke saare
+    form background (AJAX) me submit hote hain, page wapas usi tab par
+    green message ke saath aata hai; server bhi api.php par redirect
+    nahi karta.
+
+■ ROUND 11: ADMIN DASHBOARD + AGENT COMMISSION (files ke andar ke bug)
+  * Dashboard ke saare tiles error me ja rahe the kyunki ek hi SQL query
+    me SQLite aur MySQL dono ki syntax mili thi (DATE('now') OR CURDATE())
+    — dono database par fail hoti hai. Ab driver dekh kar query banti hai.
+  * Agents tab me "Today's Commission" bhi usi galti se error de rahi thi.
+
+■ ROUND 12 (is zip ka final polish): MONEY SAFETY
+  * ARB wallet ka balance 0 hard-coded reh gaya tha -> ab asli balance
+  * Deposit approve / withdraw reject par balance credit-refund ab
+    **verify** hoke hota hai: agar paisa na hil sake to order approve
+    nahi hoga, admin ko saaf message milega (chup-chaap paisa gayab nahi)
+  * Status chahe "Approved" ho, "1" ho ya kisi aur spelling me — paisa
+    hamesha sahi move karega; reject par refund pakka wapas aata hai
+  * Agar kisi purane order me user ki public id store hui ho to bhi
+    credit sahi lagega
+
+
+====================================================================
+IS ZIP ME KYA HAI
+====================================================================
+* 53 changed + 1 naya file (admin panel, api engine, WinGo chunk)
+* README.md — round-wise poori technical detail + test list
+* changes.diff — poori diff (is zip ke saath verify kiya gaya hai)
+* Koi database file ZIP me NAHI hai — tumhara data 100% safe rehta hai.
+
+
+====================================================================
+EXTRACT KE BAAD 3 MINUTE KA FINAL CHECK
+====================================================================
+1. Header / profile / deposit / withdraw / WinGo — sab par EK hi balance.
+2. Deposit page: Cash Balance = header wala balance (₹4 jaisa kuch nahi).
+3. Withdraw page: Withdrawable = poora balance, wager ₹0, 110 ka request
+   bhejo -> "Pending" order ban jaye.
+4. Admin -> Dashboard: users / aaj ka recharge / aaj ka withdraw / pending /
+   profit ke numbers aa rahe hain.
+5. Admin -> Users -> Demo User: naya demo user banao -> page wapas panel
+   par green message ke saath; demo user login kar paaye.
+6. Admin -> Recharges: ek deposit Approve karo -> user ke balance me turant
+   add ho jaye (aur reject karne par withdraw ka paisa wapas aaye).
+7. Admin -> Agents -> kisi agent ko kholo: Total + Today's commission dikhe.
+8. Game / period / wager / result / record — pehle jaise hi chalte rahen
+   (inmein koi change nahi kiya gaya).
+
+Koi dikkat ho to screenshot bhej dena — turant dekh lenge.
