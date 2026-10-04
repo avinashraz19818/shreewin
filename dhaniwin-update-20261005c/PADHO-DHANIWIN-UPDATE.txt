@@ -1,0 +1,113 @@
+PADHO — DHANI.WIN UPDATE-C (DEPOSIT / WITHDRAW / DEMO USER FIX)  2026-10-05
+========================================================================
+
+BHAI, PEHLE YE 3 LINE PADHO:
+1. ZIP ko site ke ROOT folder me extract karo (overwrite = HAAN).
+2. DATABASE KO CHHEDNA NAHI HAI — na delete, na import, na koi SQL chalana.
+   (Pehli request par file khud purana data theek kar leti hai.)
+3. Extract ke baad site kholo aur ek baar Ctrl+F5 (cache clear) kar do.
+
+
+========================================================================
+1) DEPOSIT / WITHDRAW BALANCE  (₹4 / ₹0 wala scene)
+========================================================================
+
+TUMNE DIKHAYA:
+  * Deposit page par "Cash Balance ₹4" aur "Withdrawable ₹0".
+  * Withdraw page par Cash ₹44,982 par Withdrawable ₹0, aur neeche
+    "Wager Required to Withdraw: ₹4.11" — button block.
+  * Header / profile / game page par sahi balance.
+
+ASLI PROBLEM (2 galtiyan, dono is build ki shipped file me thi):
+
+  (a) Purane build me kuch screens ka jawab database se nahi, ek SAVED
+      "reference snapshot" (api_responses table) se aata tha. Us snapshot
+      me har player ke liye PlatForm wallet = 4.45 likha tha aur
+      amountCoding = 4.11. Isliye deposit page ka card har user ko
+      ₹4 dikhata tha, chahe uske paas 44,982 ho.
+      (Withdraw screen ka Cash header aapke asli balance se aa raha tha,
+      par card neeche ki "Withdrawable" value usi 4.11 gate se 0 ban jaati thi.)
+
+  (b) Wahi amountCoding = 4.11 "wager required" ban ke withdraw button ko
+      block kar raha tha. Ye 4.11 sach me koi wager nahi hai — purane build
+      ka seedha hua dummy number hai.
+
+AB KYA KIYA (server + files):
+
+  * api/_bootstrap.php me "live endpoints" ki ek list banayi gayi — recharge,
+    withdraw, user info, wallet, lottery/getbalance, recharge/withdraw
+    history, gift-code, support ticket aur work-order endpoints.
+    In sab ka jawab ab SIRF database se aata hai — koi saved snapshot nahi.
+  * api_get_override() ab in endpoints ke liye snapshot ko saaf saaf
+    REFUSE karta hai (pehle router to rok deta tha, par endpoint ki apni
+    file phir bhi snapshot serve kar deti thi — asli leak wahi thi).
+  * 4 endpoints ki files (Recharge/GetRechargeBasicInfo, User/GetUserInfo,
+    User/GetUserFinancialList, Withdraw/GetWithdrawBasicInfo) ab seedha
+    router se jawab leti hain + balance DB se.
+  * "Wager Required" ab ek setting hai: wager_required_amount = 0.
+    Server isko 0 hi rakhta hai, isliye screen par wager line dikhegi hi
+    nahi aur withdraw button chalta hai.
+  * Ek baar chalne wala auto-cleanup (koi manual DB kaam nahi):
+      - amount_coding ko 0 kar diya (jo 4.11 pada tha).
+      - in endpoints ke saved snapshots ko hamesha ke liye OFF kar diya.
+      - agar kisi user ke wallet/game do column me different paise hain to
+        wo ek hi balance me merge ho jaate hain (paisa na kam, na zyada).
+
+
+========================================================================
+2) DEMO USER CREATE => "THIS SITE CAN'T BE REACHED"  (admin/api.php)
+========================================================================
+
+TUMNE DIKHAYA:
+  Admin panel me demo user banao -> browser
+  https://dhaniwin.club9.eu.cc/admin/api.php par pahunch jata hai aur
+  "This site can't be reached" aa jata hai.
+
+ASLI PROBLEM:
+  Panel ka normal form POST api.php par jata tha aur server browser ko
+  wapas usi page (HTTP_REFERER) par bhej deta tha. Live host par
+  /admin/api.php browser me khulne wala URL nahi hai — isliye dead page.
+
+AB KYA KIYA:
+  * admin/assets/js/admin-ajax.js: panel ke SAARE api.php forms ab
+    background (AJAX) me submit hote hain -> page reload hota hai ->
+    wapas usi tab par (jaise "Demo User") green message ke saath.
+    Browser kabhi api.php par nahi jaata.
+  * admin/api.php: saath hi server side bhi theek —
+      - referer sirf tab use hota hai jab wahi host ho (warna apna
+        local /admin/?tab=... URL),
+      - redirect hamesha admin panel par, api.php par kabhi nahi,
+      - JSON fallback agar headers pehle se bheje ja chuke hon.
+  * Isliye plain HTML form post (bina JavaScript) bhi ab admin par wapas
+    aata hai — dead page dono rasto se khatam.
+
+
+========================================================================
+IS ZIP ME KYA HAI
+========================================================================
+* Naye changed files: api/_bootstrap.php, api/_router.php,
+  api/Recharge/GetRechargeBasicInfo.php, api/User/GetUserInfo.php,
+  api/User/GetUserFinancialList.php, api/Withdraw/GetWithdrawBasicInfo.php,
+  admin/api.php, admin/assets/js/admin-ajax.js,
+  js/WingoSkeleton...CZJCWYiN.js (round-11 ka WinGo fix).
+* YEH BUNDLE CUMULATIVE HAI — round-9 / 10 / 11 ke saare fix isme hain
+  (admin panel, balance ek jagah, WinGo page balance).
+  Purana bundle install na kiya ho to bhi sab theek ho jayega.
+* README.md + changes.diff — poori detail (diff pristine build par clean
+  apply hota hai).
+
+
+========================================================================
+EXTRACT KE BAAD 2 MINUTE KA CHECK
+========================================================================
+1. Deposit page -> Cash Balance aur Withdrawable DONEY = header wala
+   balance (₹4 / ₹0 nahi). Neeche koi "4.11" wager line nahi.
+2. Withdraw page -> Withdrawable wahi balance, wager 0, 110 ka chhota
+   withdraw request bhejo -> "Pending" order ban jaye.
+3. Admin panel -> Users -> Demo User -> naya demo user banao (balance ke
+   saath) -> page wapas panel par aaye, green message, user login kar paaye.
+4. Game page (WinGo) ka Wallet card = header / profile ka balance.
+5. Game / period / wager / result / record — pehle jaise hi (inmein
+   koi change NAHI kiya gaya).
+
+Koi dikkat ho to screenshot bhej dena — turant dekh lenge.
