@@ -1,0 +1,104 @@
+RAXIWIN UPDATE - 04-10-2026  (build 20261004c)
+==============================================
+
+AB PERIOD BHI PICHE AUR RESULT BHI PICHE
+----------------------------------------
+
+Pichhle build me period (label) 1 piche ho gaya tha, lekin uske saamne wala
+number naya wala lag raha tha (jaise "377 -> 1" jabki 1 asli 378 ka draw tha).
+Ab wo bhi theek hai:
+
+  * Har row apne hi number ka result dikhati hai (377 -> 377 ka apna draw).
+  * Aur sabse naya result tab tak dikhaya nahi jata jab tak us period ka
+    countdown app me khatam na ho jaye - yani poori list 1 period piche.
+
+MAP (samajhne ke liye)
+----------------------
+
+  provider/asli haalat   : 341 chal raha hai, 340 ka draw ho chuka hai
+  app ka header / bet     : 340   (1 piche)
+  app ki list ka top row  : 339 + usi ka apna result (340 abhi chhupa hua hai)
+  jab app ka countdown 0  : header 341 ho jata hai, list me 340 apne result
+                            ke saath aa jata hai
+
+Isliye: header = list ke top se 1 aage (jaise aapke screenshot me 334/333 tha),
+bas dono numbers provider se 1 piche rehte hain.
+
+BET PAR KYA ASAR
+----------------
+
+  - Bet usi label par lagti hai jo screen par dikhta hai (record me bhi wahi).
+  - Us period ka result uske countdown 0 hone ke baad hi dikhta hai/settle
+    hota hai (bet lagate hi win/loss NAHI).
+  - Aur jo result settle hota hai, wahi list me us period ke saamne dikhta hai
+    - dono kabhi alag nahi honge.
+
+SWITCH (zarurat pade to)
+------------------------
+
+  table: saas_lottery_settings
+     raxiwin_period_label_offset = -1  -> default: 1 period piche (ye build)
+     raxiwin_period_label_offset =  0  -> live/current (jaisa purana build)
+
+SWITCH PALATNE PAR DISPLAY AUR SETTLEMENT DONO SAATH BADALTE HAIN, isliye
+mismatch nahi hoga. (Setting badalne ke baad page reload kar lein.)
+
+EK DHYAN DENE WALI BAAT
+-----------------------
+
+Is mode me app ka feed jaan-bujh kar 1 period late hota hai. Agar koi player
+kisi doosri site/feed se compare karke us period ka result pehle dekh le, to wo
+apne bet ka nateeja pehle jaan sakta hai. App khud kabhi jaldi reveal nahi
+karta; ye sirf bahar ki information se mumkin hai.
+
+PEHLE SE MAUJOOD FIX (wahi hai)
+-------------------------------
+
+  - Bet par tax / service charge (stake ka 2%) record me aata hai.
+  - Bet lagate hi win/loss nahi; period ke timer khatam hone par hi.
+  - Chal raha period timer se pehle kabhi list me nahi aata.
+
+FILES
+-----
+
+  saas_lottery/bootstrap.php            (engine: /api/Lottery/*, draw/)
+  saas_lottery/bootstrap_live_v4.php    (engine: /api-live-v4/*, /draw-live-v4/*)
+  draw-live-v4/index.php                (public feed: running period + history)
+  assets/js/useLottery.hook-_2rEnQ4S.js (client: issue label + countdown)
+  assets/js/useWinGo3-5zV6kUzs.js       (client: bet + win/loss + history)
+
+Sara kaam SERVER par hai - purane/cached client par bhi yahi chalega.
+
+UPLOAD (cPanel)
+---------------
+
+1. File Manager > site root (jahan index.html aur saas_lottery folder hai).
+2. ZIP upload > right click > Extract > Overwrite/Replace.
+3. Page Ctrl+F5 (mobile/PWA me cache clear).
+   (Pichhla build laga tha to iske upar hi extract kar dein.)
+
+TEST
+----
+
+  - Header ka number apne doosre app se 1 piche dikhega.
+  - List me upar wale row ka result uske apne period ka hoga (aur sabse naya
+    result 1 period baad aayega).
+  - Ek bet lagayein: bet usi number par, aur result us period ka timer 0 hone
+    ke baad hi - aur wahi result list me bhi milega.
+
+DATABASE
+--------
+
+Koi naya column nahi. Koi SQL chalane ki zarurat nahi.
+
+ROLLBACK
+--------
+
+  saas_lottery/bootstrap.php
+  saas_lottery/bootstrap_live_v4.php
+  draw-live-v4/index.php
+  assets/js/useLottery.hook-_2rEnQ4S.js
+  assets/js/useWinGo3-5zV6kUzs.js
+
+(Color switch 0 karne se turant live behaviour; ya pichhla build dobara
+ extract kar lein.)
