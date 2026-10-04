@@ -41,6 +41,8 @@ $liveEndpoints = [
     'thirdgame/recoversaasbalance',
     'thirdgame/notifyargamerecover',
     'thirdgame/transfer',
+    'lottery/getbalance',
+    'lottery/getuserinfo',
     'recharge/getrechargebasicinfo',
     'withdraw/getwithdrawbasicinfo',
     'withdraw/getarbwalletinfo',

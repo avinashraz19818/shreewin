@@ -985,10 +985,10 @@ index 0431b03..8fbaa26 100644
      }
      if ($e === 'game/gethotgamelist') {
 diff --git a/api/_router.php b/api/_router.php
-index 1dc227c..4434c56 100644
+index 1dc227c..f41da6d 100644
 --- a/api/_router.php
 +++ b/api/_router.php
-@@ -28,15 +28,34 @@ if (function_exists('lottery_upstream_handle_endpoint')) {
+@@ -28,15 +28,36 @@ if (function_exists('lottery_upstream_handle_endpoint')) {
      }
  }
  
@@ -1012,6 +1012,8 @@ index 1dc227c..4434c56 100644
 +    'thirdgame/recoversaasbalance',
 +    'thirdgame/notifyargamerecover',
 +    'thirdgame/transfer',
++    'lottery/getbalance',
++    'lottery/getuserinfo',
 +    'recharge/getrechargebasicinfo',
 +    'withdraw/getwithdrawbasicinfo',
 +    'withdraw/getarbwalletinfo',

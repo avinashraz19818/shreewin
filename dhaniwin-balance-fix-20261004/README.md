@@ -71,7 +71,8 @@ nahi, seedha database se value deta hai).
   `User/GetUserInfo`, `User/GetUserFinancialList`, `Home/CheckCanBet`,
   `ThirdGame/GetARGameBalance`, `ThirdGame/GetARGameAndPlatWallets`,
   `ThirdGame/RecoverSaasBalance`, `ThirdGame/NotifyARGameRecover`,
-  `ThirdGame/Transfer`, `Recharge/GetRechargeBasicInfo`,
+  `ThirdGame/Transfer`, `Lottery/GetBalance`, `Lottery/GetUserInfo`,
+  `Recharge/GetRechargeBasicInfo`,
   `Withdraw/GetWithdrawBasicInfo`, `Withdraw/GetArbWalletInfo`.
   (Baaki 52 endpoints ke recorded responses waise hi chalte hain.)
 - **Physical endpoint files** — `User/GetUserInfo.php`,
@@ -100,6 +101,7 @@ nahi, seedha database se value deta hai).
 | Wallet vs game | wallet 2.25 / game 0 | ✅ dono 2.25 |
 | `GET /api/User/GetUserInfo` (router) | snapshot: `walletBalance: 0` | ✅ live `2.25` |
 | `POST /api/ThirdGame/GetARGameAndPlatWallets` | snapshot: ARGame 4.45 / PlatForm 0 | ✅ live dono 2.25 |
+| `GET /api/Lottery/GetBalance` (WinGo tab) | live, lekin sirf game column | ✅ live `2.25` (wallet ke barabar) |
 | `POST /api/ThirdGame/GetARGameBalance` | bare `0` (site padhti hai `data.arGameBalance` → 0) | ✅ `{arGameBalance: 2.25, balance: 2.25}` |
 | Bet ₹1 (WinGo 1M) | game 2.25 → (game only) | ✅ wallet=game=1.25 (dono se) |
 | Settle winning bet | credit sirf game me | ✅ wallet=game=11.07 (dono me 8.82 credit) |
