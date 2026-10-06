@@ -1,0 +1,126 @@
+=====================================================================
+  maanwin — LOGIN FIX  (purana local backend wapas)
+  07-Oct-2026
+=====================================================================
+
+PROBLEM KYA THI
+---------------
+Naye build (maan1) ki .htaccess me ye rule hai:
+
+    RewriteRule ^api(/.*)?$ api_proxy.php
+
+matlab har /api/Controller/Action  (Login, Register, UserInfo, Bet ...)
+seedha https://maanwin16.com ko forward ho jata hai.
+
+Aapka local MySQL (table: users, column: password_hash, bcrypt)
+check hi nahi hota. Isliye KOI BHI purana account login nahi ho raha tha.
+
+Admin isliye chal raha tha kyunki /admin1/ sidha local DB se juda hai.
+
+
+FIX KYA HAI
+-----------
+Ye package purana local backend (api/_router.php) wapas lata hai:
+
+  * Login / Register / Wallet / Bet / Withdraw  -> AAPKA MySQL
+  * Period (WinGo issue number + result)        -> AAPKA MySQL
+  * Jo endpoint local me nahi hai              -> maanwin16.com (purana behaviour)
+
+Period aur bet DONO ek hi source se aate hain, isliye
+bet hamesha sahi period par lagega aur settlement theek hoga.
+
+NOTE: Purane build me 217 endpoints the. Naye frontend ke
+169 endpoints me se 139 wahin handle hote hain — jaise
+/Home/Login, /Home/Register, /User/GetUserInfo, sabhi
+Lottery, Withdraw, Recharge, Activity, WorkOrder.
+
+
+=====================================================================
+  INSTALL — 3 MINUTE
+=====================================================================
+
+1. cPanel -> File Manager -> public_html
+
+2. Is ZIP ko public_html ke ANDAR extract karo
+   (koi extra folder nahi — "Overwrite existing files" = YES)
+
+   Extract hone ke baad ye files jagah par honi chahiye:
+
+       public_html/api/_router.php          (nayi)
+       public_html/api_proxy.php            (replace)
+       public_html/local_draw.php           (nayi)
+       public_html/webapi_proxy.php         (replace)
+       public_html/lottery_draw_proxy.php   (replace)
+       public_html/lottery_issue_proxy.php  (replace)
+
+3. LiteSpeed Cache -> Purge All
+
+4. App / browser me Clear Data, phir site kholo aur login karo.
+
+Purane accounts (bcrypt hash wale) ab login honge.
+
+
+=====================================================================
+  BADLAV JO DIKHEGA  (important)
+=====================================================================
+
+* PERIOD NUMBER BADLEGA — purani wali style me aa jayega
+  (jaise 20261006100010649). Ye BILKUL WAISA hai jaisa aapki
+  site pehle chalti thi, aur dhaniwin se match karta hai.
+
+* Game list / third-party games ab local DB se aayenge.
+  Agar koi game list khali dikhe to batana — us endpoint ko
+  upstream par bhej denge.
+
+* ADMIN PANEL ab bhi:  https://maanwin.club9.eu.cc/admin1/
+  (/admin kaam nahi karta — naye build me wo rule nahi hai)
+
+
+=====================================================================
+  SETTING  (agar badalni ho)
+=====================================================================
+
+public_html/api_proxy.php  ki line ~22:
+
+    define('AR_LOCAL_BACKEND', true);
+
+    true   = local DB pehle   (DEFAULT — purani site jaisa)
+    false  = sirf maanwin16.com  (naye build jaisa, rollback)
+
+public_html/local_draw.php  mein:
+
+    define('AR_PERIOD_OFFSET', 0);
+
+    0  = current period  (DEFAULT — purani site jaisa)
+    1  = ek period piche
+
+Ek number badalna hai, bas. File delete karne ki zarurat nahi.
+
+
+=====================================================================
+  CHECK KARO (install ke baad)
+=====================================================================
+
+https://maanwin.club9.eu.cc/webapi/kv/issue/WinGo_30S
+    -> JSON, issueNumber "20261006..." (5 digit, jaise 10649)
+
+https://maanwin.club9.eu.cc/WinGo/WinGo_30S.json
+    -> JSON
+
+https://maanwin.club9.eu.cc/admin1/
+    -> Dhani Win Admin Login
+
+Phir site par jaakar purana account login karo.
+
+
+=====================================================================
+  AGAR KUCH GALAT HO
+=====================================================================
+
+Site kharab ho jaye to bas ek kaam:
+
+    api_proxy.php, webapi_proxy.php, lottery_draw_proxy.php
+    mein  AR_LOCAL_BACKEND  ko  false  kar do
+
+Site turant purane (naye build wale) behaviour par aa jayegi.
+Koi file delete karne ki zarurat nahi.
