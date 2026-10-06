@@ -1,0 +1,65 @@
+=========================================================================
+MAANWIN — CLOCK / ICON IMAGE DEFAULT HO GAYI THI — FIX
+=========================================================================
+Date: 2026-10-06
+
+
+ASLI WAJAH
+-------------------------------------------------------------------------
+WinGo game ke upar "Wingo 30sec / 1M" ke paas wala **clock icon** default
+(khaali) dikh raha tha.
+
+Us icon ki file server par **KHALI** mili:
+
+    https://maanwin.club9.eu.cc/js/icon_clock_line-N3fzD4lL.js
+
+    server par :  const o=` `; export{o as default};      <- khaali!
+    repo me    :  const o=`<svg viewBox="0 0 30 30">...`;  <- poora clock SVG (526 bytes)
+
+Matlab upload ke waqt is file ka SVG content丢失 ho gaya tha (truncate /
+corrupt). Isliye icon ki jagah default aa raha tha.
+
+Ye mainne nahi hataya — tumhare server par file hi khaali chadhi hui thi.
+
+
+FIX
+-------------------------------------------------------------------------
+Is zip me repo ke **SAARE 158 icon files** hain (poore SVG ke saath):
+
+    js/icon_*.js
+
+Upload karne se jo bhi icon file server par khaali / corrupt hai, wo theek
+ho jayegi — clock icon ke saath saath baaki sab icons bhi.
+
+
+KAISE LAGAYE
+-------------------------------------------------------------------------
+STEP 1: Zip extract karo.
+
+STEP 2: Server ke ROOT me `js/` folder upload karo
+        (public_html/js/ ) — overwrite = HAAN.
+
+        Sirf `js/` folder chadhana hai, baaki kuch nahi.
+        Ye 158 files hain, baaki existing js files ko chhera nahi jayega.
+
+STEP 3: Ctrl+F5 (cache clear) aur WinGo page kholo.
+        Clock icon wapas aa jayega.
+
+        Agar app me bhi dekhna hai to app ka data bhi clear kar do:
+        Settings -> Apps -> <app> -> Storage -> Clear Data
+
+
+VERIFY
+-------------------------------------------------------------------------
+Browser me ye kholo:
+
+    https://maanwin.club9.eu.cc/js/icon_clock_line-N3fzD4lL.js
+
+Usme `<svg` aur `viewBox="0 0 30 30"` dikhe -> theek hai.
+Agar `const o=\`\`;` sirf itna dikhe -> abhi bhi purani file hai.
+
+
+FILES
+-------------------------------------------------------------------------
+  js/icon_*.js     158 files (saare icons, poore SVG ke saath)
+  PADHO-ICONS.txt  ye file
