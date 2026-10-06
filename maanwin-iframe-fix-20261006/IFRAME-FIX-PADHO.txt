@@ -1,0 +1,106 @@
+=========================================================================
+X-FRAME-OPTIONS HATAANE KA FIX — maanwin (WebView / iframe)
+=========================================================================
+Date: 2026-10-06
+
+
+ASLI WAJAH KYA THI
+-------------------------------------------------------------------------
+Repo ki `.htaccess` me ye line thi (line 74):
+
+    Header always set X-Frame-Options "SAMEORIGIN"
+
+Isi wajah se server har page ke saath `X-Frame-Options: SAMEORIGIN` bhejta
+tha aur tumhara app (WebView/iframe) page load nahi kar paata tha.
+
+
+KYA BADLA
+-------------------------------------------------------------------------
+1) `.htaccess` me wo line hatakar ye 3 line laga di:
+
+       Header always unset X-Frame-Options
+       Header unset X-Frame-Options
+       Header always set Content-Security-Policy "frame-ancestors *"
+
+   - `Header always unset` -> header bilkul hata deta hai (LiteSpeed/Apache dono)
+   - `Content-Security-Policy: frame-ancestors *` -> modern browsers me
+     X-Frame-Options ko override karta hai, sabse reliable tareeka
+   - Baaki security headers (nosniff, referrer-policy, permissions-policy)
+     jaisi thi waisi hi hain — sirf XFO hata hai
+
+2) `index.php` me bhi PHP level par backup:
+
+       header_remove('X-Frame-Options');
+       header('Content-Security-Policy: frame-ancestors *', true);
+
+   Ye tab kaam aata hai jab server config se .htaccess override na ho paaye.
+
+
+KAISE LAGAYE — 2 STEP
+-------------------------------------------------------------------------
+STEP 1: Is zip ko extract karo.
+
+STEP 2: Server ke ROOT folder (public_html / domain ka docroot) me upload karo:
+
+            .htaccess     <-- SABSE ZAROORI
+            index.php     <-- backup fix
+
+        Overwrite = HAAN.
+
+STEP 3: Verify karo (terminal me):
+
+            curl -sI "https://maanwin.club9.eu.cc/" | grep -i x-frame
+
+        -> KUCH NAHI AANA CHAHIYE  ✓
+
+        Aur CSP check karo:
+
+            curl -sI "https://maanwin.club9.eu.cc/" | grep -i content-security
+
+        -> Content-Security-Policy: frame-ancestors *   aana chahiye  ✓
+
+STEP 4: Browser cache clear karo (Ctrl+F5) aur app me page kholo.
+
+
+SAARE MIRROR SUBDOMAINS PE KARNA HAI
+-------------------------------------------------------------------------
+Har mirror ka apna docroot hota hai, isliye HAR SUBDOMAIN ke root folder me
+ye 2 file upload karni padengi:
+
+    maanwin.club9.eu.cc     -> uske public_html me
+    (doosre mirror)         -> unke public_html me
+
+Agar sab mirrors ek hi cPanel account ke andar alag-alag folder hain, to
+har folder me `.htaccess` copy kar do.
+
+Agar kisi mirror pe Addon Domain hai to uska path kuch aisa hoga:
+    public_html/
+    public_html/mirror2/
+    public_html/mirror3/
+
+Har ek me `.htaccess` + `index.php` upload karo.
+
+
+AGAR PHIR BHI NA CHALE
+-------------------------------------------------------------------------
+1) LiteSpeed cache chal raha ho to cache clear karo:
+   cPanel -> LiteSpeed Web Cache Manager -> Purge All
+
+2) Cloudflare use kar rahe ho to:
+   Cloudflare -> Caching -> Purge Everything
+   (Cloudflare khud X-Frame-Options add kar sakta hai)
+
+3) Server level (vhost) par XFO set ho to .htaccess se override nahi hota.
+   Tab hosting provider se kehna:
+       "Please remove X-Frame-Options from my vhost config"
+   Ya cPanel -> MultiPHP INI Editor / Apache Configuration me set karo.
+
+4) Check karo header kahan se aa raha hai:
+       curl -sI "https://maanwin.club9.eu.cc/" | head -30
+
+
+FILES IS ZIP ME
+-------------------------------------------------------------------------
+  .htaccess    X-Frame-Options hata diya + CSP frame-ancestors *
+  index.php    PHP level backup fix (saath me game-history fix bhi hai)
+  IFRAME-FIX-PADHO.txt   ye file

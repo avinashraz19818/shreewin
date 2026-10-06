@@ -1,0 +1,190 @@
+# ==============================
+# 13L / Vue SPA + File Based API
+# Put this file in: public_html/.htaccess
+# ==============================
+
+Options -Indexes
+DirectoryIndex index.php index.html
+RewriteEngine On
+
+# Canonical hardened admin URL
+RewriteRule ^admin$ admin/ [R=302,L]
+RewriteRule ^admin/?$ admin1/index.php [QSA,L]
+RewriteRule ^admin/(.*)$ admin1/$1 [QSA,L]
+
+# Never expose configuration, SQL, logs, internal services or maintenance tools.
+RewriteRule ^api/_core/ - [F,L,NC]
+RewriteRule ^(?:database.*\.sql|error_log|.*\.log|.*\.zip|\.env.*)$ - [F,L,NC]
+RewriteRule ^(?:turntable_doctor|download_missing_assets|scratch[^/]*|api/check)\.php$ - [F,L,NC]
+RewriteRule ^(?:cron6|license-local|js/file_count|api/(?:fix|set|hello)|pay/wepay)\.php$ - [F,L,NC]
+RewriteRule ^install/ - [F,L,NC]
+RewriteRule ^install\.php$ - [F,L,NC]
+
+# All extensionless API calls go through the central authenticated router.
+# The router can still read bundled JSON/PHP fixtures for unhandled read-only paths.
+RewriteCond %{REQUEST_URI} ^/api/[^.?]+/?$ [NC]
+RewriteRule ^api/(.+?)/?$ api/_router.php?path=$1 [QSA,L]
+
+# Pass Bearer Authorization header to PHP on cPanel/Apache
+SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+RewriteCond %{HTTP:Authorization} .
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+# ------------------------------
+# Dynamic local lottery issue/json routes
+# ------------------------------
+# Works for both app builds: /webapi/kv/issue/... and /webapi/v/issue/...
+RewriteRule ^webapi/(kv|v)/issue/([^/]+)$ api/_draw_router.php?gameCode=$2 [QSA,L]
+RewriteRule ^(WinGo|K3|D5|MotoRace|TrxWinGo)/(.+\.json)$ api/_draw_router.php?path=$1/$2 [QSA,L]
+
+
+# ------------------------------
+# Force HTTPS
+# ------------------------------
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L,NE]
+
+# ------------------------------
+# Remove index.html / index.php from URL
+# ------------------------------
+RewriteCond %{THE_REQUEST} \s/+(.*/)?index\.(html?|php)[\s?] [NC]
+RewriteRule ^(.*/)?index\.(html?|php)$ /$1 [R=301,L,NE]
+
+# ------------------------------
+# MIME types for JS/CSS/fonts/manifest
+# ------------------------------
+<IfModule mime_module>
+  AddType application/javascript .js .mjs
+  AddType text/css .css
+  AddType application/json .json
+  AddType application/manifest+json .webmanifest
+  AddType font/woff2 .woff2
+  AddType font/woff .woff
+  AddType font/ttf .ttf
+  AddType font/otf .otf
+  AddType image/svg+xml .svg
+  AddType application/wasm .wasm
+</IfModule>
+
+# ------------------------------
+# CORS for fonts
+# ------------------------------
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  # X-Frame-Options HATA DIYA — app ke WebView/iframe me load hone ke liye.
+  # Iski jagah CSP frame-ancestors use hota hai (ye XFO ko override karta hai).
+  Header always unset X-Frame-Options
+  Header unset X-Frame-Options
+  Header always set Content-Security-Policy "frame-ancestors *"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+  <FilesMatch "\.(woff2|woff|ttf|otf|eot)$">
+    Header set Access-Control-Allow-Origin "*"
+  </FilesMatch>
+</IfModule>
+
+# ------------------------------
+# Clear old PWA/browser cache quickly while testing
+# ------------------------------
+<IfModule mod_headers.c>
+  <FilesMatch "\.(js|css)$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </FilesMatch>
+</IfModule>
+
+# ------------------------------
+# API and service worker no-cache
+# ------------------------------
+<IfModule mod_headers.c>
+  <FilesMatch "^(pwa-sw|ar-sw|sw|service-worker)\.js$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </FilesMatch>
+
+  <FilesMatch "^(version|themes).*\.(json)$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </FilesMatch>
+</IfModule>
+
+# ------------------------------
+# WorkOrder API extensionless support (for builds that call /WorkOrder/... without /api)
+# ------------------------------
+RewriteCond %{REQUEST_URI} ^/WorkOrder/ [NC]
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.+)$ $1.php [L]
+
+RewriteCond %{REQUEST_URI} ^/WorkOrder/ [NC]
+RewriteRule ^WorkOrder/(.*)$ /api/_router.php?path=WorkOrder/$1 [QSA,L]
+
+# ------------------------------
+# Existing real files/folders direct load
+# Example: /js/index.js, /css/index.css, /assets/img.webp
+# ------------------------------
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# ------------------------------
+# File-based API extensionless support
+# Example:
+# /api/Home/HomeBasic -> /api/Home/HomeBasic.php
+# /api/Home/GetHomeAllGameList -> /api/Home/GetHomeAllGameList.html
+# IMPORTANT: ye SPA fallback se upar hona chahiye
+# ------------------------------
+RewriteCond %{REQUEST_URI} ^/api/ [NC]
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.+)$ $1.php [L]
+
+RewriteCond %{REQUEST_URI} ^/api/ [NC]
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.+)$ $1.html [L]
+
+
+# /webapi/v/config.js fallback to /webapi/kv/config.js when a build asks v instead of kv
+RewriteRule ^webapi/v/config\.js$ webapi/kv/config.js [QSA,L]
+RewriteRule ^webapi/v/firebaseConfig\.js$ webapi/kv/firebaseConfig.js [QSA,L]
+
+# ------------------------------
+# webapi extensionless support
+# Example:
+# /webapi/kv/config -> /webapi/kv/config.js
+# ------------------------------
+RewriteCond %{REQUEST_URI} ^/webapi/ [NC]
+RewriteCond %{REQUEST_FILENAME}.js -f
+RewriteRule ^(.+)$ $1.js [L]
+
+RewriteCond %{REQUEST_URI} ^/webapi/ [NC]
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.+)$ $1.html [L]
+
+
+
+# ------------------------------
+# Missing static assets ko index.html mat do. The package ships deterministic
+# local compatibility aliases for every asset referenced by the active build.
+# ------------------------------
+RewriteRule \.(css|js|mjs|map|json|png|jpg|jpeg|gif|webp|svg|ico|woff2?|ttf|otf|eot|wasm|mp4|webm|mp3|wav)$ - [R=404,L,NC]
+
+# ------------------------------
+# Missing API endpoint -> JSON router (prevents frontend 404)
+# ------------------------------
+RewriteCond %{REQUEST_URI} ^/api/ [NC]
+RewriteRule ^api/(.*)$ /api/_router.php?path=$1 [QSA,L]
+
+# ------------------------------
+# SPA fallback
+# Vue route: /home /login /register /mine etc.
+# ------------------------------
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [L]
+
+# ------------------------------
+# Simple 404
+# ------------------------------
+ErrorDocument 404 "404 Not Found"
