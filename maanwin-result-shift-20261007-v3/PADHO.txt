@@ -1,0 +1,81 @@
+=====================================================================
+  maanwin — PERIOD + RESULT DONO 1 PICHE   (v3 — CLIENT SIDE)
+=====================================================================
+
+YE v1/v2 SE ALAAG KYOON HAI
+---------------------------
+v1 aur v2 SERVER (PHP) me shift karte the. Live measurement se prove
+hua ki wo install/lagoo hi nahi hue:
+
+  62 period pehle draw raw = 52574
+  aaj  draw raw hone chahiye = 52574 + 62 = 52636
+  aapki site par mila        = 52636     <-- SHIFT ZERO
+
+Isliye ab shift BROWSER (index.html) me hai.
+index.html entry point hai -> har baar fresh load hota hai,
+koi PHP cache / proxy route ka jhanjhat nahi.
+
+
+KYA BADLEGA
+-----------
+  period   <- /webapi/kv/issue/*     -> -1
+  period   <- /lottery-draw/*.json   -> -1
+  RESULT   <- GetHistoryIssuePage    -> -1     <-- YAHI FIX HAI
+
+  Ab "631 ka result 630 me" NAHI dikhega.
+  Result bhi period ke saath 1 piche ho jayega.
+
+  Time / countdown / startTime BILKUL nahi badalte.
+
+
+=====================================================================
+  INSTALL — 1 MINUTE
+=====================================================================
+1. Is ZIP ko public_html ke ANDAR extract karo (Overwrite = YES)
+
+2. LiteSpeed -> Purge All      (ZAROORI)
+
+3. Browser / app me Clear Data
+   (index.html purana cache na ho, isliye)
+
+4. Site kholo
+
+
+=====================================================================
+  VERIFY — 20 SECOND ME
+=====================================================================
+Site kholo -> F12 dabao -> Console tab
+
+Wahan ye line dikhegi:
+        [period-shift] active, N=-1
+
+Agar ye NAHI dikhe => index.html purana chal raha hai
+                      (Purge All + Clear Data dobara karo)
+
+
+=====================================================================
+  SETTING
+=====================================================================
+index.html kholo, upar shim me 4th line:
+
+            var N = -1;
+
+    -1  -> period + result dono 1 piche   (DEFAULT)
+     0  -> band
+    -2  -> 2 piche
+
+
+=====================================================================
+  SERVER FILES (double-shift rokne ke liye)
+=====================================================================
+  period_shift.php         -> AR_PERIOD_SHIFT = 0  (server band)
+  webapi_proxy.php         -> maan1 ORIGINAL (koi shift nahi)
+  lottery_draw_proxy.php   -> maan1 ORIGINAL (koi shift nahi)
+
+  Yani ab shift SIRF browser me hota hai -> double shift nahi hoga.
+
+
+=====================================================================
+  ROLLBACK
+=====================================================================
+index.html me  var N = -1;   ko   var N = 0;   kar do.
