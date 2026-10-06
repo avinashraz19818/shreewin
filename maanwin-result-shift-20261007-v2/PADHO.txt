@@ -1,0 +1,90 @@
+=====================================================================
+  maanwin — PERIOD AUR RESULT DONO 1 PICHE   (v2)
+=====================================================================
+
+PEHLE YE CHECK KARO — INSTALL HUA YA NAHI
+-----------------------------------------
+cPanel File Manager -> public_html
+
+  period_shift.php         2,439 bytes   -> HONA CHAHIYE (nayi file)
+  lottery_draw_proxy.php   4,149 bytes   -> (purani 3,380 thi)
+  webapi_proxy.php         4,509 bytes   -> (purani 3,874 thi)
+
+Agar ye sizes nahi hain => extract nahi hua / purani file hi hai.
+Dobara extract karo (Overwrite = YES) aur LiteSpeed -> Purge All.
+
+
+KYA PROBLEM THI (measurement se prove)
+--------------------------------------
+Ek hi waqt par:
+
+  maanwin16.com (upstream)              -> 52618
+  aapki site /lottery-draw/...json      -> 52618   <-- SHIFT NAHI (raw)
+  aapki site /webapi/kv/issue/...       -> 52616   <-- SHIFT -1
+
+Isliye:
+  period  <- /webapi/kv/issue/*   -> 52616   (1 piche)
+  result  <- /lottery-draw/*.json -> 52617+  (raw)
+  => RESULT PERIOD SE 1 AAGE DIKHTA THA.
+
+Frontend (index.html ke rewriteLotteryDraw) .json requests ko
+/lottery-draw/... par modta hai -> wohi shift ka asar jagah hai.
+
+
+IS v2 ME KYA HAI
+----------------
+  period_shift.php         -> shift helper (AR_PERIOD_SHIFT = -1)
+  lottery_draw_proxy.php   -> /lottery-draw/* period+result, draw source + SHIFT
+  lottery_issue_proxy.php  -> /{Lottery}/*.json, draw source + SHIFT
+  webapi_proxy.php         -> /webapi/kv/issue/* , DRAW source pehle
+                              (fail ho to maanwin16.com fallback) + SHIFT
+  .htaccess                -> /{Lottery}/*.json routes
+
+  AB PERIOD AUR RESULT DONO EK HI SOURCE SE AUR DONO 1 PICHE.
+
+
+=====================================================================
+  INSTALL
+=====================================================================
+1. Is ZIP ko public_html ke ANDAR extract karo (Overwrite = YES)
+2. LiteSpeed -> Purge All        (ZAROORI)
+3. App / browser -> Clear Data
+4. Site kholo
+
+
+=====================================================================
+  VERIFY KAISE KAREN (khud check kar lo)
+=====================================================================
+Ek hi waqt par ye do link browser me kholo:
+
+  A) https://maanwin16.com/webapi/kv/issue/WinGo_30S
+  B) https://maanwin.club9.eu.cc/webapi/kv/issue/WinGo_30S
+
+  B ka number = A se 1 KAM hona chahiye.
+
+Aur ye:
+  C) https://maanwin.club9.eu.cc/lottery-draw/WinGo/WinGo_30S.json
+  D) https://maanwin.club9.eu.cc/lottery-draw/WinGo/WinGo_30S/GetHistoryIssuePage.json
+
+  C me "current.issueNumber" aur D ki list ka pehla "issueNumber"
+  ab EK HI SEQUENCE me honge (pehle result 1 aage tha).
+
+
+=====================================================================
+  SETTING
+=====================================================================
+period_shift.php  mein:
+
+    define('AR_PERIOD_SHIFT', -1);
+
+    -1  -> period + result dono 1 piche   (DEFAULT)
+     0  -> shift band (rollback)
+    -2  -> 2 piche
+
+Bas ek number. File delete karne ki zarurat nahi.
+
+
+=====================================================================
+  ROLLBACK
+=====================================================================
+AR_PERIOD_SHIFT ko 0 kar do  ->  shift band, baaki sab jaise tha
