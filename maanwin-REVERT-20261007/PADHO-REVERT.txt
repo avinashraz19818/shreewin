@@ -1,0 +1,38 @@
+=====================================================================
+  maanwin — REVERT  (login-fix wapas, purani state)
+=====================================================================
+
+TARIKA 1 — 30 SECOND (sabse fast, kuch upload nahi karna)
+----------------------------------------------------------
+cPanel File Manager -> public_html me jaakar ye DO FILES DELETE karo:
+
+    1)  public_html/local_draw.php
+    2)  public_html/api/_router.php
+
+BAS. Itna karte hi sab kuch wapas purane (upstream) behaviour par
+aa jayega — kyunki naye files in dono ke maujood hone par hi chalate hain.
+
+Phir: LiteSpeed -> Purge All, aur app me Clear Data.
+
+
+TARIKA 2 — CLEAN REVERT (ye ZIP)
+---------------------------------
+Is ZIP ko public_html ke ANDAR extract karo (Overwrite = YES).
+
+Ye 4 files unke ORIGINAL (maan1) version par wapas aa jayengi:
+    api_proxy.php
+    webapi_proxy.php
+    lottery_draw_proxy.php
+    lottery_issue_proxy.php
+
+Upar ke 2 delete bhi kar do:
+    local_draw.php
+    api/_router.php
+
+Phir: LiteSpeed -> Purge All, Clear Data.
+
+
+VERIFY
+------
+https://maanwin.club9.eu.cc/webapi/kv/issue/WinGo_30S
+    -> JSON aana chahiye, issueNumber ...52489 type (upstream wala)
