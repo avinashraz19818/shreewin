@@ -1,0 +1,111 @@
+PADHO — MAANWIN WINGO UPDATE — EK HI ZIP  2026-10-06
+================================================
+
+BHAI, YE **EK HI ZIP** HAI — isme WinGo game ke saare fix hain.
+Isko extract karne ke baad koi aur zip install karne ki zarurat NAHI.
+
+PEHLE YE 3 LINE PADHO:
+1. ZIP ko site ke ROOT folder me extract karo (overwrite = HAAN).
+2. DATABASE KO CHHEDNA NAHI HAI — na delete, na import, na koi SQL chalana.
+   (Pehli request par code khud purana data theek kar leta hai.)
+3. Extract ke baad site kholo aur ek baar Ctrl+F5 (cache clear) kar do.
+
+
+================================================
+ISS ZIP ME KYA FIX HUA
+================================================
+
+■ 1. PERIOD / ISSUE AB EK LINE ME HAI  ("ek period piche" wala masla)
+  Pehle game jis round par bet lagata tha aur result list me sabse upar
+  jo round dikhta tha, wo DONO ALAG-ALAG the. Result list hamesha ek
+  period aage chalti thi, isliye lagta tha ki:
+      * abhi bet lagaya -> par result kisi aur period ka dikh raha hai
+      * jeet/har ka popup galat time par aata tha
+      * "My Records" me bet pending hi rehta tha
+
+  AB:
+      * `Lottery/GetGameIssue` jis round ka issue deta hai (jis par aap
+        bet lagate ho) -> WO HI round ab result list ki SABSE UPARI
+        line me hai.
+      * Ye sab jagah sync hai: game page ki result list, trend
+        (GetTrendStatistics), admin ki result history, aur public JSON
+        history (`/WinGo/WinGo_30S/GetHistoryIssuePage.json`).
+      * Countdown / timer / period ki length me KOI BADLAV NAHI —
+        WinGo 30S/1M/3M/5M, TrxWinGo, K3, 5D, MotoRace sab apne-apne
+        hi interval par chalte hain.
+
+  Test me check kiya: 8 alag-alag games ke liye
+      "active issue == result list ki pehli line"  -> SAB OK
+
+■ 2. BET LAGATE HI JEET / HAAR DECLARE  (dhaniwin wala behaviour)
+  Round piche chal raha hai, isliye us round ka result pehle hi tay
+  ho chuka hota hai. Isliye ab:
+      * bet lagte hi server usi waqt result decide kar deta hai
+      * paise usi waqt settle ho jaate hain (jeet = credit, haar = debit)
+      * `GetWinLossResult` ab "pending" nahi lautaata, seedha jeet/haar
+      * `My Records` me bet turant Win/Loss dikhta hai, Pending nahi
+
+  POPUP KA TIME WAHI HAI: game client pehle se hi jeet/haar ka popup
+  countdown khatam hone par dikhata hai (timer 1 sec bachne par result
+  animation, uske ~2-3 sec baad popup). Is build me usko chhuna nahi
+  gaya — popup ab bhi TIMER END ke baad hi aayega. Sirf result ab
+  pehle hi tay rehta hai, to popup me "Pending" kabhi nahi aaega.
+
+■ 3. ADMIN ME "IMMEDIATE SETTLEMENT" WALA CHECKBOX AB KAAM KARTA HAI
+  Pehle ye checkbox bas dikhta tha — uska koi asar nahi tha.
+  Ab ye sach me instant jeet/haar ko ON/OFF karta hai:
+      * ticked  -> bet lagte hi result (DEFAULT: ON)
+      * untick  -> purana behaviour (result round khatam hone par)
+  Admin > WinGo panel > "WinGo / lottery engine settings" me hai.
+  Save karne ke baad Ctrl+F5 kar lena.
+
+■ 4. ADMIN KE FORCE WIN / FORCE LOSE AB BHI KAAM KARTE HAIN
+  Instant result ke saath ek dikkat thi: result list pehle ban jaati
+  thi, uske baad bet aata tha — to admin ka Force Win/Lose miss ho
+  jaata. Isko theek kiya: settle karte waqt bhi force mode check hota
+  hai, to Force Win -> hamesha jeet, Force Lose -> hamesha haar.
+  Test: dono mode me check kiya -> OK
+
+■ 5. KOI AUR CHEEZ NAHI CHHERI
+  Balance, deposit, withdraw, agent commission, recharge wheel,
+  wager, gift code, support ticket — kuch nahi chhera.
+  Sirf WinGo/lottery ka period alignment + settlement time badla hai.
+
+
+================================================
+KAISE LAGAYE (2 MINUTE)
+================================================
+1. Is zip ko download karo.
+2. Site ke ROOT folder me extract karo (jahan index.php hai).
+   "Overwrite / Replace all" -> HAAN.
+3. Database ko mat chhero.
+4. Site kholo, Ctrl+F5.
+5. WinGo kholo, ek bet lagao ->
+      * result list ki upar wali line = wahi period jisme bet laga
+      * bet lagte hi record me Win/Loss aa jaega
+      * popup timer khatam hone par aayega
+
+
+================================================
+AGAR KOI DIKKAT DIKHE
+================================================
+* Bet Pending hi rahe -> Admin > WinGo panel me jaakar
+  "Immediate settlement when eligible" ko TICK karke Save karo.
+* Result list purani lag rahi ho -> Ctrl+F5 (cache).
+* Admin panel login ke baad "This site can't be reached" ->
+  browser ka URL check karo, `/admin1/` par hona chahiye.
+
+
+================================================
+FILES IS ZIP ME (6)
+================================================
+  api/_core/lottery_engine.php    period/issue alignment + instant settlement
+  api/_core/bootstrap.php         active issue ab result list ke saath match
+  api/_router.php                 result list, trend, bet, win/loss
+  api/_draw_router.php            public JSON history bhi same line me
+  admin1/actions.php              Immediate settlement checkbox ab kaam karta hai
+  admin1/index.php                checkbox ab current state dikhata hai
+
+Database me koi naya table / column nahi add hua.
+`settings` table me bas ek key likhi jaati hai
+(`lottery_instant_result`) — wo khud ban jaati hai.

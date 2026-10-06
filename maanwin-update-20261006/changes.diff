@@ -1,0 +1,253 @@
+diff --git a/admin1/actions.php b/admin1/actions.php
+index 4d41d01..d61648a 100644
+--- a/admin1/actions.php
++++ b/admin1/actions.php
+@@ -224,7 +224,11 @@ function dw_admin_handle_post(mysqli $conn, array $admin, array $permissions): v
+             $pn=max(0,(float)($_POST['payout_number']??9));$pc=max(0,(float)($_POST['payout_color']??2));$pv=max(0,(float)($_POST['payout_violet']??4.5));$pb=max(0,(float)($_POST['payout_bigsmall']??2));$pk=max(0,(float)($_POST['payout_k3']??2));$p5=max(0,(float)($_POST['payout_5d']??9.5));$pm=max(0,(float)($_POST['payout_moto']??9.5));$instant=isset($_POST['immediate_settle'])?1:0;
+             $stmt=$conn->prepare("INSERT INTO lottery_game_settings(game_code,win_rate,force_mode,force_result,fee_percent,payout_number,payout_color,payout_violet,payout_bigsmall,payout_k3,payout_5d,payout_moto,immediate_settle,updated_at) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,NOW()) ON DUPLICATE KEY UPDATE win_rate=VALUES(win_rate),force_mode=VALUES(force_mode),force_result=VALUES(force_result),fee_percent=VALUES(fee_percent),payout_number=VALUES(payout_number),payout_color=VALUES(payout_color),payout_violet=VALUES(payout_violet),payout_bigsmall=VALUES(payout_bigsmall),payout_k3=VALUES(payout_k3),payout_5d=VALUES(payout_5d),payout_moto=VALUES(payout_moto),immediate_settle=VALUES(immediate_settle),updated_at=NOW()");
+             $stmt->bind_param('sdssddddddddi',$game,$win,$mode,$force,$fee,$pn,$pc,$pv,$pb,$pk,$p5,$pm,$instant);$stmt->execute();
+-            dw_admin_audit($conn,$admin,'lottery_setting_save','lottery_setting',0,['gameCode'=>$game,'forceMode'=>$mode,'forceResult'=>$force]);
++            // the "Immediate settlement" checkbox now really controls the instant win/loss declaration
++            $instantVal=$instant?'1':'0';
++            $stmt2=$conn->prepare("INSERT INTO settings(setting_key,setting_value) VALUES('lottery_instant_result',?) ON DUPLICATE KEY UPDATE setting_value=VALUES(setting_value)");
++            if($stmt2){$stmt2->bind_param('s',$instantVal);$stmt2->execute();}
++            dw_admin_audit($conn,$admin,'lottery_setting_save','lottery_setting',0,['gameCode'=>$game,'forceMode'=>$mode,'forceResult'=>$force,'instant'=>$instant]);
+             dw_flash('success','WinGo/lottery controls saved.');
+             break;
+         }
+diff --git a/admin1/index.php b/admin1/index.php
+index 295b1ef..02b6f12 100644
+--- a/admin1/index.php
++++ b/admin1/index.php
+@@ -265,7 +265,7 @@ $flash=dw_take_flash();
+    </section>
+    <div class="total-bets"><span>TOTAL BETS · <?=dw_h($issueControl)?></span><strong>₹<?=dw_money($issueBetTotal)?></strong></div>
+    <section class="panel"><div class="panel-head"><h2>Manual History</h2><span class="badge"><?=count($manualRows)?> selections</span></div><div class="table-wrap"><table class="table compact"><thead><tr><th>Result / selection</th><th>Bets</th><th>Users</th><th>Pay</th></tr></thead><tbody><?php if(!$manualRows):?><tr><td colspan="4" class="empty">No bets in this live issue yet.</td></tr><?php else:foreach($manualRows as $r):?><tr><td><strong><?=dw_h($r['bet_content'])?></strong></td><td><?=number_format((int)$r['bet_count'])?></td><td><?=number_format((int)$r['users'])?></td><td>₹<?=dw_money($r['pay'])?></td></tr><?php endforeach;endif;?></tbody></table></div></section>
+-   <div class="split"><section class="panel"><div class="panel-head"><h2>WinGo / lottery engine settings</h2></div><div class="panel-body"><form method="post" class="form-grid"><?php dw_meta('wingo')?><input type="hidden" name="action" value="lottery_setting_save"><div class="field"><label>Game code (* = default)</label><input class="input" name="game_code" value="*"></div><div class="field"><label>Force mode</label><select name="force_mode"><option>auto</option><option>win</option><option>lose</option></select></div><div class="field"><label>Forced result (blank=random)</label><input class="input" name="force_result"></div><div class="field"><label>Win rate %</label><input class="input" type="number" step=".01" name="win_rate" value="45"></div><div class="field"><label>Fee %</label><input class="input" type="number" step=".01" name="fee_percent" value="0"></div><div class="field"><label>Number payout</label><input class="input" type="number" step=".01" name="payout_number" value="9"></div><div class="field"><label>Color payout</label><input class="input" type="number" step=".01" name="payout_color" value="2"></div><div class="field"><label>Violet payout</label><input class="input" type="number" step=".01" name="payout_violet" value="4.5"></div><div class="field"><label>Big/small payout</label><input class="input" type="number" step=".01" name="payout_bigsmall" value="2"></div><div class="field"><label>K3 payout</label><input class="input" type="number" step=".01" name="payout_k3" value="2"></div><div class="field"><label>5D payout</label><input class="input" type="number" step=".01" name="payout_5d" value="9.5"></div><div class="field"><label>Moto payout</label><input class="input" type="number" step=".01" name="payout_moto" value="9.5"></div><label class="check wide"><input type="checkbox" name="immediate_settle"> Immediate settlement when eligible</label><button class="btn primary">Save engine setting</button></form></div></section>
++   <div class="split"><section class="panel"><div class="panel-head"><h2>WinGo / lottery engine settings</h2></div><div class="panel-body"><form method="post" class="form-grid"><?php dw_meta('wingo')?><input type="hidden" name="action" value="lottery_setting_save"><div class="field"><label>Game code (* = default)</label><input class="input" name="game_code" value="*"></div><div class="field"><label>Force mode</label><select name="force_mode"><option>auto</option><option>win</option><option>lose</option></select></div><div class="field"><label>Forced result (blank=random)</label><input class="input" name="force_result"></div><div class="field"><label>Win rate %</label><input class="input" type="number" step=".01" name="win_rate" value="45"></div><div class="field"><label>Fee %</label><input class="input" type="number" step=".01" name="fee_percent" value="0"></div><div class="field"><label>Number payout</label><input class="input" type="number" step=".01" name="payout_number" value="9"></div><div class="field"><label>Color payout</label><input class="input" type="number" step=".01" name="payout_color" value="2"></div><div class="field"><label>Violet payout</label><input class="input" type="number" step=".01" name="payout_violet" value="4.5"></div><div class="field"><label>Big/small payout</label><input class="input" type="number" step=".01" name="payout_bigsmall" value="2"></div><div class="field"><label>K3 payout</label><input class="input" type="number" step=".01" name="payout_k3" value="2"></div><div class="field"><label>5D payout</label><input class="input" type="number" step=".01" name="payout_5d" value="9.5"></div><div class="field"><label>Moto payout</label><input class="input" type="number" step=".01" name="payout_moto" value="9.5"></div><label class="check wide"><input type="checkbox" name="immediate_settle"<?=le_instant_result()?' checked':''?>> Immediate settlement when eligible</label><button class="btn primary">Save engine setting</button></form></div></section>
+    <section class="panel"><div class="panel-head"><h2>Manual issue result</h2></div><div class="panel-body"><form method="post" class="form-grid"><?php dw_meta('wingo')?><input type="hidden" name="action" value="lottery_result_save"><div class="field"><label>Game code</label><input class="input" name="game_code" value="<?=dw_h($gameControl)?>" required></div><div class="field"><label>Issue number</label><input class="input" name="issue_number" value="<?=dw_h($issueControl)?>" required></div><div class="field wide"><label>Premium / result</label><input class="input" name="premium" placeholder="WinGo 5 · K3 1,2,3 · 5D 5,2,0,8,1" required></div><button class="btn primary" data-confirm="Save this result and settle eligible bets?">Save result</button></form><hr style="border:0;border-top:1px solid var(--line);margin:20px 0"><form method="post" class="toolbar"><?php dw_meta('wingo')?><input type="hidden" name="action" value="settle_pending_bets"><div class="field"><label>Game filter</label><input class="input" name="game_code" value="<?=dw_h($gameControl)?>"></div><div class="field"><label>Issue filter (optional)</label><input class="input" name="issue_number"></div><button class="btn warn" data-confirm="Run settlement for all eligible closed issues?">Settle pending</button></form></div></section></div>
+    <section class="panel"><div class="panel-head"><h2>Saved engine rules</h2></div><div class="table-wrap"><table class="table"><thead><tr><th>Game</th><th>Mode / forced</th><th>Win rate</th><th>Fee</th><th>Payouts</th><th>Updated</th></tr></thead><tbody><?php foreach($settingsRows as $r):?><tr><td class="mono"><?=dw_h($r['game_code'])?></td><td><?=dw_badge($r['force_mode'])?> <?=dw_h($r['force_result'])?></td><td><?=dw_h($r['win_rate'])?>%</td><td><?=dw_h($r['fee_percent'])?>%</td><td class="small">No. <?=dw_h($r['payout_number'])?> · Color <?=dw_h($r['payout_color'])?> · Big <?=dw_h($r['payout_bigsmall'])?></td><td><?=dw_h($r['updated_at'])?></td></tr><?php endforeach;?></tbody></table></div></section>
+    <div class="split"><section class="panel"><div class="panel-head"><h2>Recent results</h2></div><div class="table-wrap"><table class="table"><thead><tr><th>Game / issue</th><th>Result</th><th>Detail</th><th>Open time</th></tr></thead><tbody><?php foreach($results as $r):?><tr><td><?=dw_h($r['game_code'])?><div class="mono"><?=dw_h($r['issue_number'])?></div></td><td><strong><?=dw_h($r['premium'])?></strong></td><td><?=dw_h($r['color'])?> · <?=dw_h($r['big_small'])?></td><td><?=dw_h($r['open_time'])?></td></tr><?php endforeach;?></tbody></table></div></section><section class="panel"><div class="panel-head"><h2>Recent bets</h2></div><div class="table-wrap"><table class="table"><thead><tr><th>Order / user</th><th>Game</th><th>Stake</th><th>State</th></tr></thead><tbody><?php foreach($bets as $r):?><tr><td class="mono"><?=dw_h($r['order_no'])?><div><?=dw_h($r['username'])?></div></td><td><?=dw_h($r['game_code'])?><div class="small"><?=dw_h($r['issue_number'])?> · <?=dw_h($r['bet_content'])?></div></td><td>₹<?=dw_money((float)$r['real_amount']+(float)$r['fee'])?></td><td><?=dw_badge((int)$r['state']===2?'Pending':((int)$r['state']===1?'Win':'Loss'))?></td></tr><?php endforeach;?></tbody></table></div></section></div>
+diff --git a/api/_core/bootstrap.php b/api/_core/bootstrap.php
+index b91c3ef..c7b4547 100644
+--- a/api/_core/bootstrap.php
++++ b/api/_core/bootstrap.php
+@@ -452,8 +452,11 @@ function lottery_issue(string $gameCode): array
+     $slot = intdiv($now, $interval);
+     $start = $slot * $interval;
+     $end = $start + $interval;
+-    // Original-style issue: YYYYMMDD1000xxxxx (WinGo screenshots use this shape).
+-    $issue = date('Ymd', $start) . '1000' . str_pad((string)($slot % 100000), 5, '0', STR_PAD_LEFT);
++    // The round the player bets on is the one that has ALREADY been drawn, so the
++    // issue number runs one period behind the wall clock. The countdown still
++    // ends with the running slot, and the result list starts at this same issue.
++    $issueSlot = $slot - 1;
++    $issue = le_issue_from_slot($gameCode, $issueSlot, $interval);
+     return [
+         'startTime' => $start * 1000,
+         'endTime' => $end * 1000,
+diff --git a/api/_core/lottery_engine.php b/api/_core/lottery_engine.php
+index 0647803..8888505 100644
+--- a/api/_core/lottery_engine.php
++++ b/api/_core/lottery_engine.php
+@@ -54,12 +54,40 @@ function le_get_settings(string $gameCode): array
+     return $s;
+ }
+ 
++function le_issue_from_slot(string $gameCode, int $slot, int $interval): string
++{
++    return date('Ymd', $slot * $interval) . '1000' . str_pad((string)($slot % 100000), 5, '0', STR_PAD_LEFT);
++}
++
++// The round shown to the player is the one upstream has ALREADY drawn, so the
++// issue list runs exactly one period behind the wall clock.
++// offset 0 = the round the player is betting on right now (result already known),
++// offset 1 = the round before it, and so on.
+ function le_issue_by_offset(string $gameCode, int $offset = 0): string
+ {
+     $interval = le_game_interval($gameCode);
+-    $now = time() - ($offset * $interval);
+-    $slot = intdiv($now, $interval);
+-    return date('Ymd', $slot * $interval) . '1000' . str_pad((string)($slot % 100000), 5, '0', STR_PAD_LEFT);
++    $slot = intdiv(time(), $interval) - 1 - $offset;
++    return le_issue_from_slot($gameCode, $slot, $interval);
++}
++
++// Should a bet be decided the moment it is placed? The round is already drawn,
++// so waiting for the countdown only delays a result that is already fixed.
++// Admin can switch it off with the instant-result control.
++function le_instant_result(): bool
++{
++    static $cache = null;
++    if ($cache !== null) return $cache;
++    $cache = true;
++    $conn = function_exists('db') ? db() : null;
++    if (!$conn) return $cache;
++    $rs = @$conn->query("SELECT setting_value FROM settings WHERE setting_key='lottery_instant_result' LIMIT 1");
++    if (is_object($rs)) {
++        $row = $rs->fetch_assoc();
++        if (is_array($row) && array_key_exists('setting_value', $row)) {
++            $cache = ((int) $row['setting_value']) !== 0;
++        }
++    }
++    return $cache;
+ }
+ 
+ function le_color_from_number(int $n): string
+@@ -444,7 +472,7 @@ function le_issue_is_closed(string $gameCode, string $issueNumber): bool
+     return strcmp($issueNumber, (string)$current) < 0;
+ }
+ 
+-function le_settle_pending_bets(string $gameCode = '', string $issueNumber = '', int $userId = 0, string $orderNo = ''): int
++function le_settle_pending_bets(string $gameCode = '', string $issueNumber = '', int $userId = 0, string $orderNo = '', bool $force = false, int $onlyBetId = 0): int
+ {
+     $conn = db();
+     if (!$conn) return 0;
+@@ -453,6 +481,7 @@ function le_settle_pending_bets(string $gameCode = '', string $issueNumber = '',
+     if ($issueNumber !== '') $where[] = "issue_number='" . $conn->real_escape_string($issueNumber) . "'";
+     if ($userId > 0) $where[] = 'user_id=' . (int)$userId;
+     if ($orderNo !== '') $where[] = "order_no='" . $conn->real_escape_string($orderNo) . "'";
++    if ($onlyBetId > 0) $where[] = 'id=' . (int)$onlyBetId;
+     $sql = 'SELECT * FROM lottery_bets WHERE ' . implode(' AND ', $where) . ' ORDER BY id ASC LIMIT 500';
+     $rs = $conn->query($sql);
+     if (!$rs) return 0;
+@@ -460,12 +489,21 @@ function le_settle_pending_bets(string $gameCode = '', string $issueNumber = '',
+     while ($r = $rs->fetch_assoc()) {
+         $g = (string)$r['game_code'];
+         $issue = (string)$r['issue_number'];
+-        if (!le_issue_is_closed($g, $issue)) continue;
++        if (!$force && !le_issue_is_closed($g, $issue)) continue;
+ 
+         $result = le_result_for_issue($g, $issue, true);
+         $choice = le_extract_choice($g, (string)$r['bet_content']);
+         $settings = le_get_settings($g);
+         $isWin = le_result_matches($choice, $result, $g);
++
++        // Admin Force Win / Force Lose must still decide the round even when the
++        // result row was already generated before the bet was placed.
++        $forceMode = (string)($settings['force_mode'] ?? 'auto');
++        if (($forceMode === 'win' && !$isWin) || ($forceMode === 'lose' && $isWin)) {
++            $override = le_premium_for_choice($g, $choice, $forceMode === 'win');
++            $result = le_result_detail($g, $override, $issue);
++            $isWin = le_result_matches($choice, $result, $g);
++        }
+         $rate = le_payout_rate($g, $choice, $settings);
+         $stake = (float)$r['real_amount'];
+         $fee = (float)$r['fee'];
+diff --git a/api/_draw_router.php b/api/_draw_router.php
+index 6bf0eb3..b5744de 100644
+--- a/api/_draw_router.php
++++ b/api/_draw_router.php
+@@ -18,7 +18,8 @@ if (str_contains($path, 'GetHistoryIssuePage')) {
+     $pageNo = max(1, (int)($_GET['pageNo'] ?? $_GET['page'] ?? 1));
+     $set = site_settings();
+     $pageSize = max(1, min(10, (int)($set['game_history_page_size'] ?? 10)));
+-    for ($i = 1; $i <= $pageSize; $i++) {
++    // offset 0 = the round being played right now (result already drawn)
++    for ($i = 0; $i < $pageSize; $i++) {
+         $offset = (($pageNo - 1) * $pageSize) + $i;
+         $issueNum = le_issue_by_offset($gameCode, $offset);
+         $r = le_result_for_issue($gameCode, $issueNum, true);
+diff --git a/api/_router.php b/api/_router.php
+index f035efa..dedf776 100644
+--- a/api/_router.php
++++ b/api/_router.php
+@@ -2991,7 +2991,7 @@ function handle_admin_result_history(array $d): void
+     $code = first_value($d, ['gameCode'], 'WinGo_30S');
+     $limit = max(10, min(100, (int)first_value($d, ['limit','pageSize'], 10)));
+     $list = [];
+-    for ($i=1; $i<=$limit; $i++) {
++    for ($i=0; $i<$limit; $i++) {
+         $issue = le_issue_by_offset($code, $i);
+         $r = le_result_for_issue($code, $issue, true);
+         $list[] = lottery_public_result($code, $issue, $r, now_ms() - ($i * le_game_interval($code) * 1000));
+@@ -3127,7 +3127,9 @@ function handle_lottery_history(array $d): void
+     $pageSize = max(1, min(10, (int)($set['game_history_page_size'] ?? 10)));
+ 
+     $list = [];
+-    for ($i = 1; $i <= $pageSize; $i++) {
++    // offset 0 = the round being played right now (its result is already drawn),
++    // so the newest row of the result list matches the issue on the bet screen.
++    for ($i = 0; $i < $pageSize; $i++) {
+         $offset = (($pageNo - 1) * $pageSize) + $i;
+         $issue = le_issue_by_offset($code, $offset);
+         $r = le_result_for_issue($code, $issue, true);
+@@ -3154,7 +3156,7 @@ function bet_row_response(array $r): array { return le_response_row($r); }
+ function handle_lottery_trend(array $d): void
+ {
+     $code=first_value($d,['gameCode'],'WinGo_30S'); $list=[];
+-    for($i=1;$i<=30;$i++){ $issue=le_issue_by_offset($code,$i); $r=le_result_for_issue($code,$issue,true); $list[]=['issueNumber'=>$issue,'number'=>$r['number'],'premium'=>$r['premium'],'color'=>$r['color'],'bigSmall'=>$r['bigSmall'],'sum'=>$r['sum']]; }
++    for($i=0;$i<30;$i++){ $issue=le_issue_by_offset($code,$i); $r=le_result_for_issue($code,$issue,true); $list[]=['issueNumber'=>$issue,'number'=>$r['number'],'premium'=>$r['premium'],'color'=>$r['color'],'bigSmall'=>$r['bigSmall'],'sum'=>$r['sum']]; }
+     api_success(['list'=>$list], 'Success', ['serviceTime'=>now_ms()]);
+ }
+ function handle_win_loss(array $d): void
+@@ -3162,7 +3164,7 @@ function handle_win_loss(array $d): void
+     $u=require_login_user(); $conn=db();
+     if(!$conn) api_success(['status'=>null], 'Success', ['serviceTime'=>now_ms()]);
+     $uid=(int)$u['id']; $issue=first_value($d,['issueNumber'],''); $order=first_value($d,['orderNo','orderId'],'');
+-    le_settle_pending_bets('', $issue, $uid, $order);
++    le_settle_pending_bets('', $issue, $uid, $order, le_instant_result());
+     if($order){ $stmt=$conn->prepare('SELECT * FROM lottery_bets WHERE user_id=? AND order_no=? ORDER BY id DESC LIMIT 1'); $stmt->bind_param('is',$uid,$order); }
+     elseif($issue){ $stmt=$conn->prepare('SELECT * FROM lottery_bets WHERE user_id=? AND issue_number=? ORDER BY id DESC LIMIT 1'); $stmt->bind_param('is',$uid,$issue); }
+     else { $stmt=$conn->prepare('SELECT * FROM lottery_bets WHERE user_id=? ORDER BY id DESC LIMIT 1'); $stmt->bind_param('i',$uid); }
+@@ -3192,6 +3194,7 @@ function handle_lottery_bet(string $path, array $d): void
+     $state=2; // 2 = pending, result ke baad settle hoga
+     $premium='';
+     $winLose=0.0;
++    $betId=0;
+     $order='LT'.date('ymdHis').random_int(1000,9999);
+     $newBalance=(float)$u['balance'] - $debit;
+ 
+@@ -3216,6 +3219,7 @@ function handle_lottery_bet(string $path, array $d): void
+         if (!$stmt) { $err = $conn->error ?: 'Unknown prepare error or commands out of sync'; @$conn->rollback(); api_error('DB error 2: '.$err, 500, 500); }
+         $stmt->bind_param('issssdiddsid',$uid,$order,$game,$issue,$content,$amount,$multiple,$stake,$fee,$premium,$state,$winLose);
+         if(!$stmt->execute()){ $err = $stmt->error ?: $conn->error; @$conn->rollback(); api_error('Bet insert failed: '.$err,500,500); }
++        $betId = (int)$conn->insert_id;
+         $stmt->close();
+         
+         $remark=$game.' '.$content.' issue '.$issue;
+@@ -3228,6 +3232,35 @@ function handle_lottery_bet(string $path, array $d): void
+         v34_record_agent_commissions($conn,$uid,$order,$stake);
+         
+         @$conn->commit();
++
++        // The round was already drawn (the issue list runs one period behind), so
++        // decide the bet now instead of making the player wait for the countdown.
++        if (!empty($betId) && le_instant_result()) {
++            le_settle_pending_bets($game, $issue, $uid, $order, true, $betId);
++            $fresh = null;
++            $chk = $conn->prepare('SELECT * FROM lottery_bets WHERE id=? LIMIT 1');
++            if ($chk) {
++                $chk->bind_param('i', $betId);
++                $chk->execute();
++                $fresh = $chk->get_result()->fetch_assoc();
++            }
++            if ($fresh) {
++                $state = (int)$fresh['state'];
++                $isWin = $state === 1;
++                $pending = $state === 2;
++                $winAmount = $isWin ? max(0, (float)$fresh['win_lose_amount'] + (float)$fresh['real_amount'] + (float)$fresh['fee']) : 0.0;
++                $bal = wallet_balance($conn, $uid);
++                api_success([
++                    'orderNo'=>$order,'issueNumber'=>$issue,'gameCode'=>$game,
++                    'state'=>$state,'isPending'=>$pending,'isWin'=>$isWin,
++                    'amount'=>$winAmount,'winAmount'=>$winAmount,
++                    'winLoseAmount'=>(float)$fresh['win_lose_amount'],
++                    'result'=>(string)($fresh['premium'] ?? ''),
++                    'balance'=>$bal === null ? $newBalance : $bal,
++                    'msg'=>$pending ? 'Bet accepted. Result ke baad settle hoga.' : ($isWin ? 'You won' : 'You lost'),
++                ], 'Success', ['serviceTime'=>now_ms()]);
++            }
++        }
+     }
+     api_success(['orderNo'=>$order,'issueNumber'=>$issue,'gameCode'=>$game,'state'=>2,'isPending'=>true,'isWin'=>false,'amount'=>0,'winAmount'=>0,'winLoseAmount'=>0,'balance'=>$newBalance,'msg'=>'Bet accepted. Result ke baad settle hoga.'], 'Success', ['serviceTime'=>now_ms()]);
+ }
+@@ -3349,7 +3382,7 @@ function recharge_wheel_build_info(): array
+     $needOk = !$requireApproved || $total >= $needRecharge;
+     $historyLimit = max(10, min(50, (int)($cfg['historyLimit'] ?? 10)));
+     $history = [];
+-    for ($i=1; $i<=$historyLimit; $i++) {
++    for ($i=0; $i<$historyLimit; $i++) {
+         $issue = le_issue_by_offset('WinGo_30S', $i);
+         $rr = le_result_for_issue('WinGo_30S', $issue, true);
+         $history[] = ['issueNumber'=>$issue,'number'=>$rr['number'],'color'=>$rr['color'],'bigSmall'=>$rr['bigSmall'],'premium'=>$rr['premium']];
