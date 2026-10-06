@@ -1,0 +1,54 @@
+=====================================================================
+  maanwin — VISUALS ADDON (naye build ki images/assets)
+  OLD build ke UPAR extract karna hai
+=====================================================================
+
+YE KYA HAI
+----------
+Naye build (maan1) me OLD build ke muqable sirf 72 files extra thin
+(4 MB). Baaki sab OLD build me pehle se maujood hai:
+
+    images/       naye me 521  |  OLD me 602   -> 0 missing
+    css/          naye me 211  |  OLD me 473   -> 0 zaroori
+    assets/       naye me 139  |  OLD me 917   -> 40 missing
+    img/6015/     naye me  19  |  OLD me  11   -> 14 missing
+    img/6011/     naye me  16  |  OLD me   3   -> 14 missing
+    img/0/        naye me  50  |  OLD me 2961  -> 4 missing
+
+Isliye OLD build hi BASE rahega (usme login/register/DB sab kaam
+karta hai), aur ye addon sirf wahi 72 files add karta hai jo
+usme nahi thin.
+
+
+=====================================================================
+  POORA INSTALL — 4 STEP
+=====================================================================
+STEP 1 — public_html KHALI karo
+    (pehle backup kar lena agar kuch chahiye)
+
+STEP 2 — OLD build extract karo (3 ZIP, ~188 MB)
+    maanwin-full-restore-20261006.zip              (83 MB)
+    maanwin-full-restore-20261006-PART2-img0-A.zip (56 MB)
+    maanwin-full-restore-20261006-PART3-img0-B.zip (56 MB)
+
+    Teeno ko public_html ke ANDAR extract karo
+    (koi extra folder nahi, Overwrite = YES)
+
+    => Ab site purani wali chalegi:
+       login / register / wallet / bet  SAB AAPKE MYSQL ME
+
+STEP 3 — YE ADDON extract karo (4 MB)
+    public_html ke ANDAR, Overwrite = YES
+    => naye build ke game logos, banners, skin assets add ho jayenge
+
+STEP 4 — LiteSpeed -> Purge All   +   app me Clear Data
+
+
+=====================================================================
+  VERIFY
+=====================================================================
+  /admin1/                          -> Admin login (kaam karega)
+  Site par register karo
+  phpMyAdmin -> club532583_maanwin -> users table
+                                   -> NAYA USER DIKHEGA  <-- PROOF
+  /assets/ar_saas11/img_loginBG.webp -> image dikhegi
