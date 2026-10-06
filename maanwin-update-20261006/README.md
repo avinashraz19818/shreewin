@@ -8,6 +8,32 @@ This is the same WinGo behaviour that was delivered on the other projects
 
 ---
 
+## Why the game history was empty (root cause, found on the live site)
+
+Probing `https://maanwin1.com` showed the JSON draw routes were **404**:
+
+```
+GET /WinGo/WinGo_30S/GetHistoryIssuePage.json  -> {"error":"Not Found"}
+GET /WinGo/WinGo_30S.json                      -> {"error":"Not Found"}
+GET /webapi/kv/issue/WinGo_30S                 -> 200 OK
+```
+
+The `.htaccess` rule that maps `^(WinGo|K3|D5|MotoRace|TrxWinGo)/(.+\.json)$`
+onto `api/_draw_router.php` is not being applied on this host, so the game
+history request never reached PHP. The `/api/*` routes do work.
+
+**Fix:** `js/api-route-fix.js` (loaded from `index.html` *before* the app
+bundle) rewrites those two URL shapes in the browser:
+
+```
+/WinGo/WinGo_30S/GetHistoryIssuePage.json -> /api/Lottery/GetHistoryIssuePage?gameCode=WinGo_30S&pageNo=1&pageSize=10
+/WinGo/WinGo_30S.json                     -> /api/Lottery/GetGameIssue?gameCode=WinGo_30S
+```
+
+It patches both `window.fetch` and `XMLHttpRequest.prototype.open` (axios uses
+XHR), keeps query strings, only rewrites same-origin URLs, and leaves every
+other request untouched. No server config change needed. 9/9 rewrite tests pass.
+
 ## Result numbers now match dhaniwin too
 
 dhaniwin generates its result **deterministically** from the issue number:

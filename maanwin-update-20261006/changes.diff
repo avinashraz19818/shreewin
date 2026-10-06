@@ -460,3 +460,15 @@ index f035efa..49a0415 100644
          $issue = le_issue_by_offset('WinGo_30S', $i);
          $rr = le_result_for_issue('WinGo_30S', $issue, true);
          $history[] = ['issueNumber'=>$issue,'number'=>$rr['number'],'color'=>$rr['color'],'bigSmall'=>$rr['bigSmall'],'premium'=>$rr['premium']];
+diff --git a/index.html b/index.html
+index 470a7cf..115d503 100644
+--- a/index.html
++++ b/index.html
+@@ -10,6 +10,7 @@
+     <title>maanwin</title>
+     <!--app_config-->
+     <!--seo_meta-->
++    <script src="./js/api-route-fix.js"></script>
+     <script type="module" src="./js/maan-win-bootstrap-v5.mjs"></script>
+     <link rel="stylesheet" href="./css/index-DXylt7AE.css">
+   

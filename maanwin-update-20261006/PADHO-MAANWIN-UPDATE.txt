@@ -31,6 +31,25 @@ ISS ZIP ME KYA FIX HUA
   Test: dhaniwin ke formula se 90 alag timestamp/game par compare kiya
         -> 90/90 BILKUL SAME
 
+■ 0-A. GAME HISTORY KHALI KYUN THI — ASLI WAJAH MIL GAYI  (sabse important)
+  Live site par check kiya to pata chala:
+      /WinGo/WinGo_30S/GetHistoryIssuePage.json   ->  404 Not Found
+      /WinGo/WinGo_30S.json                       ->  404 Not Found
+  Game client GAME HISTORY isi URL se laata hai, isliye wo khaali rehta tha.
+  (Wahi .htaccess rule jo in URL ko PHP tak pahunchata hai, tumhare server
+   par chal hi nahi raha — isliye 404.)
+
+  FIX: ab `js/api-route-fix.js` browser me hi in dono URL ko working
+  /api/ route par mod deta hai (server config me kuch badalne ki zarurat
+  nahi):
+      /WinGo/WinGo_30S/GetHistoryIssuePage.json
+          -> /api/Lottery/GetHistoryIssuePage?gameCode=WinGo_30S
+      /WinGo/WinGo_30S.json
+          -> /api/Lottery/GetGameIssue?gameCode=WinGo_30S
+  Dono ka jawab bilkul wahi shape ka hai, to app ko farak nahi padta.
+  Ye script `index.html` me app bundle se PEHLE load hoti hai.
+  Route rewrite ke 9/9 test pass.
+
 ■ 0-B. RESULT NUMBER AB DHANIWIN WALA  (sabse important #2)
   Period to match ho gaya tha, par result alag aa raha tha kyunki
   maanwin result RANDOM banaata tha aur dhaniwin DETERMINISTIC:
@@ -142,10 +161,13 @@ AGAR KOI DIKKAT DIKHE
 
 
 ================================================
-FILES IS ZIP ME (6)
+FILES IS ZIP ME (8)
 ================================================
-  api/_core/lottery_engine.php    period/issue alignment + instant settlement
-  api/_core/bootstrap.php         active issue ab result list ke saath match
+  index.html                      NAYA: api-route-fix.js load karta hai (pehle)
+  js/api-route-fix.js             NAYA: /WinGo/*.json 404 ko /api/ par modta hai
+                                  -> ISSE GAME HISTORY CHALU HOGI
+  api/_core/lottery_engine.php    dhaniwin wala period + result formula, self-heal
+  api/_core/bootstrap.php         lottery_issue() same slot basis + history row keys
   api/_router.php                 result list, trend, bet, win/loss
   api/_draw_router.php            public JSON history bhi same line me
   admin1/actions.php              Immediate settlement checkbox ab kaam karta hai
