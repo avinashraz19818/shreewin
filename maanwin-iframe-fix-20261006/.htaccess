@@ -71,11 +71,18 @@ RewriteRule ^(.*/)?index\.(html?|php)$ /$1 [R=301,L,NE]
 # ------------------------------
 <IfModule mod_headers.c>
   Header always set X-Content-Type-Options "nosniff"
-  # X-Frame-Options HATA DIYA — app ke WebView/iframe me load hone ke liye.
-  # Iski jagah CSP frame-ancestors use hota hai (ye XFO ko override karta hai).
+  # ---- WebView / iframe fix -------------------------------------------
+  # 1) X-Frame-Options bilkul hata do (SAMEORIGIN app ke iframe ko block karta tha)
   Header always unset X-Frame-Options
   Header unset X-Frame-Options
-  Header always set Content-Security-Policy "frame-ancestors *"
+  # 2) Content-Security-Policy bhi hata do.
+  #    "frame-ancestors *" bhi file:// / null-origin (Android app ke iframe) par
+  #    match nahi karta. Koi CSP na ho to framing par koi rok hi nahi hoti.
+  Header always unset Content-Security-Policy
+  Header unset Content-Security-Policy
+  Header always unset Cross-Origin-Resource-Policy
+  Header unset Cross-Origin-Resource-Policy
+  # --------------------------------------------------------------------
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
   Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
   <FilesMatch "\.(woff2|woff|ttf|otf|eot)$">

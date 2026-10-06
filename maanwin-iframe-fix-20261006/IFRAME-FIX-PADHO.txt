@@ -31,9 +31,24 @@ KYA BADLA
 2) `index.php` me bhi PHP level par backup:
 
        header_remove('X-Frame-Options');
-       header('Content-Security-Policy: frame-ancestors *', true);
+       header_remove('Content-Security-Policy');
+       header_remove('Cross-Origin-Resource-Policy');
 
    Ye tab kaam aata hai jab server config se .htaccess override na ho paaye.
+
+KYA KYA HATAYA (v2)
+-------------------------------------------------------------------------
+  X-Frame-Options            -> HATA DIYA
+  Content-Security-Policy    -> HATA DIYA
+  Cross-Origin-Resource-Policy -> HATA DIYA
+
+Kyun CSP bhi hataya?
+  "Content-Security-Policy: frame-ancestors *" bhi Android app ke iframe me
+  kaam nahi karta jab parent page file:// ya null-origin ho (app ke andar
+  aisa hi hota hai). CSP ho hi na to framing par koi rok nahi rehti.
+
+Baaki security headers (nosniff, Referrer-Policy, Permissions-Policy,
+font CORS) jaise the waise hi hain.
 
 
 KAISE LAGAYE — 2 STEP
@@ -47,7 +62,17 @@ STEP 2: Server ke ROOT folder (public_html / domain ka docroot) me upload karo:
 
         Overwrite = HAAN.
 
-STEP 3: Verify karo (terminal me):
+STEP 3: APP KA DATA CLEAR KARO — YE SABSE ZAROORI HAI
+        WebView purani response cache karke rakhta hai (jisme XFO tha),
+        isliye server theek hone ke baad bhi error dikhta rahega.
+
+            Phone Settings -> Apps -> <tumhara app> -> Storage -> CLEAR DATA
+            (ya app uninstall karke dobara install karo)
+
+        Browser me bhi: Chrome -> Settings -> Privacy -> Clear browsing data
+        (Cached images and files) -> Clear data
+
+STEP 4: Verify karo (terminal me):
 
             curl -sI "https://maanwin.club9.eu.cc/" | grep -i x-frame
 
@@ -59,7 +84,7 @@ STEP 3: Verify karo (terminal me):
 
         -> Content-Security-Policy: frame-ancestors *   aana chahiye  ✓
 
-STEP 4: Browser cache clear karo (Ctrl+F5) aur app me page kholo.
+STEP 5: App kholo — page load hona chahiye.
 
 
 SAARE MIRROR SUBDOMAINS PE KARNA HAI

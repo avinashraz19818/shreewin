@@ -7,7 +7,8 @@ require_once __DIR__ . '/api/_core/bootstrap.php';
 // Usko hata kar CSP frame-ancestors * bhejo (modern browser isi ko maante hain
 // aur ye X-Frame-Options ko override kar deta hai).
 header_remove('X-Frame-Options');
-header('Content-Security-Policy: frame-ancestors *', true);
+header_remove('Content-Security-Policy');
+header_remove('Cross-Origin-Resource-Policy');
 // -----------------------------------------------------------------------
 
 $file = __DIR__ . '/index.html';
