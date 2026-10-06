@@ -1,0 +1,77 @@
+=========================================================================
+MAANWIN UPDATE — UPLOAD KAISE KARE  (YE ZAROOR PADHO)
+=========================================================================
+
+PICHLI BAAR KYA HUA:
+  Tumne sirf `api/` folder upload kiya tha. `index.html` upload NAHI hua,
+  isliye game history ka fix server par pahuncha hi nahi.
+
+  PROOF (mainne live site check ki):
+      https://maanwin1.com/js/api-route-fix.js
+          -> {"error":"Not Found"}      <- matlab file chadhi hi nahi
+      https://maanwin1.com/webapi/kv/issue/WinGo_30S
+          -> 200 OK, issueNumber = 2026100610005....   <- api/ chadhi hui thi
+
+IS BAAR FIX `index.html` AUR `index.php` KE ANDAR HI HAI
+  Ab alag se `js/` folder chadhane ki zarurat nahi.
+  Bas `index.html` (+ chahe to `index.php`) upload kar do, kaam ho jayega.
+
+
+=========================================================================
+3 STEP ME KARO
+=========================================================================
+
+STEP 1 — ZIP extract karo apne computer par.
+
+STEP 2 — YE 3 CHEEZEIN SERVER KE ROOT FOLDER (public_html) ME UPLOAD KARO:
+
+    1)  index.html          <-- SABSE ZAROORI (game history isi me hai)
+    2)  index.php           <-- backup (agar index.html purani rahe)
+    3)  api/                <-- poora folder, overwrite = HAAN
+
+    (optional, par achha rahega)
+    4)  js/api-route-fix.js
+    5)  admin1/
+
+    ROOT = wahi folder jahan pehle se index.html hai.
+    Overwrite / Replace All = HAAN.
+
+STEP 3 — UPLOAD KE BAAD YE LINK BROWSER ME KHOLO AUR CHECK KARO:
+
+    https://maanwin1.com/js/api-route-fix.js
+
+    * Agar JS ka text dikhe  -> UPLOAD SAFAL  ✓
+    * Agar {"error":"Not Found"} aaye -> js/ folder nahi chadha.
+      Par tab bhi chalta hai, kyunki fix index.html ke andar hai.
+
+    Phir site kholo aur Ctrl+F5 dabao (cache clear).
+
+
+=========================================================================
+AGAR PHIR BHI GAME HISTORY KHALI RAHE
+=========================================================================
+Browser me WinGo page kholo, phir address bar me ye type karke Enter:
+
+    javascript:alert(typeof window.__MAANWIN_ROUTE_FIX__)
+
+  * "boolean" aaye  -> fix load ho gaya hai
+  * "undefined"     -> index.html abhi bhi purani hai
+
+Aur ek kaam karke batao (sabse tez tareeka):
+  Browser me F12 -> Console tab -> jo LAAL error likhe hain wo bhej do.
+
+
+=========================================================================
+IS ZIP ME KYA HAI (9 files)
+=========================================================================
+  index.html                     route-fix script ANDAR (game history isi se chalegi)
+  index.php                      agar index.html purani ho to ye fix inject karega
+  js/api-route-fix.js            same script (optional backup)
+  api/_core/lottery_engine.php   dhaniwin wala period + result formula, self-heal
+  api/_core/bootstrap.php        lottery_issue() + history row keys
+  api/_router.php                history/trend/bet/win-loss
+  api/_draw_router.php           public JSON history
+  admin1/actions.php             Immediate settlement checkbox
+  admin1/index.php               checkbox state
+
+Database ko mat chhero.
