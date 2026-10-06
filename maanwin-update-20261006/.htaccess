@@ -64,6 +64,19 @@ RewriteRule ^(.*/)?index\.(html?|php)$ /$1 [R=301,L,NE]
   AddType font/otf .otf
   AddType image/svg+xml .svg
   AddType application/wasm .wasm
+  # ---- images ke liye MIME type (YE PEHLE MISSING THE) ------------------
+  # "X-Content-Type-Options: nosniff" ke saath, agar image ka Content-Type
+  # galat/octet-stream aaye to browser use render karta HI NAHI (default/broken
+  # image dikhti hai). Isliye sab image types explicitly declare kiye hain.
+  AddType image/webp .webp
+  AddType image/png  .png
+  AddType image/jpeg .jpg .jpeg
+  AddType image/gif  .gif
+  AddType image/avif .avif
+  AddType image/bmp  .bmp
+  AddType image/x-icon .ico
+  AddType image/vnd.microsoft.icon .ico
+  # ----------------------------------------------------------------------
 </IfModule>
 
 # ------------------------------
@@ -194,4 +207,15 @@ RewriteRule ^ index.php [L]
 # ------------------------------
 # Simple 404
 # ------------------------------
+# ------------------------------
+# Images par nosniff HATAA do to agar kabhi Content-Type galat bhi aaye to
+# browser image sniff kar ke dikha dega (broken/default image nahi aayegi).
+# ------------------------------
+<IfModule mod_headers.c>
+  <FilesMatch "\.(webp|png|jpe?g|gif|svg|ico|avif|bmp)$">
+    Header always unset X-Content-Type-Options
+    Header unset X-Content-Type-Options
+  </FilesMatch>
+</IfModule>
+
 ErrorDocument 404 "404 Not Found"

@@ -1,0 +1,95 @@
+=========================================================================
+MAANWIN — IMAGE DEFAULT / BROKEN AA RAHI THI — FIX
+(lottery_category_active-e1455a13.webp wala masla)
+=========================================================================
+Date: 2026-10-06
+
+
+ASLI WAJAH — 2 CHEEZEIN
+-------------------------------------------------------------------------
+1) `.htaccess` me **images ke MIME type the hi nahi**:
+
+       AddType image/svg+xml .svg        <- sirf itna tha
+       (koi image/webp, image/png, image/jpeg NAHI)
+
+   Aur header me `X-Content-Type-Options: nosniff` hai.
+   **nosniff + galat/octet-stream Content-Type = browser image render karta
+   HI NAHI** -> broken / default image.
+
+2) Upload ke waqt kuch asset files truncate ho gayi thin (jaise clock icon
+   ki JS file khaali mili thi). Isliye `assets/ar_saas11/` ki saari files
+   dobara bhej rahe hain.
+
+
+KYA FIX KIYA
+-------------------------------------------------------------------------
+A) `.htaccess` me sab image MIME types add kiye:
+
+       AddType image/webp .webp
+       AddType image/png  .png
+       AddType image/jpeg .jpg .jpeg
+       AddType image/gif  .gif
+       AddType image/avif .avif
+       AddType image/bmp  .bmp
+       AddType image/x-icon .ico
+
+B) Images par `nosniff` hata diya (backup safety):
+
+       <FilesMatch "\.(webp|png|jpe?g|gif|svg|ico|avif|bmp)$">
+         Header always unset X-Content-Type-Options
+       </FilesMatch>
+
+   Ab agar kabhi Content-Type galat bhi aaye to browser image sniff kar ke
+   dikha dega — broken/default nahi aayegi.
+
+C) `assets/ar_saas11/` ki **128 files** dobara bhej rahe hain (poori, valid
+   WEBP). Isme `lottery_category_active-e1455a13.webp` bhi hai — verify kiya:
+
+       RIFF/WEBP magic OK, size 6400 bytes  ✓
+
+
+KAISE LAGAYE
+-------------------------------------------------------------------------
+STEP 1: Zip extract karo.
+
+STEP 2: Server ke ROOT (public_html) me upload karo, overwrite = HAAN:
+
+            .htaccess                 <- SABSE ZAROORI (MIME types)
+            assets/ar_saas11/         <- 128 image files
+
+        (sirf ye 2 cheezein; baaki kuch nahi chadhana)
+
+STEP 3: LiteSpeed cache clear karo (agar chal raha ho):
+        cPanel -> LiteSpeed Web Cache Manager -> Purge All
+
+STEP 4: Ctrl+F5 karke WinGo page kholo.
+        "30sec / 1M" tabs ka background aur clock icon dono aa jayenge.
+
+
+VERIFY
+-------------------------------------------------------------------------
+Browser me seedha image kholo:
+
+    https://maanwin.club9.eu.cc/assets/ar_saas11/lottery_category_active-e1455a13.webp
+
+  -> image dikhni chahiye (404 ya text nahi)
+
+Header check (terminal):
+    curl -sI "https://maanwin.club9.eu.cc/assets/ar_saas11/lottery_category_active-e1455a13.webp"
+
+  -> content-type: image/webp   hona chahiye
+
+
+AGAR PHIR BHI NA DIKHE
+-------------------------------------------------------------------------
+1) LiteSpeed cache purge (upar likha hai)
+2) Cloudflare ho to: Caching -> Purge Everything
+3) Browser ka poora cache clear (Ctrl+Shift+Delete)
+4) App me dekh rahe ho to: Settings -> Apps -> <app> -> Storage -> Clear Data
+
+
+FILES IS ZIP ME
+-------------------------------------------------------------------------
+  .htaccess                  image MIME types + images par nosniff off
+  assets/ar_saas11/*.webp    128 files (valid, poori)
+  PADHO-ASSETS.txt           ye file
