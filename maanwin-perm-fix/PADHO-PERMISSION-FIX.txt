@@ -1,0 +1,97 @@
+ERROR KYA HAI — "cannot create ... Permission denied"
+=====================================================
+
+YE ZIP KI GALTI NAHI HAI — SERVER KE FOLDER PERMISSIONS KI GALTI HAI.
+
+
+PEHCHANO KAISE KARE
+-------------------
+Dhyan se dekho to SIRF NAYE FOLDER fail hue hain:
+
+    extracting: assets/ar_saas11/home/s11_notice_skull-9712d031.webp   <-- BAN GAYI
+    error: cannot create assets/ar_saas11/home/category/...             <-- FAIL
+    error: cannot create assets/ar_saas11/tabbar/...                    <-- FAIL
+
+Kyun?
+  Linux me kisi EXISTING file ko overwrite karne ke liye
+  folder-write permission ZAROORI NAHI hoti.
+  Par NAYA folder ya nayi file CREATE karne ke liye zaroori hoti hai.
+
+  Isliye purani files ban gayin, nayi nahi ban sakin.
+
+Ye isliye hua kyunki pichli baar extract hue folders kisi aur
+user / permission ke saath ban gaye the.
+
+
+KITNI FILES MISS HAIN (~200), AUR KYA KYA
+------------------------------------------
+  assets/ar_saas11/tabbar/*       ~44   <-- NEECHE WALA TAB BAR (zaroori)
+  img/6015/*                      ~22   <-- SITE KA LOGO + BANNER (zaroori)
+  assets/ar_saas11/lucky/*        ~18
+  assets/common/inviteWheel/*     ~20
+  assets/ar_saas11/giftAnim/*     ~14
+  assets/ar_saas11/category/*     ~14
+  img/0/gamelogo/*                ~45   <-- GAME LOGOS
+  img/6011/banner/*               ~15
+  assets/ar_saas11/error/*          2
+  download/ar095/*               (puraana archive, zaroori nahi)
+
+
+=====================================================================
+TARIKA 1 — SABSE BEST: public_html KHALI KARO, PHIR EXTRACT
+=====================================================================
+
+  1. cPanel -> File Manager -> public_html
+  2. Select All -> DELETE
+     (agar api/ me data hai to usko pehle backup kar lena)
+  3. Ab naya zip extract karo
+     -> saare folders FRESH banenge, EK BHI ERROR NAHI AAYEGA
+
+Ye sabse pakka tarika hai. Agar ho sake to yahi karo.
+
+
+=====================================================================
+TARIKA 2 — fix-perms.php CHALAO, PHIR DOBARA EXTRACT
+=====================================================================
+
+Agar public_html khali nahi kar sakte:
+
+  1. fix-perms.php ko public_html me UPLOAD karo
+  2. Browser me kholo:
+         https://maanwin.club9.eu.cc/fix-perms.php
+  3. Screen par "PERMISSION FIX — DONE" aayega
+     (saare folders 0755, files 0644, aur helpers/webapi/pay/logs 0775)
+  4. Ab apna ZIP DOBARA EXTRACT karo  <- ye zaroori hai
+  5. Kaam ho gaya to fix-perms.php ko DELETE kar dena
+
+  NOTE: Tarika 2 ke baad bhi kuch purane folders nahi ban sakte
+  (jo kisi aur user ke malik hain). To Tarika 1 hi final hai.
+
+
+=====================================================================
+TARIKA 3 — CPANEL FILE MANAGER SE
+=====================================================================
+
+  1. File Manager -> public_html
+  2. Upar "Settings" (gear icon) -> "Show Hidden Files" ON
+  3. Select All -> Permissions (ya "Change Permissions")
+  4. Numeric: 755  ->  "Change Permissions"
+  5. Phir zip dobara extract karo
+
+
+=====================================================================
+EXTRACT KE BAAD YE CHECK KARO
+=====================================================================
+
+  https://maanwin.club9.eu.cc/assets/ar_saas11/tabbar/home-220608f0.webp
+      -> image dikhni chahiye (tab bar icon)
+
+  https://maanwin.club9.eu.cc/img/6015/other/083305135-140407-file_20260919083305130.webp
+      -> site ka header logo
+
+  https://maanwin.club9.eu.cc/themes.json        -> JSON
+  https://maanwin.club9.eu.cc/ar-sw.js           -> "Service Worker DISABLED"
+  https://maanwin.club9.eu.cc/WinGo/WinGo_30S.json -> JSON (pehle HTML aa raha tha)
+
+
+Agar phir bhi error aaye to poora error text bhej dena.
