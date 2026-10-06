@@ -449,14 +449,15 @@ function lottery_issue(string $gameCode): array
 {
     $interval = le_game_interval($gameCode);
     $now = time();
-    $slot = intdiv($now, $interval);
+    // same slot basis as le_issue_by_offset(), so the issue shown here is always
+    // the first row of the result list
+    $slot = le_current_slot($gameCode);
     $start = $slot * $interval;
     $end = $start + $interval;
     // The round the player bets on is the one that has ALREADY been drawn, so the
     // issue number runs one period behind the wall clock. The countdown still
     // ends with the running slot, and the result list starts at this same issue.
-    $issueSlot = $slot - 1;
-    $issue = le_issue_from_slot($gameCode, $issueSlot, $interval);
+    $issue = le_issue_from_slot($gameCode, $slot - 1, $interval);
     return [
         'startTime' => $start * 1000,
         'endTime' => $end * 1000,

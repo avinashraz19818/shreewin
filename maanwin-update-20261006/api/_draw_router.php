@@ -17,7 +17,7 @@ if (str_contains($path, 'GetHistoryIssuePage')) {
     $list = [];
     $pageNo = max(1, (int)($_GET['pageNo'] ?? $_GET['page'] ?? 1));
     $set = site_settings();
-    $pageSize = max(1, min(10, (int)($set['game_history_page_size'] ?? 10)));
+    $pageSize = max(1, min(100, (int)($_GET['pageSize'] ?? $_GET['page_size'] ?? ($set['game_history_page_size'] ?? 10))));
     // offset 0 = the round being played right now (result already drawn)
     for ($i = 0; $i < $pageSize; $i++) {
         $offset = (($pageNo - 1) * $pageSize) + $i;

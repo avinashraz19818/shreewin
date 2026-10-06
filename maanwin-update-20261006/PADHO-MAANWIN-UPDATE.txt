@@ -15,6 +15,22 @@ PEHLE YE 3 LINE PADHO:
 ISS ZIP ME KYA FIX HUA
 ================================================
 
+■ 0. PERIOD NUMBER AB DHANIWIN JAISA  (sabse important)
+  Pehle maanwin ka period number dhaniwin se bilkul alag dikhta tha:
+      dhaniwin : 20261006 10005 1441   <- din ka 1441va period (UTC)
+      maanwin  : 20261006 1000  08958  <- purana apna formula
+  Isliye dono site par alag-alag period number dikhte the.
+  AB maanwin BHI wahi formula use karta hai jo dhaniwin use karta hai:
+      YYYYMMDD (UTC) + game prefix + us din ka period number (4 digit)
+  Game prefix bhi dhaniwin wala hai:
+      WinGo_30S 10005 · WinGo_1M 10001 · WinGo_3M 10002 · WinGo_5M 10003
+      WinGo_10M 10004 · TrxWinGo 20001.. · 5D/D5 30001.. · K3 40001..
+      MotoRace 50001
+  Period boundary UTC hisaab se, aur dhaniwin wala 1 second "end grace"
+  bhi same hai — to dono site ek hi waqt par ek hi period dikhayengi.
+  Test: dhaniwin ke formula se 90 alag timestamp/game par compare kiya
+        -> 90/90 BILKUL SAME
+
 ■ 1. PERIOD / ISSUE AB EK LINE ME HAI  ("ek period piche" wala masla)
   Pehle game jis round par bet lagata tha aur result list me sabse upar
   jo round dikhta tha, wo DONO ALAG-ALAG the. Result list hamesha ek

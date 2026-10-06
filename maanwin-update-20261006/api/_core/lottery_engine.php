@@ -54,9 +54,60 @@ function le_get_settings(string $gameCode): array
     return $s;
 }
 
+// Same period-number format as the dhaniwin build:
+//   YYYYMMDD (UTC) + game prefix + 4 digit period index of that UTC day (1 based)
+// e.g. WinGo_30S -> 20261006100051441   (20261006 . 10005 . 1441)
+function le_issue_prefix(string $gameCode): string
+{
+    static $map = [
+        'WinGo_1M'      => '10001',
+        'WinGo_3M'      => '10002',
+        'WinGo_5M'      => '10003',
+        'WinGo_10M'     => '10004',
+        'WinGo_30S'     => '10005',
+        'TrxWinGo_1M'   => '20001',
+        'TrxWinGo_3M'   => '20002',
+        'TrxWinGo_5M'   => '20003',
+        'TrxWinGo_30S'  => '20005',
+        '5D_1M'         => '30001',
+        '5D_3M'         => '30002',
+        '5D_5M'         => '30003',
+        '5D_10M'        => '30004',
+        'D5_1M'         => '30001',
+        'D5_3M'         => '30002',
+        'D5_5M'         => '30003',
+        'D5_10M'        => '30004',
+        'K3_1M'         => '40001',
+        'K3_3M'         => '40002',
+        'K3_5M'         => '40003',
+        'K3_10M'        => '40004',
+        'MotoRace_1M'   => '50001',
+        'MotoRacing_1M' => '50001',
+    ];
+    if (isset($map[$gameCode])) return $map[$gameCode];
+    $norm = str_replace('-', '_', trim($gameCode));
+    if (isset($map[$norm])) return $map[$norm];
+    if (stripos($norm, 'TrxWinGo') === 0) return '20001';
+    if (stripos($norm, 'D5') === 0 || stripos($norm, '5D') === 0) return '30001';
+    if (stripos($norm, 'K3') === 0) return '40001';
+    if (stripos($norm, 'MotoRace') === 0 || stripos($norm, 'MotoRacing') === 0) return '50001';
+    if (stripos($norm, '30S') !== false) return '10005';
+    return '10001';
+}
+
 function le_issue_from_slot(string $gameCode, int $slot, int $interval): string
 {
-    return date('Ymd', $slot * $interval) . '1000' . str_pad((string)($slot % 100000), 5, '0', STR_PAD_LEFT);
+    $ts = $slot * $interval;
+    $utcDayStart = (int)(floor($ts / 86400) * 86400);
+    $periodIndex = intdiv($ts - $utcDayStart, $interval) + 1;
+    return sprintf('%s%s%04d', gmdate('Ymd', $ts), le_issue_prefix($gameCode), $periodIndex);
+}
+
+// dhaniwin's 1 second end-grace: a client that asks a hair before the boundary
+// still gets the round that just finished.
+function le_current_slot(string $gameCode): int
+{
+    return intdiv(time() + 1, le_game_interval($gameCode));
 }
 
 // The round shown to the player is the one upstream has ALREADY drawn, so the
@@ -66,7 +117,7 @@ function le_issue_from_slot(string $gameCode, int $slot, int $interval): string
 function le_issue_by_offset(string $gameCode, int $offset = 0): string
 {
     $interval = le_game_interval($gameCode);
-    $slot = intdiv(time(), $interval) - 1 - $offset;
+    $slot = le_current_slot($gameCode) - 1 - $offset;
     return le_issue_from_slot($gameCode, $slot, $interval);
 }
 

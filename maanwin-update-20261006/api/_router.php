@@ -1519,8 +1519,8 @@ function lottery_route_from_game_code(string $gameCode): string
     return 'WinGo';
 }
 
-function handle_ar_balance(): void { $u=require_login_user(); le_settle_pending_bets('', '', (int)$u['id']); $u=current_user() ?: $u; api_success(['balance'=>(float)$u['balance'], 'currency'=>APP_CURRENCY]); }
-function handle_ar_wallets(): void { $u=require_login_user(); le_settle_pending_bets('', '', (int)$u['id']); $u=current_user() ?: $u; api_success([['vendorCode'=>'ARGame','balance'=>0.0,'currency'=>APP_CURRENCY,'tenantId'=>APP_TENANT_ID,'userId'=>(int)$u['tenant_user_id']],['vendorCode'=>'PlatForm','balance'=>(float)$u['balance'],'currency'=>APP_CURRENCY,'tenantId'=>APP_TENANT_ID,'userId'=>(int)$u['tenant_user_id']]]); }
+function handle_ar_balance(): void { $u=require_login_user(); le_settle_pending_bets('', '', (int)$u['id'], '', le_instant_result()); $u=current_user() ?: $u; api_success(['balance'=>(float)$u['balance'], 'currency'=>APP_CURRENCY]); }
+function handle_ar_wallets(): void { $u=require_login_user(); le_settle_pending_bets('', '', (int)$u['id'], '', le_instant_result()); $u=current_user() ?: $u; api_success([['vendorCode'=>'ARGame','balance'=>0.0,'currency'=>APP_CURRENCY,'tenantId'=>APP_TENANT_ID,'userId'=>(int)$u['tenant_user_id']],['vendorCode'=>'PlatForm','balance'=>(float)$u['balance'],'currency'=>APP_CURRENCY,'tenantId'=>APP_TENANT_ID,'userId'=>(int)$u['tenant_user_id']]]); }
 
 function handle_coupon_list(): void
 {
@@ -3000,8 +3000,8 @@ function handle_admin_result_history(array $d): void
 }
 
 function handle_lottery_game_list(array $d = []): void { api_success(lottery_games(lottery_group_from_context($d)), 'Success', ['serviceTime'=>now_ms()]); }
-function handle_lottery_user_info(): void { $u=require_login_user(); le_settle_pending_bets('', '', (int)$u['id']); $u=current_user() ?: $u; api_success(['userId'=>(int)$u['id'],'nickname'=>$u['nickname'],'sysCurrency'=>APP_CURRENCY,'isOpenFollow'=>false], 'Success', ['serviceTime'=>now_ms()]); }
-function handle_lottery_balance(): void { $u=require_login_user(); le_settle_pending_bets('', '', (int)$u['id']); $u=current_user() ?: $u; api_success(['balance'=>(float)$u['balance']], 'Success', ['serviceTime'=>now_ms()]); }
+function handle_lottery_user_info(): void { $u=require_login_user(); le_settle_pending_bets('', '', (int)$u['id'], '', le_instant_result()); $u=current_user() ?: $u; api_success(['userId'=>(int)$u['id'],'nickname'=>$u['nickname'],'sysCurrency'=>APP_CURRENCY,'isOpenFollow'=>false], 'Success', ['serviceTime'=>now_ms()]); }
+function handle_lottery_balance(): void { $u=require_login_user(); le_settle_pending_bets('', '', (int)$u['id'], '', le_instant_result()); $u=current_user() ?: $u; api_success(['balance'=>(float)$u['balance']], 'Success', ['serviceTime'=>now_ms()]); }
 function handle_lottery_issue(array $d): void
 {
     $code = first_value($d, ['gameCode', 'game_code'], 'WinGo_30S');
@@ -3121,10 +3121,9 @@ function handle_lottery_history(array $d): void
 
     $pageNo = max(1, (int)($d['pageNo'] ?? 1));
 
-    // User game page history: ek page par sirf latest 10 result.
-    // Frontend 20/50 bheje tab bhi backend 10 hi return karega.
+    // dhaniwin jaisa: frontend bheje to pageSize maan lo, warna 10
     $set = site_settings();
-    $pageSize = max(1, min(10, (int)($set['game_history_page_size'] ?? 10)));
+    $pageSize = max(1, min(100, (int)($d['pageSize'] ?? $d['page_size'] ?? ($set['game_history_page_size'] ?? 10))));
 
     $list = [];
     // offset 0 = the round being played right now (its result is already drawn),
@@ -3142,7 +3141,7 @@ function handle_lottery_history(array $d): void
         'pageNo' => $pageNo,
         'pageSize' => $pageSize,
         'totalPage' => 50,
-        'totalCount' => 500
+        'totalCount' => 50 * $pageSize
     ], 'Success', ['serviceTime' => now_ms()]);
 }
 function handle_lottery_record(array $d): void

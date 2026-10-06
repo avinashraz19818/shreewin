@@ -8,6 +8,30 @@ This is the same WinGo behaviour that was delivered on the other projects
 
 ---
 
+## Period numbers now match dhaniwin exactly
+
+maanwin used its own issue format (`YYYYMMDD` + `1000` + slot mod 100000) while
+dhaniwin used `YYYYMMDD` (UTC) + game prefix + 1-based period index of that UTC
+day. That is why the two sites showed different period numbers.
+
+maanwin now uses dhaniwin's formula verbatim:
+
+```
+prefix = le_issue_prefix(gameCode)      // WinGo_30S => 10005, K3_1M => 40001 ...
+ts     = slot * interval
+index  = intdiv(ts - utcMidnight(ts), interval) + 1
+issue  = sprintf('%s%s%04d', gmdate('Ymd', ts), prefix, index)
+```
+
+dhaniwin's 1 second *end grace* is reproduced too (`le_current_slot()`), so the
+round flips at the same instant on both sites. Timers, period lengths and the
+countdown are unchanged.
+
+Verified: 90/90 identical issue numbers against dhaniwin's own
+`api_lottery_calculate_issue()` across 9 game codes and 10 timestamps each.
+
+---
+
 ## What was wrong
 
 1. **The bet round and the result list were one period apart.**
