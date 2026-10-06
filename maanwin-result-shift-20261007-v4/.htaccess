@@ -1,0 +1,56 @@
+RewriteEngine On
+
+<IfModule mod_headers.c>
+  <FilesMatch "\.(css|js|mjs|woff2?|ttf|png|jpe?g|gif|svg|ico|json|webp)$">
+    Header always set Access-Control-Allow-Origin "*"
+    Header always set Access-Control-Allow-Methods "GET, OPTIONS"
+  </FilesMatch>
+  <FilesMatch "\.(html|js)$">
+    Header set Cache-Control "no-store, no-cache, must-revalidate, max-age=0"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </FilesMatch>
+</IfModule>
+
+# Pass Authorization to PHP (Apache / LiteSpeed)
+RewriteCond %{HTTP:Authorization} ^(.*)
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%1]
+
+# /web/config → PHP shim
+RewriteRule ^web/config/?$ web/config.php [L,QSA]
+
+# Same-origin Maanwin API — full /api/Controller/Action path
+RewriteRule ^api(/.*)?$ api_proxy.php [L,QSA]
+
+# Live lottery issue JSON (do not use stale webapi/kv/issue/*.html)
+RewriteRule ^webapi/kv/issue/([A-Za-z0-9_]+)/?$ webapi_proxy.php [L,QSA]
+
+# Same-origin lottery draw history JSON
+RewriteRule ^lottery-draw(/.*)?$ lottery_draw_proxy.php [L,QSA]
+
+# Tenant images: local file if present, else CDN proxy
+RewriteCond %{REQUEST_URI} ^/img/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^img/ img_proxy.php [L,QSA]
+
+# Missing skin/VIP assets from live Maanwin (local file still wins via -f below)
+RewriteCond %{REQUEST_URI} ^/assets/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^assets/ assets_proxy.php [L,QSA]
+
+# ---- Lottery period + result JSON  ->  drawer API proxy (period shift) ----
+RewriteCond %{REQUEST_URI} ^/(WinGo|TrxWinGo|VideoWinGo|K3|D5|MotoRace)/[A-Za-z0-9_]+\.json$ [NC,OR]
+RewriteCond %{REQUEST_URI} ^/(WinGo|TrxWinGo|VideoWinGo|K3|D5|MotoRace)/[A-Za-z0-9_]+/GetHistoryIssuePage\.json$ [NC]
+RewriteRule ^ lottery_issue_proxy.php [L,QSA]
+
+# Real files and folders (assets, css, js, img, webapi, /pay) stay as-is
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Missing hashed assets must 404 — never serve index.html as a fake file
+RewriteCond %{REQUEST_URI} ^/(assets|css|js|img|images|webapi)/
+RewriteRule ^ - [L]
+
+# Vue SPA history routes fallback
+RewriteRule ^ index.html [L]

