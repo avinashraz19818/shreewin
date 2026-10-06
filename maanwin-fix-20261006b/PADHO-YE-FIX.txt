@@ -1,0 +1,154 @@
+maanwin — ASLI WAJAH MIL GAYI (Service Worker cache)
+Date: 2026-10-06
+=====================================================
+
+
+IMAGE UPLOAD KARNE KE BAAD BHI KYU NAHI AA RAHI THI
+---------------------------------------------------
+
+Site par ek SERVICE WORKER hai: /ar-sw.js
+
+Wo images ke liye "stale-while-revalidate" use karta hai:
+
+    async function staleWhileRevalidate(request, cacheName) {
+      const cached = await cache.match(request);
+      const fetchPromise = fetch(request).then(r => {
+        if (r.ok) cache.put(request, r.clone());
+        return r;
+      });
+      return cached || fetchPromise;      <-- HAMESHA CACHED COPY DETA HAI
+    }
+
+Iska matlab:
+
+  1. Pehli baar jab page khula aur server par image MISSING / TRUNCATED thi,
+     us waqt ka ghalat/empty jawab browser ke CacheStorage me save ho gaya.
+     (Server ne 200 diya tha, isliye `response.ok` true tha aur wo cache ho gaya.)
+
+  2. Uske baad service worker HAR BAAR wahi purani ghalat copy dikhata raha.
+
+  3. Tum server par kitni bhi baar sahi image upload karo —
+     browser kabhi server tak gaya hi nahi. Isliye "image upload hone ke
+     baad bhi nahi aa raha".
+
+Yehi wajah hai ki pichle 3-4 round ke fixes (period, result, history,
+clock icon, assets) tumhe dikhayi hi nahi diye — service worker ne sab
+purane cache se serve kar diya.
+
+
+IS PACKAGE ME KYA FIX HAI
+-------------------------
+
+1) ar-sw.js  +  pwa-sw.js  ->  AB SELF-DESTRUCT HO JATE HAIN
+
+   Naya service worker:
+     - saara CacheStorage saaf karta hai (ar-pwa*, online-page)
+     - khud ko unregister kar leta hai
+     - EK BHI request intercept nahi karta
+
+   Ab koi purana cache nahi chalega. Offline mode band hoga —
+   theek hai, kyunki sahi dikhna zyada zaroori hai.
+
+2) index.php  ->  har page load par cache saaf karta hai
+
+   index.php ab HTML ke <head> me ek chhota script daalta hai jo:
+     - sab service workers unregister karta hai
+     - saara CacheStorage delete karta hai
+     - ek hi baar reload karta hai (loop nahi)
+
+   Ye app ke WebView me bhi kaam karta hai — isliye app data clear
+   karne ki zaroorat nahi (phir bhi kar doge to better).
+
+3) themes.json  ->  ye file server par MOJOOD HI NAHI THI (404)
+
+   App theme ke liye /themes.json fetch karta hai. Wo 404 tha,
+   isliye ar_saas11 theme ke 275 assets aur 133 CSS variables
+   kabhi load hi nahi hue. Ab ye file root par hai.
+
+4) assets/ar_saas11/  ->  256 files
+
+   - 128 hashed files (jaise lottery_category_active-e1455a13.webp)
+   - 128 UNHASHED copies (jaise lottery_category_active.webp)
+
+   Kyun? App ke andar ek fallback map hai jo UNHASHED naam mangta hai.
+   darkPurple me 33, darkRed me 59, common me 82 unhashed files hain —
+   lekin ar_saas11 me EK BHI NAHI tha (0). Isliye sirf ar_saas11 toota tha.
+   Ab dono naam maujood hain.
+
+5) js/icon_*.js  ->  158 files
+
+   Abhi bhi live server par icon_clock_line-N3fzD4lL.js KHALI hai:
+       const o=``;export{o as default};
+   Repo me isme poora 526 byte ka clock SVG hai. Ye files dobara bheji
+   gayi hain (clock icon wapas aa jayega).
+
+6) .htaccess  ->  image MIME types add
+
+   image/webp, image/png, image/jpeg, image/gif, image/avif, image/bmp,
+   image/x-icon — aur images par X-Content-Type-Options: nosniff hata diya.
+
+
+UPLOAD KAISE KARE — 4 STEP
+--------------------------
+
+  STEP 1:  Is poore zip ko extract karo
+
+  STEP 2:  SITE ROOT (public_html) me upload karo, overwrite = HAAN
+
+           .htaccess
+           ar-sw.js          <-- SABSE ZAROORI
+           pwa-sw.js         <-- SABSE ZAROORI
+           index.php         <-- SABSE ZAROORI
+           themes.json
+           assets/ar_saas11/ (256 files)
+           js/               (158 icon files)
+
+  STEP 3:  LiteSpeed cache -> "Purge All"
+           (agar Cloudflare hai to "Purge Everything")
+
+  STEP 4:  Site kholo. Pehli baar EK BAAR page khud reload hoga
+           (cache saaf karne ke liye). Uske baad sab sahi dikhega.
+
+  App me: Settings -> Apps -> <app> -> Storage -> Clear Data
+          (naya index.php khud bhi saaf kar dega, par kar doge to pakka)
+
+
+VERIFY KAISE KARE
+-----------------
+
+Browser me seedha kholo:
+
+  https://maanwin.club9.eu.cc/assets/ar_saas11/lottery_category_active-e1455a13.webp
+  -> image dikhni chahiye (HTTP 200, image/webp)
+
+  https://maanwin.club9.eu.cc/ar-sw.js
+  -> upar comment me "Service Worker DISABLED" likha dikhega
+
+  https://maanwin.club9.eu.cc/themes.json
+  -> JSON dikhega, "ar_saas11" ke saath (pehle 404 tha)
+
+  https://maanwin.club9.eu.cc/js/icon_clock_line-N3fzD4lL.js
+  -> <svg ... viewBox="0 0 30 30" dikhega (pehle khaali tha)
+
+Terminal:
+
+  curl -sI "https://maanwin.club9.eu.cc/assets/ar_saas11/lottery_category_active-e1455a13.webp"
+  # -> content-type: image/webp
+
+
+AGAR PHIR BHI NA DIKHE
+----------------------
+
+  A) Browser: DevTools -> Application -> Service Workers -> "Unregister"
+              Application -> Storage -> "Clear site data"
+  B) Ctrl+Shift+Delete -> poora cache
+  C) App: Clear Data (ya app uninstall kar ke dobara install)
+
+  NOTE: naye ar-sw.js aur index.php ke baad A/B/C ki zaroorat nahi
+        padni chahiye — ye automatic ho jata hai.
+
+
+DATABASE
+--------
+
+Koi bhi database change nahi kiya gaya. Sab kuch pehle jaisa hai.
