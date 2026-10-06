@@ -1,0 +1,87 @@
+=====================================================================
+  maanwin — PERIOD AUR RESULT DONO 1 PICHE
+  07-Oct-2026
+=====================================================================
+
+KYA PROBLEM THI
+---------------
+1) Frontend (JS) sirf 2 URLs se period/result lata hai:
+
+       GET /WinGo/WinGo_30S.json                      (period)
+       GET /WinGo/WinGo_30S/GetHistoryIssuePage.json  (result)
+
+   Ye dono aapki site par "SPA shell" (empty HTML) de rahe the,
+   kyunki .htaccess me inka route active nahi tha.
+   => drawer API (draw.ar-lottery01.com) tak pahunchta hi nahi tha.
+
+2) Shift sirf /webapi/kv/issue/ par lag raha tha:
+       /webapi/kv/issue/WinGo_30S   -> ...52573   (1 piche)
+       /WinGo/WinGo_30S.json        -> ...52575   (0 piche, raw)
+       GetHistoryIssuePage          -> ...52573   (0 piche, raw)
+   Isliye period 1 piche tha par RESULT nahi.
+
+IS PACKAGE ME KYA HAI
+---------------------
+  .htaccess                 -> /{Lottery}/*.json routes ON (drawer API tak)
+  lottery_issue_proxy.php   -> period + result JSON, upstream draw.ar-lottery01.com
+  lottery_draw_proxy.php    -> /lottery-draw/* ke liye (same shift)
+  period_shift.php          -> shift helper
+
+  AB PERIOD AUR RESULT DONO 1 PICHE HONGE.
+
+=====================================================================
+  INSTALL — 2 MINUTE
+=====================================================================
+1. Is ZIP ko public_html ke ANDAR extract karo (Overwrite = YES)
+
+2. LiteSpeed -> Purge All     (ZAROORI — warna purana cache dikhega)
+
+3. App / browser me Clear Data
+
+=====================================================================
+  CHECK KARO
+=====================================================================
+https://maanwin.club9.eu.cc/WinGo/WinGo_30S.json
+    -> ab JSON aana chahiye (pehle empty HTML tha)
+       current.issueNumber shift hua hoga
+
+https://maanwin.club9.eu.cc/WinGo/WinGo_30S/GetHistoryIssuePage.json
+    -> JSON, list[0].issueNumber bhi shift hua hoga
+
+https://maanwin.club9.eu.cc/webapi/kv/issue/WinGo_30S
+    -> JSON (pehle jaisa, shift ke saath)
+
+TEENO me issueNumber ab EK HI SEQUENCE me honge
+(pehle result aur period alag-alag number dikhate the).
+
+=====================================================================
+  SETTING
+=====================================================================
+period_shift.php  ki line:
+
+    define('AR_PERIOD_SHIFT', -1);
+
+    -1  -> period AUR result dono 1 piche   (DEFAULT)
+     0  -> shift band (upstream jaisa, rollback)
+    -2  -> 2 period piche
+
+Bas ek number badlo. File delete karne ki zarurat nahi.
+
+=====================================================================
+  ROLLBACK
+=====================================================================
+AR_PERIOD_SHIFT ko 0 kar do             -> shift band
+ya .htaccess ki 3 lines hata do          -> drawer routes band
+
+=====================================================================
+  NOTE — .htaccess
+=====================================================================
+Ye .htaccess maan1 ke original me 3 line ka block add karke banaya hai
+(niche wale 3 lines, "Real files and folders" se theek upar):
+
+    RewriteCond %{REQUEST_URI} ^/(WinGo|TrxWinGo|VideoWinGo|K3|D5|MotoRace)/[A-Za-z0-9_]+\.json$ [NC,OR]
+    RewriteCond %{REQUEST_URI} ^/(WinGo|TrxWinGo|VideoWinGo|K3|D5|MotoRace)/[A-Za-z0-9_]+/GetHistoryIssuePage\.json$ [NC]
+    RewriteRule ^ lottery_issue_proxy.php [L,QSA]
+
+Agar aap apna .htaccess replace nahi karna chahte to
+ye 3 lines apne .htaccess me wahin daal dena.
