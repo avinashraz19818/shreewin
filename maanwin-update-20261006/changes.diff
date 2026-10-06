@@ -29,7 +29,7 @@ index 295b1ef..02b6f12 100644
     <section class="panel"><div class="panel-head"><h2>Saved engine rules</h2></div><div class="table-wrap"><table class="table"><thead><tr><th>Game</th><th>Mode / forced</th><th>Win rate</th><th>Fee</th><th>Payouts</th><th>Updated</th></tr></thead><tbody><?php foreach($settingsRows as $r):?><tr><td class="mono"><?=dw_h($r['game_code'])?></td><td><?=dw_badge($r['force_mode'])?> <?=dw_h($r['force_result'])?></td><td><?=dw_h($r['win_rate'])?>%</td><td><?=dw_h($r['fee_percent'])?>%</td><td class="small">No. <?=dw_h($r['payout_number'])?> · Color <?=dw_h($r['payout_color'])?> · Big <?=dw_h($r['payout_bigsmall'])?></td><td><?=dw_h($r['updated_at'])?></td></tr><?php endforeach;?></tbody></table></div></section>
     <div class="split"><section class="panel"><div class="panel-head"><h2>Recent results</h2></div><div class="table-wrap"><table class="table"><thead><tr><th>Game / issue</th><th>Result</th><th>Detail</th><th>Open time</th></tr></thead><tbody><?php foreach($results as $r):?><tr><td><?=dw_h($r['game_code'])?><div class="mono"><?=dw_h($r['issue_number'])?></div></td><td><strong><?=dw_h($r['premium'])?></strong></td><td><?=dw_h($r['color'])?> · <?=dw_h($r['big_small'])?></td><td><?=dw_h($r['open_time'])?></td></tr><?php endforeach;?></tbody></table></div></section><section class="panel"><div class="panel-head"><h2>Recent bets</h2></div><div class="table-wrap"><table class="table"><thead><tr><th>Order / user</th><th>Game</th><th>Stake</th><th>State</th></tr></thead><tbody><?php foreach($bets as $r):?><tr><td class="mono"><?=dw_h($r['order_no'])?><div><?=dw_h($r['username'])?></div></td><td><?=dw_h($r['game_code'])?><div class="small"><?=dw_h($r['issue_number'])?> · <?=dw_h($r['bet_content'])?></div></td><td>₹<?=dw_money((float)$r['real_amount']+(float)$r['fee'])?></td><td><?=dw_badge((int)$r['state']===2?'Pending':((int)$r['state']===1?'Win':'Loss'))?></td></tr><?php endforeach;?></tbody></table></div></section></div>
 diff --git a/api/_core/bootstrap.php b/api/_core/bootstrap.php
-index b91c3ef..5aaf915 100644
+index b91c3ef..33fd4d8 100644
 --- a/api/_core/bootstrap.php
 +++ b/api/_core/bootstrap.php
 @@ -449,11 +449,15 @@ function lottery_issue(string $gameCode): array
@@ -51,11 +51,42 @@ index b91c3ef..5aaf915 100644
      return [
          'startTime' => $start * 1000,
          'endTime' => $end * 1000,
+@@ -543,20 +547,30 @@ function lottery_public_result(string $gameCode, string $issueNumber, array $res
+     $premium = le_is_k3($gameCode) ? $number : (string)($result['premium'] ?? $number);
+     $hash = hash('sha256', $gameCode.'|'.$issueNumber.'|'.$premium);
+     $block = 84600000 + ((int)substr(preg_replace('/\D+/', '', $issueNumber), -7) % 900000);
++    // dhaniwin ke history item wale SAARE key yahan hain (issue / numberValue /
++    // resultNumber / openCode / sumValue / source / serviceTime), isliye game
++    // history ki har row dhaniwin jaisi dikhegi.
+     return [
+         'issueNumber'=>$issueNumber,
+         'issueNo'=>$issueNumber,
++        'issue'=>$issueNumber,
+         'period'=>$issueNumber,
+         'gameCode'=>$gameCode,
+         'premium'=>$premium,
+         'number'=>$number,
++        'numberValue'=>$number,
++        'resultNumber'=>$number,
+         'result'=>$number,
++        'openCode'=>$premium,
+         'dice'=>le_is_k3($gameCode) ? array_map('intval', str_split($number)) : ($result['dice'] ?? []),
+         'color'=>(string)($result['color'] ?? ''),
+         'colour'=>(string)($result['color'] ?? ''),
+         'bigSmall'=>(string)($result['bigSmall'] ?? ''),
+         'sum'=>(int)($result['sum'] ?? 0),
++        'sumValue'=>(int)($result['sum'] ?? 0),
++        'source'=>(string)($result['source'] ?? 'auto'),
+         'openTime'=>$openTimeMs,
++        'serviceTime'=>$openTimeMs,
+         'block'=>$block,
+         'blockNumber'=>$block,
+         'blockTime'=>$openTimeMs,
 diff --git a/api/_core/lottery_engine.php b/api/_core/lottery_engine.php
-index 0647803..612f029 100644
+index 0647803..6e7e8f0 100644
 --- a/api/_core/lottery_engine.php
 +++ b/api/_core/lottery_engine.php
-@@ -54,12 +54,91 @@ function le_get_settings(string $gameCode): array
+@@ -54,12 +54,157 @@ function le_get_settings(string $gameCode): array
      return $s;
  }
  
@@ -132,6 +163,72 @@ index 0647803..612f029 100644
 +// Should a bet be decided the moment it is placed? The round is already drawn,
 +// so waiting for the countdown only delays a result that is already fixed.
 +// Admin can switch it off with the instant-result control.
++// dhaniwin ki api_lottery_code_from_game() — order zaroori hai (TrxWinGo pehle)
++function le_lottery_code_from_game(string $gameCode): string
++{
++    $g = trim($gameCode);
++    if (stripos($g, 'TrxWinGo') === 0) return 'TrxWinGo';
++    if (stripos($g, 'WinGo') === 0) return 'WinGo';
++    if (stripos($g, 'K3') === 0) return 'K3';
++    if (stripos($g, 'D5') === 0 || stripos($g, '5D') === 0) return 'D5';
++    if (stripos($g, 'MotoRace') === 0 || stripos($g, 'MotoRacing') === 0) return 'MotoRace';
++    return 'WinGo';
++}
++
++// dhaniwin ki api_lottery_default_premium() — EXACT copy.
++// Result issue number se nikalta hai, isliye ek hi period par hamesha ek hi
++// number aata hai (chahe kitni bhi baar refresh karo, chahe kaun bhi user ho).
++function le_issue_premium(string $gameCode, string $issueNumber): string
++{
++    $code = le_lottery_code_from_game($gameCode);
++    $seed = (int) sprintf('%u', crc32($gameCode . ':' . $issueNumber));
++    if ($code === 'K3') {
++        return (string)(($seed % 6) + 1) . (string)((($seed >> 3) % 6) + 1) . (string)((($seed >> 6) % 6) + 1);
++    }
++    if ($code === 'D5') {
++        $digits = [];
++        for ($i = 0; $i < 5; $i++) {
++            $digits[] = (string)(($seed >> ($i * 3)) % 10);
++        }
++        return implode('', $digits);
++    }
++    if ($code === 'MotoRace') {
++        $cars = range(1, 10);
++        for ($i = 0; $i < count($cars); $i++) {
++            $swap = ($seed + ($i * 7)) % count($cars);
++            $tmp = $cars[$i];
++            $cars[$i] = $cars[$swap];
++            $cars[$swap] = $tmp;
++        }
++        return implode(',', $cars);
++    }
++    return (string)($seed % 10);
++}
++
++// Ek baar chalne wala self-heal: is update se pehle bane random result rows ko
++// dhaniwin wale deterministic result se badal do (sirf pichle 12 ghante ke,
++// taaki purani history aur admin ke manual result safe rahein).
++function le_self_heal_results(): void
++{
++    $conn = db();
++    if (!$conn) return;
++    $rs0 = @$conn->query("SELECT setting_value FROM settings WHERE setting_key='maanwin_result_heal_v2' LIMIT 1");
++    if (is_object($rs0)) { $r0 = $rs0->fetch_assoc(); if (is_array($r0) && (string)($r0['setting_value'] ?? '') === '1') return; }
++    $rs = @$conn->query("SELECT id, game_code, issue_number, premium FROM lottery_results WHERE created_at >= DATE_SUB(NOW(), INTERVAL 12 HOUR)");
++    if (is_object($rs)) {
++        $bad = [];
++        while ($r = $rs->fetch_assoc()) {
++            $g = (string)($r['game_code'] ?? ''); $i = (string)($r['issue_number'] ?? '');
++            if ($i === '') continue;
++            $want = le_issue_premium($g, $i);
++            if ($want !== '' && $want !== (string)($r['premium'] ?? '')) $bad[] = (int)$r['id'];
++            if (count($bad) >= 2000) break;
++        }
++        if ($bad) @$conn->query('DELETE FROM lottery_results WHERE id IN (' . implode(',', $bad) . ')');
++    }
++    @$conn->query("INSERT INTO settings(setting_key,setting_value) VALUES('maanwin_result_heal_v2','1') ON DUPLICATE KEY UPDATE setting_value=VALUES(setting_value)");
++}
++
 +function le_instant_result(): bool
 +{
 +    static $cache = null;
@@ -150,7 +247,17 @@ index 0647803..612f029 100644
  }
  
  function le_color_from_number(int $n): string
-@@ -444,7 +523,7 @@ function le_issue_is_closed(string $gameCode, string $issueNumber): bool
+@@ -174,7 +319,8 @@ function le_result_for_issue(string $gameCode, string $issueNumber, bool $save =
+     if ($forceResult !== '') {
+         $premium = $forceResult;
+     } else {
+-        $premium = le_random_premium($gameCode);
++        // dhaniwin jaisa deterministic result — same period = same number
++        $premium = le_issue_premium($gameCode, $issueNumber);
+         if ($conn && $issueNumber !== '') {
+             $gEsc = $conn->real_escape_string($gameCode);
+             $iEsc = $conn->real_escape_string($issueNumber);
+@@ -444,7 +590,7 @@ function le_issue_is_closed(string $gameCode, string $issueNumber): bool
      return strcmp($issueNumber, (string)$current) < 0;
  }
  
@@ -159,7 +266,7 @@ index 0647803..612f029 100644
  {
      $conn = db();
      if (!$conn) return 0;
-@@ -453,6 +532,7 @@ function le_settle_pending_bets(string $gameCode = '', string $issueNumber = '',
+@@ -453,6 +599,7 @@ function le_settle_pending_bets(string $gameCode = '', string $issueNumber = '',
      if ($issueNumber !== '') $where[] = "issue_number='" . $conn->real_escape_string($issueNumber) . "'";
      if ($userId > 0) $where[] = 'user_id=' . (int)$userId;
      if ($orderNo !== '') $where[] = "order_no='" . $conn->real_escape_string($orderNo) . "'";
@@ -167,7 +274,7 @@ index 0647803..612f029 100644
      $sql = 'SELECT * FROM lottery_bets WHERE ' . implode(' AND ', $where) . ' ORDER BY id ASC LIMIT 500';
      $rs = $conn->query($sql);
      if (!$rs) return 0;
-@@ -460,12 +540,21 @@ function le_settle_pending_bets(string $gameCode = '', string $issueNumber = '',
+@@ -460,12 +607,21 @@ function le_settle_pending_bets(string $gameCode = '', string $issueNumber = '',
      while ($r = $rs->fetch_assoc()) {
          $g = (string)$r['game_code'];
          $issue = (string)$r['issue_number'];
@@ -207,7 +314,7 @@ index 6bf0eb3..7a5e2e0 100644
          $issueNum = le_issue_by_offset($gameCode, $offset);
          $r = le_result_for_issue($gameCode, $issueNum, true);
 diff --git a/api/_router.php b/api/_router.php
-index f035efa..2168dae 100644
+index f035efa..49a0415 100644
 --- a/api/_router.php
 +++ b/api/_router.php
 @@ -1519,8 +1519,8 @@ function lottery_route_from_game_code(string $gameCode): string
@@ -241,7 +348,12 @@ index f035efa..2168dae 100644
  function handle_lottery_issue(array $d): void
  {
      $code = first_value($d, ['gameCode', 'game_code'], 'WinGo_30S');
-@@ -3121,13 +3121,14 @@ function handle_lottery_history(array $d): void
+@@ -3117,17 +3117,19 @@ function handle_lottery_history(array $d): void
+ {
+     $code = first_value($d, ['gameCode'], 'WinGo_30S');
+ 
++    le_self_heal_results();
+     le_settle_pending_bets($code);
  
      $pageNo = max(1, (int)($d['pageNo'] ?? 1));
  
@@ -260,7 +372,7 @@ index f035efa..2168dae 100644
          $offset = (($pageNo - 1) * $pageSize) + $i;
          $issue = le_issue_by_offset($code, $offset);
          $r = le_result_for_issue($code, $issue, true);
-@@ -3140,7 +3141,7 @@ function handle_lottery_history(array $d): void
+@@ -3140,7 +3142,7 @@ function handle_lottery_history(array $d): void
          'pageNo' => $pageNo,
          'pageSize' => $pageSize,
          'totalPage' => 50,
@@ -269,7 +381,7 @@ index f035efa..2168dae 100644
      ], 'Success', ['serviceTime' => now_ms()]);
  }
  function handle_lottery_record(array $d): void
-@@ -3154,7 +3155,7 @@ function bet_row_response(array $r): array { return le_response_row($r); }
+@@ -3154,7 +3156,7 @@ function bet_row_response(array $r): array { return le_response_row($r); }
  function handle_lottery_trend(array $d): void
  {
      $code=first_value($d,['gameCode'],'WinGo_30S'); $list=[];
@@ -278,7 +390,7 @@ index f035efa..2168dae 100644
      api_success(['list'=>$list], 'Success', ['serviceTime'=>now_ms()]);
  }
  function handle_win_loss(array $d): void
-@@ -3162,7 +3163,7 @@ function handle_win_loss(array $d): void
+@@ -3162,7 +3164,7 @@ function handle_win_loss(array $d): void
      $u=require_login_user(); $conn=db();
      if(!$conn) api_success(['status'=>null], 'Success', ['serviceTime'=>now_ms()]);
      $uid=(int)$u['id']; $issue=first_value($d,['issueNumber'],''); $order=first_value($d,['orderNo','orderId'],'');
@@ -287,7 +399,7 @@ index f035efa..2168dae 100644
      if($order){ $stmt=$conn->prepare('SELECT * FROM lottery_bets WHERE user_id=? AND order_no=? ORDER BY id DESC LIMIT 1'); $stmt->bind_param('is',$uid,$order); }
      elseif($issue){ $stmt=$conn->prepare('SELECT * FROM lottery_bets WHERE user_id=? AND issue_number=? ORDER BY id DESC LIMIT 1'); $stmt->bind_param('is',$uid,$issue); }
      else { $stmt=$conn->prepare('SELECT * FROM lottery_bets WHERE user_id=? ORDER BY id DESC LIMIT 1'); $stmt->bind_param('i',$uid); }
-@@ -3192,6 +3193,7 @@ function handle_lottery_bet(string $path, array $d): void
+@@ -3192,6 +3194,7 @@ function handle_lottery_bet(string $path, array $d): void
      $state=2; // 2 = pending, result ke baad settle hoga
      $premium='';
      $winLose=0.0;
@@ -295,7 +407,7 @@ index f035efa..2168dae 100644
      $order='LT'.date('ymdHis').random_int(1000,9999);
      $newBalance=(float)$u['balance'] - $debit;
  
-@@ -3216,6 +3218,7 @@ function handle_lottery_bet(string $path, array $d): void
+@@ -3216,6 +3219,7 @@ function handle_lottery_bet(string $path, array $d): void
          if (!$stmt) { $err = $conn->error ?: 'Unknown prepare error or commands out of sync'; @$conn->rollback(); api_error('DB error 2: '.$err, 500, 500); }
          $stmt->bind_param('issssdiddsid',$uid,$order,$game,$issue,$content,$amount,$multiple,$stake,$fee,$premium,$state,$winLose);
          if(!$stmt->execute()){ $err = $stmt->error ?: $conn->error; @$conn->rollback(); api_error('Bet insert failed: '.$err,500,500); }
@@ -303,7 +415,7 @@ index f035efa..2168dae 100644
          $stmt->close();
          
          $remark=$game.' '.$content.' issue '.$issue;
-@@ -3228,6 +3231,35 @@ function handle_lottery_bet(string $path, array $d): void
+@@ -3228,6 +3232,35 @@ function handle_lottery_bet(string $path, array $d): void
          v34_record_agent_commissions($conn,$uid,$order,$stake);
          
          @$conn->commit();
@@ -339,7 +451,7 @@ index f035efa..2168dae 100644
      }
      api_success(['orderNo'=>$order,'issueNumber'=>$issue,'gameCode'=>$game,'state'=>2,'isPending'=>true,'isWin'=>false,'amount'=>0,'winAmount'=>0,'winLoseAmount'=>0,'balance'=>$newBalance,'msg'=>'Bet accepted. Result ke baad settle hoga.'], 'Success', ['serviceTime'=>now_ms()]);
  }
-@@ -3349,7 +3381,7 @@ function recharge_wheel_build_info(): array
+@@ -3349,7 +3382,7 @@ function recharge_wheel_build_info(): array
      $needOk = !$requireApproved || $total >= $needRecharge;
      $historyLimit = max(10, min(50, (int)($cfg['historyLimit'] ?? 10)));
      $history = [];

@@ -8,6 +8,39 @@ This is the same WinGo behaviour that was delivered on the other projects
 
 ---
 
+## Result numbers now match dhaniwin too
+
+dhaniwin generates its result **deterministically** from the issue number:
+
+```php
+$seed    = crc32($gameCode . ':' . $issueNumber);   // unsigned
+// WinGo    -> (string)($seed % 10)
+// K3       -> 3 dice taken from seed bit shifts
+// 5D       -> 5 digits, ($seed >> ($i*3)) % 10
+// MotoRace -> 10 cars shuffled by the seed
+```
+
+So the same period always yields the same number, on every refresh and for
+every user. maanwin used `random_int()`, which is why the two sites showed
+different results for the same period.
+
+maanwin now uses dhaniwin's `api_lottery_default_premium()` verbatim via
+`le_issue_premium()`. Verified: **200/200 identical** results against
+dhaniwin's own formula (8 game codes × 25 issues), and stable across repeated
+calls.
+
+A one-shot `le_self_heal_results()` (guarded by the `maanwin_result_heal_v2`
+setting) deletes result rows from the last 12 hours whose premium does not
+match the deterministic value, so periods drawn before this update regenerate
+correctly too. Older history and manual admin results are untouched.
+
+## Game history rows now carry dhaniwin's keys
+
+dhaniwin's history item exposes `issue`, `numberValue`, `resultNumber`,
+`openCode`, `sumValue`, `source` and `serviceTime`. maanwin's
+`lottery_public_result()` did not, so rows rendered blank. It now returns the
+full dhaniwin key set **plus** maanwin's own keys — a safe superset.
+
 ## Period numbers now match dhaniwin exactly
 
 maanwin used its own issue format (`YYYYMMDD` + `1000` + slot mod 100000) while

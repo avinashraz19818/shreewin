@@ -124,6 +124,72 @@ function le_issue_by_offset(string $gameCode, int $offset = 0): string
 // Should a bet be decided the moment it is placed? The round is already drawn,
 // so waiting for the countdown only delays a result that is already fixed.
 // Admin can switch it off with the instant-result control.
+// dhaniwin ki api_lottery_code_from_game() — order zaroori hai (TrxWinGo pehle)
+function le_lottery_code_from_game(string $gameCode): string
+{
+    $g = trim($gameCode);
+    if (stripos($g, 'TrxWinGo') === 0) return 'TrxWinGo';
+    if (stripos($g, 'WinGo') === 0) return 'WinGo';
+    if (stripos($g, 'K3') === 0) return 'K3';
+    if (stripos($g, 'D5') === 0 || stripos($g, '5D') === 0) return 'D5';
+    if (stripos($g, 'MotoRace') === 0 || stripos($g, 'MotoRacing') === 0) return 'MotoRace';
+    return 'WinGo';
+}
+
+// dhaniwin ki api_lottery_default_premium() — EXACT copy.
+// Result issue number se nikalta hai, isliye ek hi period par hamesha ek hi
+// number aata hai (chahe kitni bhi baar refresh karo, chahe kaun bhi user ho).
+function le_issue_premium(string $gameCode, string $issueNumber): string
+{
+    $code = le_lottery_code_from_game($gameCode);
+    $seed = (int) sprintf('%u', crc32($gameCode . ':' . $issueNumber));
+    if ($code === 'K3') {
+        return (string)(($seed % 6) + 1) . (string)((($seed >> 3) % 6) + 1) . (string)((($seed >> 6) % 6) + 1);
+    }
+    if ($code === 'D5') {
+        $digits = [];
+        for ($i = 0; $i < 5; $i++) {
+            $digits[] = (string)(($seed >> ($i * 3)) % 10);
+        }
+        return implode('', $digits);
+    }
+    if ($code === 'MotoRace') {
+        $cars = range(1, 10);
+        for ($i = 0; $i < count($cars); $i++) {
+            $swap = ($seed + ($i * 7)) % count($cars);
+            $tmp = $cars[$i];
+            $cars[$i] = $cars[$swap];
+            $cars[$swap] = $tmp;
+        }
+        return implode(',', $cars);
+    }
+    return (string)($seed % 10);
+}
+
+// Ek baar chalne wala self-heal: is update se pehle bane random result rows ko
+// dhaniwin wale deterministic result se badal do (sirf pichle 12 ghante ke,
+// taaki purani history aur admin ke manual result safe rahein).
+function le_self_heal_results(): void
+{
+    $conn = db();
+    if (!$conn) return;
+    $rs0 = @$conn->query("SELECT setting_value FROM settings WHERE setting_key='maanwin_result_heal_v2' LIMIT 1");
+    if (is_object($rs0)) { $r0 = $rs0->fetch_assoc(); if (is_array($r0) && (string)($r0['setting_value'] ?? '') === '1') return; }
+    $rs = @$conn->query("SELECT id, game_code, issue_number, premium FROM lottery_results WHERE created_at >= DATE_SUB(NOW(), INTERVAL 12 HOUR)");
+    if (is_object($rs)) {
+        $bad = [];
+        while ($r = $rs->fetch_assoc()) {
+            $g = (string)($r['game_code'] ?? ''); $i = (string)($r['issue_number'] ?? '');
+            if ($i === '') continue;
+            $want = le_issue_premium($g, $i);
+            if ($want !== '' && $want !== (string)($r['premium'] ?? '')) $bad[] = (int)$r['id'];
+            if (count($bad) >= 2000) break;
+        }
+        if ($bad) @$conn->query('DELETE FROM lottery_results WHERE id IN (' . implode(',', $bad) . ')');
+    }
+    @$conn->query("INSERT INTO settings(setting_key,setting_value) VALUES('maanwin_result_heal_v2','1') ON DUPLICATE KEY UPDATE setting_value=VALUES(setting_value)");
+}
+
 function le_instant_result(): bool
 {
     static $cache = null;
@@ -253,7 +319,8 @@ function le_result_for_issue(string $gameCode, string $issueNumber, bool $save =
     if ($forceResult !== '') {
         $premium = $forceResult;
     } else {
-        $premium = le_random_premium($gameCode);
+        // dhaniwin jaisa deterministic result — same period = same number
+        $premium = le_issue_premium($gameCode, $issueNumber);
         if ($conn && $issueNumber !== '') {
             $gEsc = $conn->real_escape_string($gameCode);
             $iEsc = $conn->real_escape_string($issueNumber);

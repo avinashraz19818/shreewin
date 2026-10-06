@@ -3117,6 +3117,7 @@ function handle_lottery_history(array $d): void
 {
     $code = first_value($d, ['gameCode'], 'WinGo_30S');
 
+    le_self_heal_results();
     le_settle_pending_bets($code);
 
     $pageNo = max(1, (int)($d['pageNo'] ?? 1));

@@ -547,20 +547,30 @@ function lottery_public_result(string $gameCode, string $issueNumber, array $res
     $premium = le_is_k3($gameCode) ? $number : (string)($result['premium'] ?? $number);
     $hash = hash('sha256', $gameCode.'|'.$issueNumber.'|'.$premium);
     $block = 84600000 + ((int)substr(preg_replace('/\D+/', '', $issueNumber), -7) % 900000);
+    // dhaniwin ke history item wale SAARE key yahan hain (issue / numberValue /
+    // resultNumber / openCode / sumValue / source / serviceTime), isliye game
+    // history ki har row dhaniwin jaisi dikhegi.
     return [
         'issueNumber'=>$issueNumber,
         'issueNo'=>$issueNumber,
+        'issue'=>$issueNumber,
         'period'=>$issueNumber,
         'gameCode'=>$gameCode,
         'premium'=>$premium,
         'number'=>$number,
+        'numberValue'=>$number,
+        'resultNumber'=>$number,
         'result'=>$number,
+        'openCode'=>$premium,
         'dice'=>le_is_k3($gameCode) ? array_map('intval', str_split($number)) : ($result['dice'] ?? []),
         'color'=>(string)($result['color'] ?? ''),
         'colour'=>(string)($result['color'] ?? ''),
         'bigSmall'=>(string)($result['bigSmall'] ?? ''),
         'sum'=>(int)($result['sum'] ?? 0),
+        'sumValue'=>(int)($result['sum'] ?? 0),
+        'source'=>(string)($result['source'] ?? 'auto'),
         'openTime'=>$openTimeMs,
+        'serviceTime'=>$openTimeMs,
         'block'=>$block,
         'blockNumber'=>$block,
         'blockTime'=>$openTimeMs,

@@ -31,6 +31,35 @@ ISS ZIP ME KYA FIX HUA
   Test: dhaniwin ke formula se 90 alag timestamp/game par compare kiya
         -> 90/90 BILKUL SAME
 
+■ 0-B. RESULT NUMBER AB DHANIWIN WALA  (sabse important #2)
+  Period to match ho gaya tha, par result alag aa raha tha kyunki
+  maanwin result RANDOM banaata tha aur dhaniwin DETERMINISTIC:
+      dhaniwin : premium = crc32("GameCode:IssueNumber") % 10
+  Matlab ek hi period par hamesha ek hi number — chahe kitni baar
+  bhi refresh karo, chahe kaun bhi user dekhe.
+
+  AB maanwin bhi WOHI formula use karta hai (WinGo / TrxWinGo / K3 /
+  5D / MotoRace sab ke liye dhaniwin wala exact code):
+      WinGo    -> seed % 10
+      K3       -> 3 dice, seed ke bits se
+      5D       -> 5 digit, seed >> (i*3) % 10
+      MotoRace -> seed se shuffle kiye 10 car
+  Test: dhaniwin ke formula se 200 issue compare kiye -> 200/200 SAME
+  Ek hi period ko 3 baar generate kiya -> hamesha ek hi number
+
+  SELF-HEAL: is update se pehle bane random results bhi theek ho
+  jaayenge — pehli history request par pichle 12 ghante ke result
+  rows check hote hain aur jo deterministic se match nahi karta wo
+  dobara ban jaata hai. (Sirf ek baar chalta hai.)
+
+■ 0-C. GAME HISTORY KI ROW AB DHANIWIN JAISI
+  Dhaniwin ki history row me kuch key the jo maanwin me nahi thin
+  (`issue`, `numberValue`, `resultNumber`, `openCode`, `sumValue`,
+  `source`, `serviceTime`). Game client unhi key se row bharata hai,
+  isliye maanwin me row khaali dikhti thi.
+  AB maanwin ki row me dhaniwin ke SAARE key hain (aur apne purane
+  key bhi) — to game history dhaniwin jaisi hi dikhegi.
+
 ■ 1. PERIOD / ISSUE AB EK LINE ME HAI  ("ek period piche" wala masla)
   Pehle game jis round par bet lagata tha aur result list me sabse upar
   jo round dikhta tha, wo DONO ALAG-ALAG the. Result list hamesha ek
