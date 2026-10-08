@@ -268,7 +268,7 @@ echo '</form>';
 echo '<div class="box"><h2>INSTALL KE BAAD CHECK KARO</h2><ul style="font-size:13px;line-height:1.7">';
 foreach ($targets as $t) {
     $host = basename($t);
-    echo '<li><span class="mono">https://' . htmlspecialchars($host) . '/maandiag.php</span> &nbsp;→ section <b>[9]</b>: <span class="ok">MATCH? : YES</span> hona chahiye</li>';
+    echo '<li><span class="mono">https://' . htmlspecialchars($host) . '/maandiag.php</span> &nbsp;→ section <b>[12]</b>: <span class="ok">NATIJA : 5/5 row API se mile</span> (aur [9]: MATCH? : YES)</li>';
 }
 echo '<li>cPanel → <b>Purge All</b> / cache clear, aur app me ek baar logout-login</li>';
 echo '</ul><p style="font-size:13px;color:#9aa">Kaam ho jane ke baad is file ko delete kar dena (upar DELETE INSTALLER button).</p></div>';
