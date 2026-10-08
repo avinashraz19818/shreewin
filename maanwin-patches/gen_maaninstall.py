@@ -27,6 +27,7 @@ FILES = [
     "api/_draw_router.php",
     "maancheck.php",
     "maandiag.php",
+    "maanupdiag.php",
     "PADHO.txt",
 ]
 
@@ -38,6 +39,7 @@ MARKS = {
     "api/_draw_router.php": "le_history_page",
     "maancheck.php": "<?php",
     "maandiag.php": "le_issue_for_time",
+    "maanupdiag.php": "maanupdiag.php",
     "PADHO.txt": "FIX #8",
 }
 
