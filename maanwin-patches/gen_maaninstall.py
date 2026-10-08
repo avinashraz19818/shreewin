@@ -28,6 +28,7 @@ FILES = [
     "maancheck.php",
     "maandiag.php",
     "maanupdiag.php",
+    "maanwhere.php",
     "PADHO.txt",
 ]
 
@@ -40,6 +41,7 @@ MARKS = {
     "maancheck.php": "<?php",
     "maandiag.php": "le_issue_for_time",
     "maanupdiag.php": "maanupdiag.php",
+    "maanwhere.php": "<?php",
     "PADHO.txt": "FIX #8",
 }
 
@@ -118,16 +120,18 @@ function mw_targets() {
     $out = array();
     if (is_dir($HERE_G . '/api/_core')) $out[$HERE_G] = 1;
     $seen = array();
-    $dirs = array(dirname($HERE_G), dirname(dirname($HERE_G)), '/home');
+    $dirs = array(dirname($HERE_G), dirname(dirname($HERE_G)), dirname(dirname(dirname($HERE_G))), '/home', '/home1', '/var/www');
     foreach ($dirs as $d) {
         if (!is_dir($d)) continue;
-        $g = @glob(rtrim($d, '/') . '/*/api/_core/lottery_engine.php');
-        if (!$g) $g = array();
-        $g2 = @glob(rtrim($d, '/') . '/*/*/api/_core/lottery_engine.php');
-        if (!$g2) $g2 = array();
-        foreach (array_merge($g, $g2) as $hit) {
-            $root = dirname(dirname(dirname($hit)));
-            if (is_dir($root)) $out[$root] = 1;
+        // FIX #16 — GAHRA scan: addon domain kabhi /home/user/domains/site
+        // ya /home/user/public_html me hota hai. 3 level tak dhoondo.
+        for ($depth = 1; $depth <= 3; $depth++) {
+            $g = @glob(rtrim($d, '/') . str_repeat('/*', $depth) . '/api/_core/lottery_engine.php');
+            if (!$g) continue;
+            foreach ($g as $hit) {
+                $root = dirname(dirname(dirname($hit)));
+                if (is_dir($root)) $out[$root] = 1;
+            }
         }
     }
     $out = array_keys($out);
